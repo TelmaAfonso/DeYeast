@@ -8,15 +8,19 @@ Author: Telma Afonso
 
 from cobra.io.sbml import create_cobra_model_from_sbml_file
 from yeastpack.io import load_yeast_76
+from types import *
+import pickle
 
 def checkModelInfo (model, n = 5):
-    '''
-        Simple function that prints model information for a quick overview.
+    ''' Prints model information for a quick overview.
 
+        Parameters
+        ----------
         model (cobra.core.Model object) : model from cobra.Model
         n (integer) : determines amount of information shown
-
     '''
+    assert type(n) == int, "%r is not an integer" % n
+
     print('Model ID: ', model.id)
     print('Number of reactions:', len(model.reactions))
     print('Number of metabolites:', len(model.metabolites))
@@ -43,6 +47,39 @@ def checkModelInfo (model, n = 5):
     [print('\t', ID, c) for ID, c in model.compartments.items()]
 
 
+def saveModelToFile (model, filename):
+    ''' Saves a model object to a file for later use
+
+        Parameters
+        ----------
+        model (cobra.core.Model object) : model from cobra.Model
+        filename (str) : the name of the file to store the model
+    '''
+    assert type(filename) == str, "%r is not a string" % filename
+
+    with open(filename, 'wb') as f:
+        pickle.dump(model, f)
+
+def loadModelFromFile (filename):
+    ''' Loads a model object from a file
+
+        Parameters
+        ----------
+        filename (str) : the name of the file where the model is contained
+
+        Returns
+        ----------
+        model (cobra.core.Model object) : model from cobra.Model
+    '''
+    assert type(filename) == str, "%r is not a string" % filename
+
+    with open(filename, 'rb') as f:
+        model = pickle.load(f)
+
+    return model
+
+
+
 if __name__ == '__main__':
     # dir(a) #check object attributes
 
@@ -52,6 +89,12 @@ if __name__ == '__main__':
     #Importing using yeastpack
     model = load_yeast_76()
     checkModelInfo(model, n = 10)
+
+    # Save model to file for later use
+    saveModelToFile(model, 'model_yeast_76.sav')
+
+    # Load the model from file
+    model = loadModelFromFile('model_yeast_76.sav')
 
 
 
