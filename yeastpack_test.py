@@ -47,7 +47,7 @@ if __name__ == '__main__':
     # dir(a) #check object attributes
 
     #Importing directly with cobra
-    model_cobra = create_cobra_model_from_sbml_file('D:\Dropbox\Trabalhos\\16.17\DeYeastLib Project\yeastpack\src\yeastpack\DATA\Models\Yeast_7\yeast_7.6_original\yeast_7.6_cobra.xml')
+    model_cobra = create_cobra_model_from_sbml_file('.\DATA\Models\Yeast_7\yeast_7.6_original\yeast_7.6_cobra.xml')
 
     #Importing using yeastpack
     model = load_yeast_76()

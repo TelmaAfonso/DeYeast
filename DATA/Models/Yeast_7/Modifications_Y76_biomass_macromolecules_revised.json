@@ -1,0 +1,265 @@
+{
+    "reactions": [{
+        "reactants": {
+            "s_DNA": "0.003",
+            "s_0803": "59.276",
+            "s_PROT": "0.407",
+            "s_RNA": "0.066",
+            "s_1467": "0.002",
+            "s_LIPID": "0.061",
+            "s_COF": "1",
+            "s_0434": "59.276",
+            "s_CH": "0.387"
+        },
+        "name": "Biomass pseudoreaction (g/g)",
+        "upper_bound": 100000.0,
+        "lower_bound": 0.0,
+        "products": {
+            "s_1322": "58.7",
+            "s_0394": "59.276",
+            "s_0794": "59.305",
+            "s_0450": "1"
+        },
+        "objective": "True",
+        "id": "r_BIOMASS"
+    }, {
+        "reactants": {
+            "s_0999": "1",
+            "s_0577": "1",
+            "s_0764": "1"
+        },
+        "name": "D-ribulose 5-phosphate,D-glyceraldehyde 3-phosphate pyridoxal 5'-phosphate-lyase",
+        "upper_bound": 100000.0,
+        "lower_bound": 0.0,
+        "products": {
+            "s_1393": "1",
+            "s_1322": "1",
+            "s_0991": "1",
+            "s_0803": "3"
+        },
+        "gene_association": "YGR193C and YMR095C and YMR096W",
+        "id": "r_R07456"
+    }, {
+        "reactants": {
+            "s_0509 ": "0.162",
+            "s_0002": "1.472",
+            "s_0004": "1.472",
+            "s_1520": "0.051",
+            "s_0773": "1.138",
+            "s_1107": "1.774"
+        },
+        "name": "carbohydrates pseudoreaction (mmol/g CH)",
+        "upper_bound": 100000.0,
+        "lower_bound": 0.0,
+        "products": {
+            "s_CH": "1"
+        },
+        "id": "r_CARBOHYDRATES"
+    }, {
+        "reactants": {
+            "s_0404": "0.8984",
+            "s_1533": "0.1802",
+            "s_0757": "0.8174",
+            "s_0747": "0.3416",
+            "s_1077": "0.7365",
+            "s_1314": "0.3457",
+            "s_1561": "0.674",
+            "s_1099": "0.6041",
+            "s_1148": "0.1048",
+            "s_0748": "1.0818",
+            "s_0832": "0.1775",
+            "s_1428": "0.4901",
+            "s_0428": "0.3549",
+            "s_0542": "0.0129",
+            "s_1379": "0.388",
+            "s_1527": "0.0598",
+            "s_0847": "0.5416",
+            "s_0430": "0.2048",
+            "s_0432": "0.6485",
+            "s_1491": "0.5122",
+            "s_1266": "0.0221"
+        },
+        "name": "proteins pseudoreaction (mmol/g Prot)",
+        "upper_bound": 100000.0,
+        "lower_bound": 0.0,
+        "products": {
+            "s_1591": "1.0818",
+            "s_1596": "0.5416",
+            "s_1604": "0.3457",
+            "s_1590": "0.3416",
+            "s_1612": "0.1802",
+            "s_PROT": "1",
+            "s_1614": "0.674",
+            "s_1600": "0.6041",
+            "s_1606": "0.388",
+            "s_1582": "0.8984",
+            "s_1583": "0.3549",
+            "s_1593": "0.8174",
+            "s_1602": "0.1048",
+            "s_1610": "0.0598",
+            "s_1587": "0.6485",
+            "s_1607": "0.4901",
+            "s_1585": "0.2048",
+            "s_1598": "0.7365",
+            "s_1589": "0.0129",
+            "s_1608": "0.5122",
+            "s_1594": "0.1775"
+        },
+        "id": "r_PROTEINS"
+    }, {
+        "reactants": {
+            "s_0423": "0.7227",
+            "s_1545": "0.7085",
+            "s_0782": "0.9494",
+            "s_0526": "0.7227"
+        },
+        "name": "RNA pseudoreaction (mmol/g RNA)",
+        "upper_bound": 100000.0,
+        "lower_bound": 0.0,
+        "products": {
+            "s_RNA": "1"
+        },
+        "id": "r_RNA"
+    }, {
+        "reactants": {
+            "s_0615": "0.684",
+            "s_0584": "1.0147",
+            "s_0649": "0.9369",
+            "s_0589": "0.6062"
+        },
+        "name": "DNA pseudoreaction (mmol/g DNA)",
+        "upper_bound": 100000.0,
+        "lower_bound": 0.0,
+        "products": {
+            "s_DNA": "1"
+        },
+        "id": "r_DNA"
+    }, {
+        "reactants": {
+            "s_1416": "0.000223",
+            "s_1489": "0.000223",
+            "s_1537": "0.000223",
+            "s_1405": "0.000223",
+            "s_0687": "0.000223",
+            "s_1198": "0.001831",
+            "s_1393": "0.000223",
+            "s_1207": "0.000447",
+            "s_1475": "0.000223",
+            "s_0714": "0.000223",
+            "s_3714": "0.000223",
+            "s_0750": "0.000223",
+            "s_1487": "0.000223",
+            "s_0529": "0.000576"
+        },
+        "name": "Cofactors pseudoreaction (mmol/g CDW)",
+        "upper_bound": 100000.0,
+        "lower_bound": 0.0,
+        "products": {
+            "s_COF": "1"
+        },
+        "id": "r_COF"
+    }, {
+        "reactants": {
+            "s_1524": "0.2469",
+            "s_0672": "0.2326",
+            "s_0535": "0.0437",
+            "s_PL": "0.5087",
+            "s_STEROL": "0.2484",
+            "s_FA": "0.7446"
+        },
+        "name": "Lipids pseudoreaction (mmol/g Lip)",
+        "upper_bound": 100000.0,
+        "lower_bound": 0.0,
+        "products": {
+            "s_LIPID": "1"
+        },
+        "id": "r_LIPID"
+    }, {
+        "reactants": {
+            "s_1260": "1.0157",
+            "s_1065": "0.2665",
+            "s_1286": "1.1671",
+            "s_1161": "0.4305",
+            "s_1293": "0.7287",
+            "s_0595": "0.071",
+            "s_1449": "0.2394"
+        },
+        "name": "Fatty acids pseudoreaction (mmol/g FA)",
+        "upper_bound": 100000.0,
+        "lower_bound": 0.0,
+        "products": {
+            "s_FA": "1"
+        },
+        "id": "r_FA"
+    }, {
+        "reactants": {
+            "s_0666": "1.5049",
+            "s_1059": "0.514",
+            "s_0662": "0.2183",
+            "s_0122": "0.024",
+            "s_1569": "0.0939",
+            "s_0657": "0.1131",
+            "s_0700": "0.0163"
+        },
+        "name": "Sterols pseudoreaction (mmol/g Sterol)",
+        "upper_bound": 100000.0,
+        "lower_bound": 0.0,
+        "products": {
+            "s_STEROL": "1"
+        },
+        "id": "r_STEROL"
+    }, {
+        "reactants": {
+            "s_2960": "0.0402",
+            "s_1337": "0.1138",
+            "s_1351": "0.3096",
+            "s_0089": "0.3652",
+            "s_3234": "0.0263",
+            "s_1346": "0.4166"
+        },
+        "name": "Phospholipids pseudoreaction (mmol/g PL)",
+        "upper_bound": 100000.0,
+        "lower_bound": 0.0,
+        "products": {
+            "s_PL": "1"
+        },
+        "id": "r_PL"
+    }],
+    "metabolites": [{
+        "compartment": "c_03",
+        "id": "s_CH",
+        "name": "Carbohydrates pseudometabolite"
+    }, {
+        "compartment": "c_03",
+        "id": "s_PROT",
+        "name": "Proteins pseudometabolite"
+    }, {
+        "compartment": "c_03",
+        "id": "s_RNA",
+        "name": "RNA pseudometabolite"
+    }, {
+        "compartment": "c_03",
+        "id": "s_DNA",
+        "name": "DNA pseudometabolite"
+    }, {
+        "compartment": "c_03",
+        "id": "s_COF",
+        "name": "Cofactors pseudometabolite"
+    }, {
+        "compartment": "c_03",
+        "id": "s_LIPID",
+        "name": "Lipids pseudometabolite"
+    }, {
+        "compartment": "c_03",
+        "id": "s_FA",
+        "name": "Fatty acids pseudometabolite"
+    }, {
+        "compartment": "c_03",
+        "id": "s_PL",
+        "name": "Phospholipids pseudometabolite"
+    }, {
+        "compartment": "c_03",
+        "id": "s_STEROL",
+        "name": "Sterols pseudometabolite"
+    }]
+}

@@ -1,0 +1,3 @@
+Gene [Systematic Name];Gene [Standard Name];ORF Qualifier;Gene Description;Mutant Type;Phenotypes > Observable;Qualifier;Strain Background;Chemical;Drain Info;Carbon source;Medium;Special Condition (remove_genes);Special Condition (remove_metab);Special Condition (add_metab);Condition;Details;PubMed ID;Culture type
+YJR130C;STR2;Verified;Sulfur TRansfer;null;Utilization of sulfur source;absent;S288C;glutathione;;glucose;YNBD;;sulphate;glutathione;;defect in glutathione utilization;17179087;
+YLL057C;JLP1;Verified;dnaJ-Like Protein;null;Utilization of sulfur source;decreased;S288C;taurine;;glucose;YNBD;;sulphate;taurine;alternative sulfur source;;10482536;

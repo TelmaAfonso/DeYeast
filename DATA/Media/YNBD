@@ -1,0 +1,16 @@
+Exchange;Lower_bound;Upper_bound
+ammonium;-10000.0;10000.0
+iron;-10000.0;10000.0
+oxygen;-10000;10000.0
+phosphate;-10000.0;10000.0
+sodium;-10000.0;10000.0
+sulphate;-10000.0;10000.0
+H+;-10000.0;10000.0
+potassium;-10000.0;10000.0
+thiamine;-0.5;10000.0
+glucose;-10.0;10000.0
+pantothenate;-0.5;10000.0
+4-aminobenzoate;-0.5;10000.0
+biotin;-0.5;10000.0
+myo-inositol;-0.5;10000.0
+riboflavin;-0.5;10000.0

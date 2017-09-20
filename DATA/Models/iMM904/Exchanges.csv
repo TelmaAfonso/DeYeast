@@ -1,0 +1,195 @@
+Reaction_ID;Deafult_name;Mod_name;Notes
+EX_13BDglcn_e_;R_1_3_beta_D_Glucan_exchange;1-3-beta-D-glucan;
+EX_dad_2_e_;R_Deoxyadenosine_exchange;2-deoxyadenosine;
+EX_dgsn_e_;R_Deoxyguanosine_exchange;2-deoxyguanosine;
+EX_din_e_;R_Deoxyinosine_exchange;2-deoxyinosine;
+EX_duri_e_;R_Deoxyuridine_exchange;2-deoxyuridine;
+EX_2hb_e_;R_2_Hydroxybutyrate_exchange;2-hydroxybutirate;
+EX_2mbald_e_;R_2_methylbutyraldehyde_exchange;2-methylbutanal;
+EX_2mbtoh_e_;R_2_methyl_1_butanol_exchange;2-methylbutanol;
+EX_2mbac_e_;R_2_methylbutyl_acetate_exchange;2-methylbutyl acetate;
+EX_akg_e_;R_2_Oxoglutarate_exchange;2-oxoglutarate;
+EX_2phetoh_e_;R_2_phenylethanol_exchange;2-phenylethanol;
+EX_btd_RR_e_;R__R_R__2_3_Butanediol_exchange;2,3-butanediol;
+EX_3c3hmp_e_;R_3_Carboxy_3_hydroxy_4_methylpentanoate_exchange;3-Carboxy-3-hydroxy-4-methylpentanoate;
+EX_3mop_e_;R_3mop_exchange;3-methyl-2-oxopentanoate;
+EX_3mbald_e_;R_3_Methylbutanal_exchange;3-methylbutanal;
+EX_4abz_e_;R_4_Aminobenzoate_exchange;4-aminobenzoate;
+EX_4abut_e_;R_4_Aminobutanoate_exchange;4-aminobutyrate;
+EX_5aop_e_;R_5_Amino_4_oxopentanoate_exchange;5-aminolevulinate;
+EX_dann_e_;R_7_8_Diaminononanoate_exchange;7,8-diaminononanoate;
+EX_8aonn_e_;R_8_Amino_7_oxononanoate_exchange;8-amino-7-oxononanoate;
+EX_acald_e_;R_Acetaldehyde_exchange;acetaldehyde;
+EX_ac_e_;R_Acetate_exchange;acetate;
+EX_ade_e_;R_Adenine_exchange;adenine;
+EX_adn_e_;R_Adenosine_exchange;adenosine;
+EX_pap_e_;R_Adenosine_3__5__bisphosphate_exchange;adenosine 3,5-biphosphate;
+EX_ala_L_e_;R_L_Alanine_exchange;alanine;
+EX_alltt_e_;R_Allantoate_exchange;allantoate;
+EX_alltn_e_;R_Allantoin_exchange;allantoin;
+EX_nh4_e_;R_Ammonia_exchange;ammonium;(ammonium in Yeast76
+EX_abt_e_;R_L_Arabinitol_exchange;arabinitol;
+EX_arg_L_e_;R_L_Arginine_exchange;arginine;
+EX_asn_L_e_;R_L_Asparagine_exchange;asparagine;
+EX_asp_L_e_;R_L_Aspartate_exchange;aspartate;
+EX_btn_e_;R_Biotin_exchange;biotin;
+EX_co2_e_;R_CO2_exchange;carbon dioxide;
+EX_crn_e_;R_L_Carnitine_exchange;carnitine;
+EX_chol_e_;R_Choline_exchange;choline;
+EX_cit_e_;R_Citrate_exchange;citrate;
+EX_cys_L_e_;R_L_Cysteine_exchange;cysteine;
+EX_cytd_e_;R_Cytidine_exchange;cytidine;
+EX_csn_e_;R_Cytosine_exchange;cytosine;
+EX_arab_D_e_;R_D_Arabinose_exchange;D-arabinose;
+EX_sbt_D_e_;R_D_Sorbitol_exchange;D-glucitol;
+EX_gam6p_e_;R_D_Glucosamine_6_phosphate_exchange;D-glucosamine-6-phosp;
+EX_dca_e_;R_Decanoate__n_C100__exchange;decanoate;
+EX_dcyt_e_;R_Deoxycytidine_exchange;deoxycytidine;
+EX_Nbfortyr_e_;R_N_N_bisformyl_dityrosine_exchange;diformyldityrosine;
+EX_dttp_e_;R_dTTP_exchange;dTTP;
+EX_epist_e_;R_episterol_exchange;episterol;
+EX_epistest_SC_e_;R_episterol_ester__yeast_specific_exchange;episterol ester;no drain in Yeast
+EX_ergstest_SC_e_;R_ergosterol_ester__yeast_specific_exchange;ergosta-5,7,22,24(28)-tetraen-3beta-ol;
+EX_ergst_e_;R_Ergosterol_exchange;ergosterol;
+EX_etoh_e_;R_Ethanol_exchange;ethanol;
+EX_etha_e_;R_Ethanolamine_exchange;ethanolamine;
+EX_aces_e_;R_Acetic_ester_exchange;ethyl acetate;
+EX_fecost_e_;R_fecosterol_exchange;fecosterol;
+EX_fecostest_SC_e_;R_fecosterol_ester__yeast_specific_exchange;fecosterol ester;no drain in Yeast
+EX_fmn_e_;R_FMN_exchange;FMN;
+EX_for_e_;R_Formate_exchange;formate;
+EX_fru_e_;R_D_Fructose_exchange;fructose;
+EX_fum_e_;R_Fumarate_exchange;fumarate;
+EX_gal_e_;R_D_Galactose_exchange;galactose;
+EX_galur_e_;R_D_Galacturonate_exchange;galacturonate;
+EX_glc_e_;R_D_Glucose_exchange;glucose;
+EX_glu_L_e_;R_L_Glutamate_exchange;glutamate;
+EX_gln_L_e_;R_L_Glutamine_exchange;glutamine;
+EX_gthrd_e_;R_Reduced_glutathione_exchange;glutathione;
+EX_gthox_e_;R_Oxidized_glutathione_exchange;glutathione disulfide;
+EX_glyc_e_;R_Glycerol_exchange;glycerol;
+EX_gly_e_;R_Glycine_exchange;glycine;
+EX_gcald_e_;R_Glycolaldehyde_exchange;glycolaldehyde;
+EX_glx_e_;R_Glyoxylate_exchange;glyoxylate;
+EX_gua_e_;R_Guanine_exchange;guanine;
+EX_gsn_e_;R_Guanosine_exchange;guanosine;
+EX_h_e_;R_H_exchange;H+;
+EX_hexc_e_;R_hexacosanoate__n_C260__exchange;hexacosanoate;not present in Yeast
+EX_his_L_e_;R_L_Histidine_exchange;histidine;
+EX_hxan_e_;R_Hypoxanthine_exchange;hypoxanthine;
+EX_id3acald_e_;R_Indole_3_acetaldehyde_exchange;indol-3-ylacetaldehyde;
+EX_ins_e_;R_Inosine_exchange;inosine;
+EX_fe2_e_;R_Fe2_exchange;iron;
+EX_iamac_e_;R_isoamyl_acetate_exchange;isoamyl acetate;
+EX_iamoh_e_;R_Isoamyl_alcohol_exchange;isoamylol;
+EX_ibutoh_e_;R_isobutyl_alcohol_exchange;isobutanol;
+EX_ibutac_e_;R_isobutyl_acetate_exchange;isobutyl acetate;
+EX_2mppal_e_;R_2_methylpropanal_exchange;isobutyraldehyde;
+EX_ile_L_e_;R_L_Isoleucine_exchange;isoleucine;
+EX_arab_L_e_;R_L_Arabinose_exchange;L-arabinose;
+EX_sbt_L_e_;R_L_Sorbitol_exchange;L-glucitol;
+EX_lanost_e_;R_Lanosterol_exchange;lanosterol;
+EX_lanostest_SC_e_;R_lanosterol_ester__yeast_specific_exchange;lanosterol ester;no drain in Yeast
+EX_ddca_e_;R_Dodecanoate__n_C120__exchange;laurate;
+EX_leu_L_e_;R_L_Leucine_exchange;leucine;
+EX_ocdcya_e_;R_octadecynoate__n_C182__exchange;linoleic acid;no drain in Yeast 
+EX_lys_L_e_;R_L_Lysine_exchange;lysine;
+EX_mal_L_e_;R_L_Malate_exchange;malate;
+EX_malt_e_;R_Maltose_exchange;maltose;
+EX_man_e_;R_D_Mannose_exchange;mannose;
+EX_melib_e_;R_Melibiose_exchange;melibiose;
+EX_met_L_e_;R_L_Methionine_exchange;methionine;
+EX_inost_e_;R_myo_Inositol_exchange;myo-inositol;
+EX_ttdca_e_;R_tetradecanoate__n_C140__exchange;myristate;
+EX_nadp_e_;R_Nicotinamide_adenine_dinucleotide_phosphate_exchange;NADP;no drain in Yeast
+EX_nac_e_;R_Nicotinate_exchange;nicotinate;
+EX_nmn_e_;R_NMN_exchange;NMN;
+EX_ocdcea_e_;R_octadecenoate__n_C181__exchange;oleate;
+EX_orn_e_;R_Ornithine_exchange;ornithine;
+EX_oaa_e_;R_Oxaloacetate_exchange;oxaloacetate;
+EX_o2_e_;R_O2_exchange;oxygen;
+EX_hdca_e_;R_Hexadecanoate__n_C160__exchange;palmitate;
+EX_hdcea_e_;R_hexadecenoate__n_C161__exchange;palmitoleate;
+EX_pnto_R_e_;R__R__Pantothenate_exchange;pantothenate;
+EX_pectin_e_;R_Pectin_exchange;pectin;
+EX_pepd_e_;R_peptide_exchange;peptide;not present in Yeast
+EX_pheac_e_;R_Phenethyl_acetate_exchange;phenethyl acetate;
+EX_pacald_e_;R_Phenylacetaldehyde_exchange;phenylacetaldehyde;
+EX_phe_L_e_;R_L_Phenylalanine_exchange;phenylalanine;
+EX_pi_e_;R_Phosphate_exchange;phosphate;
+EX_pc_SC_e_;R_Phosphatidylcholine__yeast_specific_exchange;phosphatidylcholine;no drain in Yeast 
+EX_ptd1ino_SC_e_;R_phosphatidyl_1D_myo_inositol__yeast_specific_exchange;phosphatidylinositol;not present in Yeast
+EX_k_e_;R_K_exchange;potassium;
+EX_pro_L_e_;R_L_Proline_exchange;proline;
+EX_ptrc_e_;R_Putrescine_exchange;putrescine;
+EX_pyr_e_;R_Pyruvate_exchange;pyruvate;
+EX_lac_D_e_;R_D_lactate_exchange;R-lactate;
+EX_ribflv_e_;R_Riboflavin_exchange;riboflavin;
+EX_rib_D_e_;R_D_Ribose_exchange;ribose;
+EX_amet_e_;R_S_Adenosyl_L_methionine_exchange;S-adenosyl-L-methionine;
+EX_lac_L_e_;R_L_Lactate_exchange;S-lactate;
+EX_mmet_e_;R_S_Methyl_L_methionine_exchange;S-methyl-L-methionine;
+EX_ser_L_e_;R_L_Serine_exchange;serine;
+EX_g3pc_e_;R_sn_Glycero_3_phosphocholine_exchange;glycerophosphocholine;
+EX_g3pi_e_;R_sn_Glycero_3_phospho_1_inositol_exchange;glycerophosphoinositol;
+EX_na1_e_;R_Sodium_exchange;sodium;
+EX_srb_L_e_;R_L_Sorbose_exchange;sorbose;
+EX_spmd_e_;R_Spermidine_exchange;spermidine;
+EX_sprm_e_;R_Spermine_exchange;spermine;
+EX_ocdca_e_;R_octadecanoate__n_C180__exchange;stearate;
+EX_succ_e_;R_Succinate_exchange;succinate;
+EX_sucr_e_;R_Sucrose_exchange;sucrose;
+EX_so4_e_;R_Sulfate_exchange;sulphate;
+EX_so3_e_;R_Sulfite_exchange;sulphite;
+EX_taur_e_;R_Taurine_exchange;taurine;
+EX_thm_e_;R_Thiamin_exchange;thiamine;
+EX_thmpp_e_;R_Thiamine_diphosphate_exchange;thiamine diphosphate;
+EX_thmmp_e_;R_Thiamin_monophosphate_exchange;thiamine monophosphate;
+EX_thr_L_e_;R_L_Threonine_exchange;threonine;
+EX_thymd_e_;R_Thymidine_exchange;thymidine;
+EX_thym_e_;R_Thymine_exchange;thymine;not present in Yeast
+EX_tre_e_;R_Trehalose_exchange;trehalose;
+EX_trp_L_e_;R_L_Tryptophan_exchange;tryptophan;
+EX_ind3eth_e_;R_Indole_3_ethanol_exchange;tryptophol;
+EX_tyr_L_e_;R_L_Tyrosine_exchange;tyrosine;
+EX_ura_e_;R_Uracil_exchange;uracil;
+EX_urea_e_;R_Urea_exchange;urea;
+EX_uri_e_;R_Uridine_exchange;uridine;
+EX_val_L_e_;R_L_Valine_exchange;valine;
+EX_h2o_e_;R_H2O_exchange;water;
+EX_xan_e_;R_Xanthine_exchange;xanthine;
+EX_xtsn_e_;R_Xanthosine_exchange;xanthosine;
+EX_xylt_e_;R_Xylitol_exchange;xylitol;
+EX_xyl_D_e_;R_D_Xylose_exchange;xylose;
+EX_zymst_e_;R_zymosterol_exchange;zymosterol;
+EX_zymstest_SC_e_;R_zymosterol_ester__yeast_specific_exchange;zymosterol ester;no drain in Yeast 
+EX_nad_c_;NAD(+) exchange;NAD(+);added
+EX_ppmi12346p_c_;5-diphospho-1D-myo-inositol pentakisphosphate exchange;5-diphospho-1D-myo-inositol pentakisphosphate;added
+EX_5mta_c_;5'-S-methyl-5'-thioadenosine;5'-S-methyl-5'-thioadenosine;added
+EX_actn_R_c_;acetoin exchange;acetoin;added
+EX_adp_c_;ADP exchange;ADP;added
+EX_amp_c_;AMP exchange;AMP;added
+EX_atp_c_;ATP exchange;ATP;added
+EX_clpn_SC_m_;cardiolipin exchange;cardiolipin;added
+EX_cdpdag_SC_m_;CDP-diacylglycerol exchange;CDP-diacylglycerol;added
+EX_datp_c_m_;dATP exchange;dATP;added
+EX_Dara14lac_c_;dehydro-D-arabinono-1,4-lactone exchange;dehydro-D-arabinono-1,4-lactone;added
+EX_glycogen_c_;glycogen exchange;glycogen;added
+EX_h2o2_c_;hydrogen peroxide exchange;hydrogen peroxide;added
+EX_h2s_c_;hydrogen sulfide exchange;hydrogen sulfide;added
+EX_imp_c_;IMP exchange;IMP;added
+EX_mipc124_SC_c_;mannosylinositol phosphorylceramide exchange;mannosylinositol phosphorylceramide;added
+EX_minohp_c_;myo-inositol hexakisphosphate exchange;myo-inositol hexakisphosphate;added
+EX_orn_c_;N(2)-acetyl-L-ornithine exchange;N(2)-acetyl-L-ornithine;added
+EX_nadph_c_;NADPH exchange;NADPH;added
+EX_ps_SC_c_;phosphatidyl-L-serine exchange;phosphatidyl-L-serine;added
+EX_pc_SC_c_;phosphatidylcholine exchange;phosphatidylcholine;added
+EX_pg_SC_m_;phosphatidylglycerol exchange;phosphatidylglycerol;added
+EX_ptd1ino_SC_c_;phosphatidylinositol exchange;phosphatidylinositol;added
+EX_pydx5p_c_;pyridoxal 5'-phosphate exchange;pyridoxal 5'-phosphate;added
+EX_rnam_c_;ribosylnicotinamide exchange;ribosylnicotinamide;added
+EX_s_c_;sulfur exchange;sulfur;added
+EX_triglyc_SC_c_;triglyceride exchange;triglyceride;added
+EX_ala_B_c_;beta-alanine exchange;beta-alanine;added
+EX_dtmp_c_;dTMP exchange;dTMP;added
+EX_hemeA_m_;heme exchange;heme;added

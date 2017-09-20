@@ -1,0 +1,136 @@
+Reaction_ID;Deafult_name;Mod_name;Notes
+DAxtO;Uptake of deoxyadenosine;2-deoxyadenosine;
+DGxtO;Uptake of deoxyguanosine;2-deoxyguanosine;
+DINxtO;Uptake of deoxyinosine;2-deoxyinosine;
+DUxtO;Uptake of deoxyuridine;2-deoxyuridine;
+AKGxtO;Uptake of 2-oxoglutarate;2-oxoglutarate;
+GABAxtO;Uptake of gamma-aminobutyrate;4-aminobutyrate;
+DANNAxtO;Uptake of 7,8-diaminononanoate;7,8-diaminononanoate;
+AONAxtO;Uptake of 8-amino-7-oxononanoate;8-amino-7-oxononanoate;
+ACALxtO;Uptake of acetaldehyde;acetaldehyde;
+ACxtO;Uptake of acetate;acetate;
+ADxtO;Uptake of adenine;adenine;
+ADNxtO;Uptake of adenosine;adenosine;
+PAPxtO;Uptake of adenosine 3',5'-bisphosphate;adenosine 3,5-biphosphate;
+ALAxtO;Uptake of L-alanine;alanine;
+ATNxtO;Uptake of allantoin;allantoin;
+GLCxtO;Uptake of alpha-D-glucose;glucose;SGD nomenclature
+GLCxtO;Uptake of alpha-D-glucose;alpha-D-glucose;no drain in Y6,Y7 and iMM
+NH3xtO;Uptake of NH3;ammonium;
+ARGxtO;Uptake of L-arginine;arginine;
+ASNxtO;Uptake of L-asparagine;asparagine;
+ASPxtO;Uptake of L-aspartate;aspartate;
+FUCxtO;Uptake of beta-D-fucose;beta-D-fucose;not present in Y6,Y7 and iMM
+BMxtO;Uptake of biomass;biomass;
+BTxtO;Uptake of biotin;biotin;
+CO2xtO;Uptake of CO2;carbon dioxide;
+CHOxtO;Uptake of choline;choline;
+CITxtO;Uptake of citrate;citrate;
+CYSxtO;Uptake of L-cysteine;cysteine;
+CYTDxtO;Uptake of cytidine;cytidine;
+CYTSxtO;Uptake of cytosine;cytosine;
+ARABxtO;Uptake of D-arabinose;D-arabinose;
+GA6PxtO;Uptake of D-glucosamine 6-phosphate;D-glucosamine-6-phosp;
+DCxtO;Uptake of deoxycytidine;deoxycytidine;
+DIPEPxtO;Uptake of dipeptide;dipeptide;not present in Y6,Y7 and iMM
+DTTPxtO;Uptake of dTTP;dTTP;
+ERGOxtO;Uptake of ergosterol;ergosterol;
+ETHxtO;Uptake of ethanol;ethanol;
+FORxtO;Uptake of formate;formate;
+FRUxtO;Uptake of D-fructose;fructose;
+FUMxtO;Uptake of fumarate;fumarate;
+GLACxtO;Uptake of D-galactose;galactose;
+GLAMxtO;Uptake of glucosamine;glucosamine;
+GLUxtO;Uptake of L-glutamate;glutamate;
+GLNxtO;Uptake of L-glutamine;glutamine;
+OGTxtO;Uptake of oxidized glutathione;glutathione disulfide;
+GLxtO;Uptake of glycerol;glycerol;
+GLYxtO;Uptake of glycine;glycine;
+GLALxtO;Uptake of glycolaldehyde;glycolaldehyde;
+GNxtO;Uptake of guanine;guanine;
+GSNxtO;Uptake of guanosine;guanosine;
+HISxtO;Uptake of L-histidine;histidine;
+HYXNxtO;Uptake of hypoxanthine;hypoxanthine;
+INSxtO;Uptake of inosine;inosine;
+ILExtO;Uptake of L-isoleucine;isoleucine;
+GLTxtO;Uptake of L-glucitol;L-glucitol;
+LEUxtO;Uptake of L-leucine;leucine;
+LYSxtO;Uptake of L-lysine;lysine;
+MALxtO;Uptake of malate;malate;
+MLTxtO;Uptake of maltose;maltose;
+MNTxtO;Uptake of D-mannitol;mannitol;no drain in Y6,Y7 and iMM
+MANxtO;Uptake of alpha-D-mannose;mannose;
+MELIxtO;Uptake of melibiose;melibiose;
+MTHNxtO;Uptake of methane;methane;
+METxtO;Uptake of L-methionine;methionine;
+MIxtO;Uptake of myo-inositol;myo-inositol;
+C140xtO;Uptake of myristic acid;myristate;
+NMNxtO;Uptake of nicotinamide mononucleotide;nicotinamide mononucleotide;not present in Y6,Y7 and iMM
+OPEPxtO;Uptake of oligopeptide;oligopeptide;
+ORNxtO;Uptake of L-ornithine;ornithine;
+O2xtO;Uptake of oxygen;oxygen;
+C160xtO;Uptake of palmitic acid;palmitate;
+PNTOxtO;Uptake of (R)-pantothenate;pantothenate;
+PEPTxtO;Uptake of peptide;peptide;
+PHExtO;Uptake of L-phenylalanine;phenylalanine;
+PIxtO;Uptake of phosphate;phosphate;
+PIMExtO;Uptake of pimelic acid;pimelate;
+KxtO;Uptake of potassium;potassium;
+PROxtO;Uptake of L-proline;proline;
+PYRxtO;Uptake of pyruvate;pyruvate;
+LACxtO;Uptake of (R)-lactate;R-lactate;
+RMNxtO;Uptake of D-rhamnose;rhamnose;
+RFLAVxtO;Uptake of riboflavin;riboflavin;
+RIBxtO;Uptake of D-ribose;ribose;
+SAMxtO;Uptake of S-adenosyl-L-methionine;S-adenosyl-L-methionine;
+MMETxtO;Uptake of S-methyl-L-methionine;S-methyl-L-methionine;
+SERxtO;Uptake of L-serine;serine;
+NAxtO;Uptake of sodium;sodium;
+SORxtO;Uptake of sorbose;sorbose;
+SPRMxtO;Uptake of spermine;spermine;
+C180xtO;Uptake of stearic acid;stearate;
+SUCCxtO;Uptake of succinate;succinate;
+SUCxtO;Uptake of sucrose;sucrose;
+SLFxtO;Uptake of sulfate;sulphate;
+THMxtO;Uptake of thiamin;thiamine;
+THRxtO;Uptake of L-threonine;threonine;
+DTxtO;Uptake of thymidine;thymidine;
+THYxtO;Uptake of thymine;thymine;
+TRExtO;Uptake of alpha,alpha-trehalose;trehalose;
+TRPxtO;Uptake of L-tryptophan;tryptophan;
+TYRxtO;Uptake of L-tyrosine;tyrosine;
+URAxtO;Uptake of uracil;uracil;
+UREAxtO;Uptake of urea;urea;
+URIxtO;Uptake of uridine;uridine;
+VALxtO;Uptake of L-valine;valine;
+XANxtO;Uptake of xanthine;xanthine;
+ZYMSTxtO;Uptake of zymosterol;zymosterol;
+M149xtO;Exchange of 5'-S-methyl-5'-thioadenosine;5'-S-methyl-5'-thioadenosine;added
+M187xtO;Exchange of ADP;ADP;added
+M211xtO;Exchange of AMP;AMP;added
+M220xtO;Exchange of ATP;ATP;added
+M243xtO;Exchange of cardiolipin;cardiolipin;added
+M250xtO;Exchange of CDP-diacylglycerol;CDP-diacylglycerol;added
+M285xtO;Exchange of dATP;dATP;added
+M283xtO;Exchange of dehydro-D-arabinono-1,4-lactone;dehydro-D-arabinono-1,4-lactone;added
+M406xtO;Exchange of glutathione;glutathione;added
+M416xtO;Exchange of glycogen;glycogen;added
+M432xtO;Exchange of hydrogen peroxide;hydrogen peroxide;added
+M449xtO;Exchange of IMP;IMP;added
+M543xtO;Exchange of mannosylinositol;mannosylinositol;added
+M571xtO;Exchange of N(2)-acetyl-L-ornithine;N(2)-acetyl-L-ornithine;added
+M587xtO;Exchange of NADPH;NADPH;added
+M639xtO;Exchange of palmitoleate;palmitoleate;added
+M660xtO;Exchange of phosphatidyl-L-serine;phosphatidyl-L-serine;added
+M653xtO;Exchange of phosphatidylcholine;phosphatidylcholine;added
+M656xtO;Exchange of phosphatidylglycerol;phosphatidylglycerol;added
+M43xtO;Exchange of phosphatidylinositol;phosphatidylinositol;added
+M678xtO;Exchange of putrescine;putrescine;added
+M683xtO;Exchange of pyridoxal 5'-phosphate;pyridoxal 5'-phosphate;added
+M730xtO;Exchange of spermidine;spermidine;added
+M765xtO;Exchange of triglyceride;triglyceride;added
+LACxtO;Exchange of (R)-lactate;lactate;added
+LACxtO;Exchange of (R)-lactate;S-lactate;added
+M223xtO;Exchange of Beta-alanine;beta-alanine;added
+M350xtO;Exchange of dTMP;dTMP;added
+M433xtO;Exchange of heme;heme;added

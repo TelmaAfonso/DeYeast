@@ -1,0 +1,306 @@
+{
+	"reactions":[
+		{
+			"id":"EX_nad_c_",
+			"name":"NAD(+) exchange",
+			"reaction":"nad_c <=>",
+			"reactants":{
+				"nad_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"EX_ppmi12346p_c_",
+			"name":"5-diphospho-1D-myo-inositol pentakisphosphate exchange",
+			"reactants":{
+				"ppmi12346p_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"EX_5mta_c_",
+			"name":"5'-S-methyl-5'-thioadenosine exchange",
+			"reactants":{
+				"5mta_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"EX_actn_R_c_",
+			"name":"acetoin exchange",
+			"reactants":{
+				"actn_R_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"EX_adp_c_",
+			"name":"ADP exchange",
+			"reactants":{
+				"adp_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"EX_amp_c_",
+			"name":"AMP exchange",
+			"reactants":{
+				"amp_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"EX_atp_c_",
+			"name":"ATP exchange",
+			"reactants":{
+				"atp_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"EX_clpn_SC_m_",
+			"name":"cardiolipin exchange",
+			"reactants":{
+				"clpn_SC_m":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"EX_cdpdag_SC_m_",
+			"name":"CDP-diacylglycerol exchange",
+			"reactants":{
+				"cdpdag_SC_m":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"EX_datp_c_m_",
+			"name":"dATP exchange",
+			"reactants":{
+				"datp_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"EX_Dara14lac_c_",
+			"name":"dehydro-D-arabinono-1,4-lactone exchange",
+			"reactants":{
+				"Dara14lac_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"EX_glycogen_c_",
+			"name":"glycogen exchange",
+			"reactants":{
+				"glycogen_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"EX_h2o2_c_",
+			"name":"hydrogen peroxide exchange",
+			"reactants":{
+				"h2o2_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"EX_h2s_c_",
+			"name":"hydrogen sulfide exchange",
+			"reactants":{
+				"h2s_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"EX_imp_c_",
+			"name":"IMP exchange",
+			"reactants":{
+				"imp_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"EX_mipc124_SC_c_",
+			"name":"mannosylinositol phosphorylceramide exchange",
+			"reactants":{
+				"mipc124_SC_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"EX_minohp_c_",
+			"name":"myo-inositol hexakisphosphate exchange",
+			"reactants":{
+				"minohp_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"EX_orn_c_",
+			"name":"N(2)-acetyl-L-ornithine exchange",
+			"reactants":{
+				"orn_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"EX_nadph_c_",
+			"name":"NAPH exchange",
+			"reactants":{
+				"nadph_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"EX_ps_SC_c_",
+			"name":"phosphatidyl-L-serine exchange",
+			"reactants":{
+				"ps_SC_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"EX_pc_SC_c_",
+			"name":"phosphatidylcholine exchange",
+			"reactants":{
+				"pc_SC_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"EX_pg_SC_m_",
+			"name":"phosphatidylglycerol exchange",
+			"reactants":{
+				"pg_SC_m":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"EX_ptd1ino_SC_c_",
+			"name":"phosphatidylinositol exchange",
+			"reactants":{
+				"ptd1ino_SC_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"EX_pydx5p_c_",
+			"name":"pyridoxal 5'-phosphate exchange",
+			"reactants":{
+				"pydx5p_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"EX_rnam_c_",
+			"name":"ribosylnicotinamide exchange",
+			"reactants":{
+				"rnam_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"EX_s_c_",
+			"name":"sulfur exchange",
+			"reactants":{
+				"s_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"EX_triglyc_SC_c_",
+			"name":"triglyceride exchange",
+			"reactants":{
+				"triglyc_SC_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"EX_ala_B_c_",
+			"name":"beta-alanine exchange",
+			"reactants":{
+				"ala_B_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"EX_dtmp_c_",
+			"name":"dTMP exchange",
+			"reactants":{
+				"dtmp_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"EX_hemeA_m_",
+			"name":"heme exchange",
+			"reactants":{
+				"hemeA_m":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		}
+	]
+
+}

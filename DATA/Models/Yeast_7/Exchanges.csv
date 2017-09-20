@@ -1,0 +1,196 @@
+Reaction_ID;Deafult_name;Mod_name;Notes
+r_1553;1-(sn-glycero-3-phospho)-1D-myo-inositol exchange;glycerophosphoinositol;before: 1-(sn-glycero-3-phospho)-1D-myo-inositol
+r_1542;(1->3)-beta-D-glucan exchange;1-3-beta-D-glucan;
+r_1554;1-acylglycerophosphocholine exchange;1-acylglycerophosphocholine;
+r_2134;14-demethyllanosterol exchange;14-demethyllanosterol;
+r_1563;2'-deoxyadenosine exchange;2-deoxyadenosine;
+r_1564;2'-deoxyguanosine exchange;2-deoxyguanosine;
+r_1565;2'-deoxyinosine exchange;2-deoxyinosine;
+r_1566;2'-deoxyuridine exchange;2-deoxyuridine;
+r_1572;2-isopropylmalate exchange;2-isopropylmalate;
+r_1577;2-methylbutanal exchange;2-methylbutanal;
+r_1580;2-methylbutanol exchange;2-methylbutanol;
+r_1581;2-methylbutyl acetate exchange;2-methylbutyl acetate;
+r_1586;2-oxoglutarate exchange;2-oxoglutarate;
+r_1589;2-phenylethanol exchange;2-phenylethanol;
+r_1549;(R,R)-2,3-butanediol exchange;2,3-butanediol;
+r_1550;(S)-3-methyl-2-oxopentanoate exchange;3-methyl-2-oxopentanoate;
+r_1598;3-methylbutanal exchange;3-methylbutanal;
+r_1604;4-aminobenzoate exchange;4-aminobenzoate;
+r_1800;gamma-aminobutyrate exchange;4-aminobutyrate;before: gamma-aminobutyrate
+r_1621;5-aminolevulinate exchange;5-aminolevulinate;
+r_1625;5-formyltetrahydrofolic acid exchange;5-formyltetrahydrofolic acid;
+r_1627;7,8-diaminononanoate exchange;7,8-diaminononanoate;
+r_1629;8-amino-7-oxononanoate exchange;8-amino-7-oxononanoate;
+r_1631;acetaldehyde exchange;acetaldehyde;
+r_1634;acetate exchange;acetate;
+r_1639;adenine exchange;adenine;
+r_1643;adenosine exchange;adenosine;
+r_1641;adenosine 3',5'-bismonophosphate exchange;adenosine 3,5-biphosphate;before: adenosine 3',5'-bismonophosphate
+r_1873;L-alanine exchange;alanine;
+r_1648;allantoate exchange;allantoate;
+r_1649;allantoin exchange;allantoin;
+r_1651;alpha-D-glucosamine 6-phosphate exchange;D-glucosamine-6-phosp;before: alpha-D-glucosamine-6-phosp
+r_1654;ammonium exchange;ammonium;
+r_1875;L-arabinitol exchange;arabinitol;
+r_1878;L-arabinose exchange;L-arabinose;before: arabinose
+r_1706;D-arabinose exchange;D-arabinose;before: arabinose
+r_1879;L-arginine exchange;arginine;
+r_1880;L-asparagine exchange;asparagine;
+r_1881;L-aspartate exchange;aspartate;
+r_1663;bicarbonate exchange;bicarbonate;
+r_1671;biotin exchange;biotin;
+r_2187;butyrate exchange;butyrate;
+r_1672;carbon dioxide exchange;carbon dioxide;
+r_1545;(R)-carnitine exchange;carnitine;
+r_1683;choline exchange;choline;
+r_1687;citrate(3-) exchange;citrate;
+r_1883;L-cysteine exchange;cysteine;
+r_1702;cytidine exchange;cytidine;
+r_1705;cytosine exchange;cytosine;
+r_1712;D-glucitol exchange;D-glucitol;
+r_1727;decanoate exchange;decanoate;
+r_1730;deoxycytidine exchange;deoxycytidine;
+r_1952;N,N'-diformyldityrosine exchange;diformyldityrosine;
+r_1749;dTTP exchange;dTTP;
+r_1753;episterol exchange;episterol;
+r_2137;ergosta-5,7,22,24(28)-tetraen-3beta-ol exchange;ergosta-5,7,22,24(28)-tetraen-3beta-ol;(ergosterol_ester_yeast_specific in imm904)
+r_1757;ergosterol exchange;ergosterol;
+r_1761;ethanol exchange;ethanol;
+r_1764;ethanolamine exchange;ethanolamine;
+r_1765;ethyl acetate exchange;ethyl acetate;
+r_1788;fecosterol exchange;fecosterol;
+r_1791;FMN exchange;FMN;
+r_1792;folic acid exchange;folic acid;
+r_1793;formate exchange;formate;
+r_1709;D-fructose exchange;fructose;
+r_1798;fumarate(2-) exchange;fumarate;
+r_1710;D-galactose exchange;galactose;
+r_1711;D-galacturonate exchange;galacturonate;
+r_1714;D-glucose exchange;glucose;
+r_1889;L-glutamate exchange;glutamate;
+r_1891;L-glutamine exchange;glutamine;
+r_1807;glutathione exchange;glutathione;
+r_1806;glutathione disulfide exchange;glutathione disulfide;
+r_1808;glycerol exchange;glycerol;
+r_1810;glycine exchange;glycine;
+r_1814;glycolaldehyde exchange;glycolaldehyde;
+r_1815;glyoxylate exchange;glyoxylate;
+r_2111;growth;growth;
+r_1818;guanine exchange;guanine;
+r_1820;guanosine exchange;guanosine;
+r_1832;H+ exchange;H+;
+r_1834;hexadecanal exchange;hexadecanal;
+r_2188;hexanoate exchange;hexanoate;
+r_1893;L-histidine exchange;histidine;
+r_1896;L-homoserine transport;homoserine;
+r_1841;hypoxanthine exchange;hypoxanthine;
+r_1843;indol-3-ylacetaldehyde exchange;indol-3-ylacetaldehyde;
+r_1847;inosine exchange;inosine;
+r_1861;iron(2+) exchange;iron;
+r_1862;isoamyl acetate exchange;isoamyl acetate;
+r_1865;isoamylol exchange;isoamylol;
+r_1866;isobutanol exchange;isobutanol;
+r_1867;isobutyl acetate exchange;isobutyl acetate;
+r_1870;isobutyraldehyde exchange;isobutyraldehyde;
+r_1897;L-isoleucine exchange;isoleucine;
+r_1886;L-glucitol exchange;L-glucitol;
+r_1915;lanosterol exchange;lanosterol;
+r_1916;laurate exchange;laurate;Dodecanoate in iMM904
+r_1899;L-leucine exchange;leucine;
+r_1900;L-lysine exchange;lysine;
+r_1552;(S)-malate exchange;malate;
+r_1931;maltose exchange;maltose;
+r_1715;D-mannose exchange;mannose;
+r_4044;melibiose exchange;melibiose;
+r_1902;L-methionine exchange;methionine;
+r_1547;(R)-mevalonate exchange;mevalonate;
+r_1947;myo-inositol exchange;myo-inositol;
+r_2193;myristate exchange;myristate;
+r_1967;nicotinate exchange;nicotinate;
+r_1968;NMN exchange;NMN;
+r_1984;octanoate exchange;octanoate;
+r_2189;oleate exchange;oleate;
+r_1987;ornithine exchange;ornithine;
+r_1989;oxaloacetate(2-) exchange;oxaloacetate;
+r_1992;oxygen exchange;oxygen;
+r_1993;palmitate exchange;palmitate;
+r_1994;palmitoleate exchange;palmitoleate;
+r_1548;(R)-pantothenate exchange;pantothenate;
+r_1999;pectin exchange;pectin;
+r_2000;phenethyl acetate exchange;phenethyl acetate;
+r_2001;phenylacetaldehyde exchange;phenylacetaldehyde;
+r_1903;L-phenylalanine exchange;phenylalanine;
+r_2005;phosphate exchange;phosphate;
+r_2020;potassium exchange;potassium;
+r_1904;L-proline exchange;proline;
+r_2024;putrescine exchange;putrescine;
+r_2028;pyridoxine exchange;pyridoxine;
+r_2033;pyruvate exchange;pyruvate;
+r_1546;(R)-lactate exchange;R-lactate;
+r_4043;raffinose exchange;raffinose;
+r_2038;riboflavin exchange;riboflavin;
+r_1716;D-ribose exchange;ribose;
+r_2043;S-adenosyl-L-methionine exchange;S-adenosyl-L-methionine;
+r_1551;(S)-lactate exchange;S-lactate;
+r_2044;S-methyl-L-methionine exchange;S-methyl-L-methionine;
+r_1906;L-serine exchange;serine;
+r_2046;sn-glycero-3-phosphocholine exchange;glycerophosphocholine;
+r_2049;sodium exchange;sodium;
+r_1909;L-sorbose exchange;sorbose;
+r_2051;spermidine exchange;spermidine;
+r_2052;spermine exchange;spermine;
+r_2055;stearate exchange;stearate;
+r_2056;succinate exchange;succinate;
+r_2058;sucrose exchange;sucrose;
+r_2060;sulphate exchange;sulphate;
+r_2061;sulphite exchange;sulphite;
+r_2062;taurine exchange;taurine;
+r_2067;thiamine(1+) exchange;thiamine;
+r_2066;thiamine(1+) diphosphate(1-) exchange;thiamine diphosphate;
+r_2068;thiamine(1+) monophosphate exchange;thiamine monophosphate;
+r_1911;L-threonine exchange;threonine;
+r_2073;thymidine exchange;thymidine;
+r_1650;alpha,alpha-trehalose exchange;trehalose;
+r_1912;L-tryptophan exchange;tryptophan;
+r_2083;tryptophol exchange;tryptophol;
+r_1913;L-tyrosine exchange;tyrosine;
+r_2090;uracil exchange;uracil;
+r_2091;urea exchange;urea;
+r_2092;uridine exchange;uridine;
+r_1914;L-valine exchange;valine;
+r_2100;water exchange;water;
+r_1630;9H-xanthine exchange;xanthine;
+r_2102;xanthosine exchange;xanthosine;
+r_2104;xylitol exchange;xylitol;
+r_1718;D-xylose exchange;xylose;
+r_2106;zymosterol exchange;zymosterol;
+r_9001;NAD(+) exchange;NAD(+);added
+r_9002;5-diphospho-1D-myo-inositol pentakisphosphate echange;5-diphospho-1D-myo-inositol pentakisphosphate;added
+r_9003;5'-S-methyl-5'-thioadenosine exchange;5'-S-methyl-5'-thioadenosine;added
+r_9004;acetoin exchange;acetoin;added
+r_9005;ADP exchange;ADP;added
+r_9006;AMP exchange;AMP;added
+r_9007;ATP exchange;ATP;added
+r_9008;cardiolipin exchange;cardiolipin;added
+r_9009 ;CDP-diacylglycerol exchange ;CDP-diacylglycerol;added
+r_9010;dATP exchange;dATP;added
+r_9011;dehydro-D-arabinono-1,4-lactone exchange;dehydro-D-arabinono-1,4-lactone;added
+r_9012;glycogen exchange;glycogen;added
+r_9013;hydrogen peroxide exchange;hydrogen peroxide;added
+r_9014;hydrogen sulfide exchange;hydrogen sulfide;added
+r_9015;IMP exchange;IMP;added
+r_9016;mannosylinositol phosphorylceramide exchange;mannosylinositol phosphorylceramide;added
+r_9017;myo-inositol hexakisphosphate exchange;myo-inositol hexakisphosphate;added
+r_9018;N(2)-acetyl-L-ornithine exchange;N(2)-acetyl-L-ornithine;added
+r_9019;NADPH exchange;NADPH;added
+r_9020;phosphatidyl-L-serine exchange;phosphatidyl-L-serine;added
+r_9021;phosphatidylcholine exchange;phosphatidylcholine;added
+r_9022;phosphatidylglycerol exchange;phosphatidylglycerol;added
+r_9023;phosphatidylinositol exchange;phosphatidylinositol;added
+r_9024;pyridoxal 5'-phosphate exchange;pyridoxal 5'-phosphate;added
+r_9025;ribosylnicotinamide exchange;ribosylnicotinamide;added
+r_9026;triglyceride exchange;triglyceride;added
+r_9027;beta-alanine exchange;beta-alanine;added
+r_9028;dTMP exchange;dTMP;added
+r_9029;heme exchange;heme;added

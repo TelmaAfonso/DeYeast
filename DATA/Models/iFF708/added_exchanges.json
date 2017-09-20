@@ -1,0 +1,285 @@
+{
+	"reactions":[
+		{
+			"id":"M149xtO",
+			"name":"Exchange of 5'-S-methyl-5'-thioadenosine",
+			"reactants":{
+				"m149_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"M187xtO",
+			"name":"Exchange of ADP",
+			"reactants":{
+				"m187_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"M211xtO",
+			"name":"Exchange of AMP",
+			"reactants":{
+				"m211_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"M220xtO",
+			"name":"Exchange of ATP",
+			"reactants":{
+				"m220_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"M243xtO",
+			"name":"Exchange of cardiolipin",
+			"reactants":{
+				"m243_m":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"M250xtO",
+			"name":"Exchange of CDP-diacylglycerol",
+			"reactants":{
+				"m250_m":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"M285xtO",
+			"name":"Exchange of dATP",
+			"reactants":{
+				"m285_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"M283xtO",
+			"name":"Exchange of dehydro-D-arabinono-1,4-lactone",
+			"reactants":{
+				"m283_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"M406xtO",
+			"name":"Exchange of glutathione",
+			"reactants":{
+				"m406_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"M416xtO",
+			"name":"Exchange of glycogen",
+			"reactants":{
+				"m416_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"M432xtO",
+			"name":"Exchange of hydrogen peroxide",
+			"reactants":{
+				"m432_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"M449xtO",
+			"name":"Exchange of IMP",
+			"reactants":{
+				"m449_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"M543xtO",
+			"name":"Exchange of mannosylinositol",
+			"reactants":{
+				"m543_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"M571xtO",
+			"name":"Exchange of N(2)-acetyl-L-ornithine",
+			"reactants":{
+				"m571_m":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"M581xtO",
+			"name":"Exchange of NAD(+)",
+			"reactants":{
+				"m581_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"M587xtO",
+			"name":"Exchange of NADPH",
+			"reactants":{
+				"m587_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"M639xtO",
+			"name":"Exchange of palmitoleate",
+			"reactants":{
+				"m639_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"M660xtO",
+			"name":"Exchange of phosphatidyl-L-serine",
+			"reactants":{
+				"m660_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"M653xtO",
+			"name":"Exchange of phosphatidylcholine",
+			"reactants":{
+				"m653_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"M656xtO",
+			"name":"Exchange of phosphatidylglycerol",
+			"reactants":{
+				"m656_m":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"M43xtO",
+			"name":"Exchange of phosphatidylinositol",
+			"reactants":{
+				"m43_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"M678xtO",
+			"name":"Exchange of putrescine",
+			"reactants":{
+				"m678_e":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"M683xtO",
+			"name":"Exchange of pyridoxal 5'-phosphate",
+			"reactants":{
+				"m683_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"M730xtO",
+			"name":"Exchange of spermidine",
+			"reactants":{
+				"m730_e":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"M765xtO",
+			"name":"Exchange of triglyceride",
+			"reactants":{
+				"m765_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"M223xtO",
+			"name":"Exchange of beta-alanine",
+			"reactants":{
+				"m223_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"M350xtO",
+			"name":"Exchange of dTMP",
+			"reactants":{
+				"m350_c":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		},
+		{
+			"id":"M433xtO",
+			"name":"Exchange of heme",
+			"reactants":{
+				"m433_m":1.0
+			},
+			"products":{},
+			"lower_bound":0.0,
+			"upper_bound":0.0
+		}
+	]
+
+}

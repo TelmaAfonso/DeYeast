@@ -1,0 +1,12 @@
+Gene [Systematic Name];Gene [Standard Name];ORF Qualifier;Gene Description;Mutant Type;Phenotypes > Observable;Qualifier;Strain Background;Chemical;Drain Info;Carbon source;Medium;Special Condition (remove_genes);Special Condition (remove_metab);Special Condition (add_metab);Condition;Details;PubMed ID;Culture type
+YBR127C;VMA2;Verified;Vacuolar Membrane Atpase;null;Utilization of iron source;decreased;S288C;bathophenanthroline (200 uM);;glucose;YPD;;;;;moderate growth defect;16729036;
+YDL185W;VMA1;Verified;Vacuolar Membrane Atpase;null;Utilization of iron source;decreased;S288C;bathophenanthroline (200 uM);;glucose;YPD;;;;;moderate growth defect;16729036;
+YEL027W;VMA3;Verified;Vacuolar Membrane Atpase;null;Utilization of iron source;decreased;S288C;bathophenanthroline (200 uM);;glucose;YPD;;;;;moderate growth defect;16729036;
+YEL051W;VMA8;Verified;Vacuolar Membrane Atpase;null;Utilization of iron source;decreased;S288C;bathophenanthroline (200 uM);;glucose;YPD;;;;;moderate growth defect;16729036;
+YHR026W;VMA16;Verified;Vacuolar Membrane Atpase;null;Utilization of iron source;decreased;S288C;bathophenanthroline (200 uM);;glucose;YPD;;;;;strong growth defect;16729036;
+YKL212W;SAC1;Verified;Suppressor of ACtin;null;Utilization of iron source;decreased;S288C;bathophenanthroline (200 uM);;glucose;YPD;;;;;moderate growth defect;16729036;
+YLR386W;VAC14;Verified;VACuole morphology and inheritance mutant;null;Utilization of iron source;decreased;S288C;bathophenanthroline (200 uM);;glucose;YPD;;;;;moderate growth defect;16729036;
+YLR447C;VMA6;Verified;Vacuolar Membrane Atpase;null;Utilization of iron source;decreased;S288C;bathophenanthroline (200 uM);;glucose;YPD;;;;;strong growth defect;16729036;
+YNL280C;ERG24;Verified;ERGosterol biosynthesis;null;Utilization of iron source;decreased;S288C;bathophenanthroline (200 uM);;glucose;YPD;;;;;strong growth defect;16729036;
+YPL234C;VMA11;Verified;Vacuolar Membrane Atpase;null;Utilization of iron source;decreased;S288C;bathophenanthroline (200 uM);;glucose;YPD;;;;;strong growth defect;16729036;
+YPR036W;VMA13;Verified;Vacuolar Membrane Atpase;null;Utilization of iron source;decreased;S288C;bathophenanthroline (200 uM);;glucose;YPD;;;;;moderate growth defect;16729036;
