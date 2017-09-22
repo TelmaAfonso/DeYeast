@@ -9,8 +9,10 @@ Author: Telma Afonso
 from cobra.io.sbml import create_cobra_model_from_sbml_file
 from yeastpack.io import load_yeast_76
 from yeastpack.simulation import fba, fva, pfba, lmoma, simulate_auxotrophy, simulate_essentiality
+from yeastpack.data import Media
 from types import *
 import pickle
+import pandas as pd
 
 def checkModelInfo (model, n = 5):
     ''' Prints model information for a quick overview.
@@ -103,6 +105,37 @@ def writeMetReactToFile (filename, type = 'metabolites'):
             f.write(key + '\t' + val + '\n')
 
 
+    def translate_medium_modified (medium, model):
+        ''' Modification of translate_medium function from yeastpack.utils
+
+        Parameters
+        ----------
+        medium (str) : the name of the medium to use
+        model (cobra.core.Model object) : model from cobra.Model
+
+        Returns
+        ----------
+        df (pandas dataframe) : a dataframe with the exchange reactions and respective lower/upper bounds
+        '''
+        media = [m for m in dir(Media) if m[0] is not '_']
+        assert medium in media, 'Please provide one of the following as medium:' + str(media)
+        medium_filename = getattr(Media, medium)
+
+        df = pd.read_csv(medium_filename, sep=";")
+        index = []
+        # Translate each exchange in medium. If not present in model, remove from medium
+        for i, row in df.iterrows():
+            try:
+                df.set_value(
+                    i, "Exchange", model.convert_exchange_name(Mod_name=row["Exchange"]))
+            except:
+                index.append(i)
+
+        df.drop(df.index[index], inplace=True)
+
+        return df
+
+
 
 if __name__ == '__main__':
     # dir(a) #check object attributes
@@ -135,20 +168,34 @@ if __name__ == '__main__':
 
     #PFBA
     res_pfba = pfba(model)
-    res_pfba.f                  # The objective value
-    res_pfba.solver             # A string indicating which solver package was used.
-    res_pfba.x                  # List or Array of the fluxes (primal values).
-    res_pfba.x_dict             # A dictionary of reaction IDs that maps to the respective primal values.
-    res_pfba.y                  # List or Array of the dual values.
-    res_pfba.y_dict             # A dictionary of reaction IDs that maps to the respective dual values.
+    res_pfba.objective_value
+    res_pfba.status
+    res_pfba.fluxes
+    res_pfba.reduced_costs
+    res_pfba.shadow_prices
 
     #FVA
     res_fva = fva(model, reaction_list = model.reactions) #pandas dataframe
     res_fva.to_csv('fva_res.csv', sep = '\t')
 
-    
+
+    #RANDOM TESTS
+    model.get_model_id()
+    model.get_biomass_id()
+    model.get_biomass()
+    model.get_exchanges_ids()
+    model.get_genes_ids()
+    model.get_minimum_lower_bound()
+    model.get_maximum_upper_bound()
+
     writeMetReactToFile('reactions.csv', type = 'reactions')
 
+    model.set_medium(translate_medium_modified('MINIMAL_CASE7', model))
+
+    l = ['r_1654', 'r_2060', 'r_2020', 'r_2005', 'r_1861', 'r_2049', 'r_2020', 'r_1671', 'r_1967', 'r_1915',  'r_1947']
+    for r in l:
+        print(model.reactions.get_by_id(r).name)
+        print(model.reactions.get_by_id(r).lower_bound)
 
 
 
