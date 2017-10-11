@@ -157,6 +157,31 @@ def createResultsDataset (res_dict):
 
     return df
 
+def createResultsDatasetFVA (res_dict):
+    df = pd.DataFrame()
+
+    for gene, r in sorted(res_dict.items()):
+        df = pd.concat([df, r], axis = 1)
+
+    keys = sorted(res_dict.keys())
+    col_names = [[key + '_maximum', key + '_minimum'] for key in keys]
+    df.columns = [item for sublist in col_names for item in sublist]
+
+    return df
+
+
+def convertKeggID (keggID):
+    id_df = pd.read_csv('kegg_yeast_ids.csv', sep = '\t', index_col = False, header = None)
+    id_df.columns = ['kegg', 'yeast', 'bool']
+
+    id_dict = dict(zip(id_df.kegg, id_df.yeast))
+    if keggID in id_dict.keys():
+        return id_dict[keggID]
+    else:
+        print('No correspondence in this model for KEGG ID ' + keggID)
+
+
+
 
 
 if __name__ == '__main__':
@@ -178,6 +203,11 @@ if __name__ == '__main__':
 
     model.metabolites.s_1203.summary() #examine the overall redox balance of the model
     model.metabolites.s_0434.summary() #main energy production and consumption reactions
+
+    #Reaction Bounds
+    for r in model.reactions:
+        print(r.id, '\t', r.lower_bound, '\t', r.upper_bound)
+
 
     #SIMULATIONS
     #FBA
@@ -215,114 +245,13 @@ if __name__ == '__main__':
     model.set_medium(translate_medium_modified('MINIMAL_CASE7', model))
 
     l = ['r_1654', 'r_2060', 'r_2020', 'r_2005', 'r_1861', 'r_2049', 'r_2020', 'r_1671', 'r_1967', 'r_1915',  'r_1947']
-    for r in l:
-        print(model.reactions.get_by_id(r).name)
-        print(model.reactions.get_by_id(r).lower_bound)
+    for r in model.genes.get_by_id('YMR083W').reactions:
+        print(r)
+        #print(model.reactions.get_by_id('r_0187').reaction)
+        #print(model.reactions.get_by_id(r).lower_bound)
 
 
-    # =======================================
-    #                  CASE 7
-    # =======================================
+    model.reactions.get_by_id('r_0713').reaction
+    model.metabolites.get_by_id('s_1273').name
 
-    d = {'ADH3': -14.4, 'ALD5': -16.2, 'ALD6': -4.7, 'COX5A': -13.3, 'CTP1': -13.9, 'DAL7': -14.3,
-         'FUM1': -9.1, 'GND2': -15.5, 'GCV2': -16, 'GLY1': -13.1, 'GPD1': -16.4, 'ICL1': -15.7,
-         'IDP1': -15, 'IDP2': -13.4, 'LSC1': -17.8, 'MAE1': -12.5, 'MDH1': -10, 'MHD2': -13,
-         'MDH3': -14.4, 'MSL1': -17.5, 'OAC1': -11.7, 'PCK1': -13.4, 'PDA1': -8, 'PGM1': -14.7,
-         'PGM2': -16.1, 'RPE1': -4.6, 'SDH1': -13.4, 'SER33': -14.5, 'SFC1': -12.9, 'SOL1': -14.4,
-         'SOL2': -15.6, 'SOL3': -12.2, 'SOL4': -15.9, 'TAL1': -12.2, 'YGR043C': -16, 'ZWF1': -6.5}
-
-    l = convertStdToSyst(d.keys())              #Dict with gene : yeastpack gene
-    l_inv = {v: k for k, v in l.items()}        #Dict with yeastpack gene : gene
-    g_lb = {v: d[k] for k, v in l.items()}      #Dict with yeastpack gene : lb
-
-    model = loadObjectFromFile('model_yeast_76.sav')
-    model.set_medium(translate_medium_modified('MINIMAL_CASE7', model))
-
-    # ======================
-    #           FBA
-    # ======================
-    res = {}
-    for g, lb in g_lb.items():
-        print('======= ' + l_inv[g] + ' (' + g + ')' ' =======')
-        with model as model:
-            model.set_carbon_source('r_1714', lb = lb)
-            model.set_environmental_conditions(gene_knockout = g)
-            key = ''.join(l_inv[g] + ' (%s)' % g)
-            res[key] = fba(model)
-            print('Objective value:', res[key].objective_value, '\n')
-
-    #Save results to file
-    saveObjectToFile(res, 'res_fba_case7.sav')
-
-    #Load results from file
-    result = loadObjectFromFile('res_fba_case7.sav')
-
-    #Create dataset with results
-    res_df = createResultsDataset(res)
-
-    #Save dataset to file
-    res_df.to_csv('res_fba_case7.csv', sep = ';')
-
-
-    # ======================
-    #          pFBA
-    # ======================
-    res_pfba = {}
-    for g, lb in g_lb.items():
-        print('======= ' + l_inv[g] + ' (' + g + ')' ' =======')
-        with model as model:
-            model.set_carbon_source('r_1714', lb = lb)
-            model.set_environmental_conditions(gene_knockout = g)
-            key = ''.join(l_inv[g] + ' (%s)' % g)
-            res_pfba[key] = pfba(model)
-            print('Objective value:', res_pfba[key].objective_value, '\n')
-
-    #Save results to file
-    saveObjectToFile(res_pfba, 'res_pfba_case7.sav')
-
-    #Load results from file
-    result_pfba = loadObjectFromFile('res_pfba_case7.sav')
-
-    #Create dataset with results
-    res_pfba__df = createResultsDataset(res_pfba)
-
-    #Save dataset to file
-    res_pfba__df.to_csv('res_pfba_case7.csv', sep = ';')
-
-    #res['ADH3 (YMR083W)'].fluxes - result_pfba['ADH3 (YMR083W)'].fluxes
-
-
-    # ======================
-    #          FVA
-    # ======================
-    res_fva = {}
-    for g, lb in g_lb.items():
-        print('======= ' + l_inv[g] + ' (' + g + ')' ' =======')
-        with model as model:
-            try:
-                model.set_carbon_source('r_1714', lb = lb)
-                model.set_environmental_conditions(gene_knockout = g)
-                key = ''.join(l_inv[g] + ' (%s)' % g)
-                res_fva[key] = fva(model, reaction_list = model.reactions, fix_biomass = False)
-                print('Done!', '\n')
-            except:
-                print('FVA solution status infeasible for case ' + key + '\n')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    model.genes.get_by_id('YMR083W').reactions
