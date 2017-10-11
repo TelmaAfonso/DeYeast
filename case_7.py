@@ -15,7 +15,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import linregress
 
-from yeastpack_test import loadObjectFromFile, saveObjectToFile, translate_medium_modified, createResultsDataset, createResultsDatasetFVA
+from yeastpack_test import loadObjectFromFile, saveObjectToFile, translate_medium_modified, createResultsDataset, createResultsDatasetFVA, convertStdToSyst
 
 
 def dictsForCase7 ():
@@ -68,7 +68,7 @@ def case7pfba (model, g_lb, l_inv):
     print('======= ' + 'Wild Type' + ' =======')
     with model as m:
         m.set_carbon_source('r_1714', lb = -16.7)
-        res['WildType'] = pfba(m)
+        res_pfba['WildType'] = pfba(m)
         print('Objective value:', res_pfba['WildType'].objective_value, '\n')
     return res_pfba
 
@@ -91,7 +91,7 @@ def case7fva (model, g_lb, l_inv):
     print('======= ' + 'Wild Type' + ' =======')
     with model as m:
         m.set_carbon_source('r_1714', lb = -16.7)
-        res['WildType'] = fva(m, reaction_list = m.reactions, fix_biomass = True)
+        res_fva['WildType'] = fva(m, reaction_list = m.reactions, fix_biomass = True)
         print('Done!', '\n')
     return res_fva
 
@@ -143,6 +143,7 @@ def loadExperimentalRes (filename_exp):
 
     return sub_exp_fluxes
 
+
 def createDatasetExpVsSimul (dataset_exp, dataset_sim):
     # For FBA and pFBA
     dsim = dataset_sim.copy()
@@ -156,12 +157,44 @@ def createDatasetExpVsSimul (dataset_exp, dataset_sim):
 
 def createDatasetExpVsSimulFVA (dataset_exp, dataset_sim):
     dsim = res_fva_df.copy()
-    dsim.columns
     dsim.columns = [(i.split()[0] + '_minimum' if count % 2 == 1 else (i.split()[0] + '_maximum')) for count, i in enumerate(list(dsim.columns))]
     df = pd.concat([exp_dataset, dsim], axis = 1, join = 'inner')
     df = df.reindex_axis(sorted(df.columns), axis = 1)
 
     return df
+
+
+def createDatasetWithAbsRelError (dataset_exp_vs_sim):
+    df = dataset_exp_vs_sim.copy()
+    for ind in range(len(list(dataset_exp_vs_sim.columns)), 0,  -2):
+        ae = absoluteError(df.ix[:, ind - 2], df.ix[:, ind - 1])
+        colname_ae = df.ix[:, ind - 2].name.split('_')[0] + '_abs_error'
+        df.insert(loc = ind, column = colname_ae, value = ae)
+
+        re = relativeError(df.ix[:, ind - 2], df.ix[:, ind - 1])
+        colname_re = df.ix[:, ind - 2].name.split('_')[0] + '_rel_error'
+        df.insert(loc = ind + 1, column = colname_re, value = re)
+
+    return df
+
+
+def getBiomassObj (res_dict):
+    biom = {}
+
+    for gene, res in res_dict.items():
+        biom[gene] = res.objective_value
+
+    return  biom
+
+
+def getEthanolFux (res_df, reaction_id = 'r_0186'):
+    df = res_df.copy()
+    sub_df = df.filter(regex = '_real_flux')
+    sub_df.columns = [col.split('_')[0] for col in list(sub_df.columns)]
+    return dict(sub_df.ix[reaction_id, :])
+
+
+
 
 
 if __name__ == '__main__':
@@ -174,32 +207,30 @@ if __name__ == '__main__':
     res_fba = case7fba(model, g_lb, l_inv)
     saveObjectToFile(res_fba, 'Results/Case 7/res_fba_case7.sav')
     res_fba = loadObjectFromFile('Results/Case 7/res_fba_case7.sav')
-    res_fba_df = createResultsDataset(res_fba)
+    res_fba_df, wt_fba_df = createResultsDataset(res_fba)
     res_fba_df.to_csv('Results/Case 7/res_fba_case7.csv', sep = ';')
 
     # pFBA
     res_pfba = case7pfba(model, g_lb, l_inv)
     saveObjectToFile(res_pfba, 'Results/Case 7/res_pfba_case7.sav')
     res_pfba = loadObjectFromFile('Results/Case 7/res_pfba_case7.sav')
-    res_pfba_df = createResultsDataset(res_pfba)
+    res_pfba_df, wt_pfba_df  = createResultsDataset(res_pfba)
     res_pfba_df.to_csv('Results/Case 7/res_pfba_case7.csv', sep = ';')
 
     # FVA
     res_fva = case7fva(model, g_lb, l_inv)
     saveObjectToFile(res_fva, 'Results/Case 7/res_fva_case7.sav')
     res_fva = loadObjectFromFile('Results/Case 7/res_fva_case7.sav')
-    res_fva_df = createResultsDatasetFVA(res_fva)
+    res_fva_df, wt_fva_df  = createResultsDatasetFVA(res_fva)
     res_fva_df.to_csv('Results/Case 7/res_fva_case7.csv', sep = ';')
 
 
     # Datasets with experimental vs simulated fluxes
     exp_dataset = loadExperimentalRes('Results/Case 7/case7_experimental_fluxes.csv')
     df_fba = createDatasetExpVsSimul(exp_dataset, res_fba_df)
+    df_fba.to_csv('Results/Case 7/exp_vs_sim_fba_case7.csv', sep = ';')
     df_pfba = createDatasetExpVsSimul(exp_dataset, res_pfba_df)
     df_fva = createDatasetExpVsSimulFVA(exp_dataset, res_fva_df)
-
-    relativeError(df['ADH3_real_flux'], df['ADH3_sim_flux'])
-    absoluteError(df['ADH3_real_flux'], df['ADH3_sim_flux'])
 
 
     #Plots
@@ -209,8 +240,20 @@ if __name__ == '__main__':
     scatterPlot(df_fba['ADH3_real_flux'], df_fba['ADH3_sim_flux'], title = 'ADH3', abs = True)
     plt.close()
 
-    #exp_fluxes.get_value('r_1022', 'Reaction')
+
+    # Datasets with absolute and realtive errors
+    df_fba_errors = createDatasetWithAbsRelError(df_fba)
+    df_pfba_errors = createDatasetWithAbsRelError(df_pfba)
+    list(df_pfba_errors.columns)
 
 
-    
+    # Biomass Values
+    fba_biomass = getBiomassObj(res_fba)
+    pfba_biomass = getBiomassObj(res_pfba)
+
+
+    # Get ethanol experimental values
+    et_fba = getEthanolFux(df_fba)
+    et_pfba = getEthanolFux(df_pfba)
+
 

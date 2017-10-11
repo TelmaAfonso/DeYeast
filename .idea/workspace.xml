@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8392aaf0-f1c7-46d0-a0bd-288fc6fd34f0" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Results/Case 7/res_fba_case7.sav" afterPath="$PROJECT_DIR$/Results/Case 7/res_fba_case7.sav" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Results/Case 7/res_fva_case7.sav" afterPath="$PROJECT_DIR$/Results/Case 7/res_fva_case7.sav" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Results/Case 7/res_pfba_case7.sav" afterPath="$PROJECT_DIR$/Results/Case 7/res_pfba_case7.sav" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/case_7.py" afterPath="$PROJECT_DIR$/case_7.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/yeastpack_test.py" afterPath="$PROJECT_DIR$/yeastpack_test.py" />
     </list>
     <ignored path="DeYeastLib.iws" />
@@ -27,8 +30,8 @@
       <file leaf-file-name="yeastpack_test.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/yeastpack_test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5020">
-              <caret line="257" column="0" selection-start-line="257" selection-start-column="0" selection-end-line="257" selection-end-column="0" />
+            <state relative-caret-position="318">
+              <caret line="156" column="30" selection-start-line="156" selection-start-column="30" selection-end-line="156" selection-end-column="30" />
               <folding>
                 <element signature="e#90#149#0" expanded="true" />
               </folding>
@@ -39,16 +42,23 @@
       <file leaf-file-name="case_7.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/case_7.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="700">
-              <caret line="214" column="4" selection-start-line="214" selection-start-column="4" selection-end-line="214" selection-end-column="4" />
+            <state relative-caret-position="400">
+              <caret line="242" column="0" selection-start-line="242" selection-start-column="0" selection-end-line="242" selection-end-column="0" />
               <folding>
                 <element signature="e#78#176#0" expanded="true" />
-                <element signature="e#517#1366#0" expanded="false" />
-                <element signature="e#1408#2147#0" expanded="false" />
-                <element signature="e#2190#2939#0" expanded="false" />
-                <element signature="e#2981#3868#0" expanded="false" />
-                <element signature="e#3916#4248#0" expanded="false" />
-                <element signature="e#4553#5037#0" expanded="false" />
+                <element signature="e#535#1384#0" expanded="false" />
+                <element signature="e#539#1112#0" expanded="false" />
+                <element signature="e#1426#2165#0" expanded="false" />
+                <element signature="e#2208#2962#0" expanded="false" />
+                <element signature="e#3004#3895#0" expanded="false" />
+                <element signature="e#3943#4275#0" expanded="false" />
+                <element signature="e#4580#5064#0" expanded="false" />
+                <element signature="e#5111#5442#0" expanded="false" />
+                <element signature="e#5505#5837#0" expanded="false" />
+                <element signature="e#5903#6209#0" expanded="false" />
+                <element signature="e#6271#6790#0" expanded="false" />
+                <element signature="e#6827#6935#0" expanded="false" />
+                <element signature="e#6994#7173#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -81,8 +91,8 @@
       <file leaf-file-name="model.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../Trabalhos/16.17/DeYeastLib Project/yeastpack/src/yeastpack/model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="7660">
-              <caret line="393" column="0" selection-start-line="393" selection-start-column="0" selection-end-line="393" selection-end-column="0" />
+            <state relative-caret-position="-62">
+              <caret line="618" column="8" selection-start-line="618" selection-start-column="8" selection-end-line="618" selection-end-column="8" />
               <folding>
                 <element signature="e#92#129#0" expanded="true" />
               </folding>
@@ -98,6 +108,16 @@
               <folding>
                 <element signature="e#133#170#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Cobra_test.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Cobra_test.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="338">
+              <caret line="202" column="56" selection-start-line="202" selection-start-column="4" selection-end-line="202" selection-end-column="56" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -712,7 +732,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="9" />
+      <option name="time" value="12" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -934,16 +954,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../Trabalhos/16.17/DeYeastLib Project/yeastpack/src/yeastpack/model.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7660">
-          <caret line="393" column="0" selection-start-line="393" selection-start-column="0" selection-end-line="393" selection-end-column="0" />
-          <folding>
-            <element signature="e#92#129#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/Python35/Lib/site-packages/cobra/flux_analysis/parsimonious.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2900">
@@ -955,13 +965,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
           <caret line="245" column="11" selection-start-line="245" selection-start-column="11" selection-end-line="245" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Cobra_test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5560">
-          <caret line="279" column="0" selection-start-line="279" selection-start-column="0" selection-end-line="279" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -1024,16 +1027,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/yeastpack_test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5020">
-          <caret line="257" column="0" selection-start-line="257" selection-start-column="0" selection-end-line="257" selection-end-column="0" />
-          <folding>
-            <element signature="e#90#149#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../Trabalhos/16.17/DeYeastLib Project/yeastpack/src/yeastpack/data.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="838">
@@ -1044,18 +1037,53 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../../Trabalhos/16.17/DeYeastLib Project/yeastpack/src/yeastpack/model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-62">
+          <caret line="618" column="8" selection-start-line="618" selection-start-column="8" selection-end-line="618" selection-end-column="8" />
+          <folding>
+            <element signature="e#92#129#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cobra_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="338">
+          <caret line="202" column="56" selection-start-line="202" selection-start-column="4" selection-end-line="202" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/yeastpack_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="318">
+          <caret line="156" column="30" selection-start-line="156" selection-start-column="30" selection-end-line="156" selection-end-column="30" />
+          <folding>
+            <element signature="e#90#149#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/case_7.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="700">
-          <caret line="214" column="4" selection-start-line="214" selection-start-column="4" selection-end-line="214" selection-end-column="4" />
+        <state relative-caret-position="400">
+          <caret line="242" column="0" selection-start-line="242" selection-start-column="0" selection-end-line="242" selection-end-column="0" />
           <folding>
             <element signature="e#78#176#0" expanded="true" />
-            <element signature="e#517#1366#0" expanded="false" />
-            <element signature="e#1408#2147#0" expanded="false" />
-            <element signature="e#2190#2939#0" expanded="false" />
-            <element signature="e#2981#3868#0" expanded="false" />
-            <element signature="e#3916#4248#0" expanded="false" />
-            <element signature="e#4553#5037#0" expanded="false" />
+            <element signature="e#535#1384#0" expanded="false" />
+            <element signature="e#539#1112#0" expanded="false" />
+            <element signature="e#1426#2165#0" expanded="false" />
+            <element signature="e#2208#2962#0" expanded="false" />
+            <element signature="e#3004#3895#0" expanded="false" />
+            <element signature="e#3943#4275#0" expanded="false" />
+            <element signature="e#4580#5064#0" expanded="false" />
+            <element signature="e#5111#5442#0" expanded="false" />
+            <element signature="e#5505#5837#0" expanded="false" />
+            <element signature="e#5903#6209#0" expanded="false" />
+            <element signature="e#6271#6790#0" expanded="false" />
+            <element signature="e#6827#6935#0" expanded="false" />
+            <element signature="e#6994#7173#0" expanded="false" />
           </folding>
         </state>
       </provider>

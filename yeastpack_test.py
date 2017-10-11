@@ -148,26 +148,40 @@ def convertStdToSyst (gene_name_list):
     return res
 
 def createResultsDataset (res_dict):
+    res_dict = res_dict.copy()
     df = pd.DataFrame()
+    wt = pd.DataFrame()
 
     for gene, r in sorted(res_dict.items()):
-        df = pd.concat([df, pd.DataFrame(r.fluxes)], axis = 1)
+        if gene != 'WildType':
+            df = pd.concat([df, pd.DataFrame(r.fluxes)], axis = 1)
+        else:
+            wt = pd.concat([wt, pd.DataFrame(r.fluxes)], axis = 1)
+            wt.columns = [gene]
+            del res_dict[gene]
 
     df.columns = sorted(res_dict.keys())
 
-    return df
+    return df, wt
 
 def createResultsDatasetFVA (res_dict):
+    res_dict = res_dict.copy()
     df = pd.DataFrame()
+    wt = pd.DataFrame()
 
     for gene, r in sorted(res_dict.items()):
-        df = pd.concat([df, r], axis = 1)
+        if gene != 'WildType':
+            df = pd.concat([df, r], axis = 1)
+        else:
+            wt = pd.concat([wt, r], axis = 1)
+            wt.columns = [gene + '_maximum', gene + '_minimum']
+            del res_dict[gene]
 
     keys = sorted(res_dict.keys())
     col_names = [[key + '_maximum', key + '_minimum'] for key in keys]
     df.columns = [item for sublist in col_names for item in sublist]
 
-    return df
+    return df, wt
 
 
 def convertKeggID (keggID):
