@@ -6,7 +6,7 @@ File case 7 simulations
 Author: Telma Afonso
 '''
 
-from yeastpack.simulation import fba, fva, pfba, lmoma, simulate_auxotrophy, simulate_essentiality
+from yeastpack.simulation import fba, fva, pfba, lmoma
 from yeastpack.data import Media
 from types import *
 import pickle
@@ -14,6 +14,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import linregress
+from matplotlib.backends.backend_pdf import PdfPages
 
 from yeastpack_test import loadObjectFromFile, saveObjectToFile, translate_medium_modified, createResultsDataset, createResultsDatasetFVA, convertStdToSyst
 
@@ -187,11 +188,79 @@ def getBiomassObj (res_dict):
     return  biom
 
 
-def getEthanolFux (res_df, reaction_id = 'r_0186'):
+def getEthanolFux (res_df, reaction_id = 'r_2115'):
     df = res_df.copy()
     sub_df = df.filter(regex = '_real_flux')
     sub_df.columns = [col.split('_')[0] for col in list(sub_df.columns)]
     return dict(sub_df.ix[reaction_id, :])
+
+
+def checkReaction (reaction_id):
+    print('Reation (' + reaction_id + '): ' + model.reactions.get_by_id(reaction_id).name)
+    r = model.reactions.get_by_id(reaction_id).reaction.split()
+    r2 = [(model.metabolites.get_by_id(met).name if 's' in met else (met)) for met in r]
+    print('\n', ' '.join(r2))
+
+
+def divide_list(l, n):
+    for i in range(0, len(l), n):
+        yield l[i:i + n]
+
+
+def testO2EthanolProd (model, g_knockout = None, gluc_lb = -10, range_o2 = list(np.arange(-100, 1, 10))):
+    res = {}
+    for i in range_o2:
+        with model as m:
+            m.set_carbon_source('r_1714', lb = gluc_lb)                   # glucose
+            m.reactions.get_by_id('r_1992').lower_bound = float(i)        # oxygen exchange
+            m.set_environmental_conditions(gene_knockout = g_knockout)
+            r = fba(m)
+            res[str(i)] = r.fluxes['r_2115']
+    for key, val in sorted(res.items()): print(key, '\t', val)
+    return res
+
+
+def plotO2vsEtOH (dict_gene_EtOH, xlab = 'O2 Flux', ylab = 'EtOH Flux', title = 'Ethanol production with O2 flux', gene = 'ADH3'):
+    x = sorted([int(x) for x in dict_gene_EtOH.keys()])
+    y = [dict_gene_EtOH[str(key)] for key in x]
+    plt.plot(x, y, 'o')
+    plt.axhline(y = real_EtOH_fluxes[gene])
+    plt.xlabel(xlab)
+    plt.ylabel(ylab)
+    plt.title(title)
+    plt.legend([gene])
+    plt.show()
+
+
+def multiplePlotO2vsEtOH (dict_EtOH_fluxes, dict_real_EtOH_fulxes, n = 3, xlab = 'O2 Flux', ylab = 'EtOH Flux', title = 'Ethanol production with O2 flux', pdf_filename = None):
+
+    g_list = [genes for genes in iter(divide_list(sorted(list(dict_EtOH_fluxes.keys())), n))]
+
+    for g_ind in range(1, len(g_list)):
+        plt.figure(g_ind)
+        i = 1
+        for gene in g_list[g_ind]:
+            x = sorted([int(x) for x in dict_EtOH_fluxes[gene].keys()])
+            y = [dict_EtOH_fluxes[gene][str(key)] for key in x]
+            plt.subplot(n, 1, i)
+            plt.plot(x, y, 'o')
+            plt.axhline(y = dict_real_EtOH_fulxes[gene])
+            plt.ylabel(ylab)
+            # plt.title(title)
+            plt.legend([gene])
+
+            i += 1
+        plt.xlabel(xlab)
+
+    if pdf_filename is not None:
+        pdf = PdfPages(pdf_filename)
+        for i in plt.get_fignums():
+            pdf.savefig(plt.figure(i))
+        pdf.close()
+
+    return [plt.figure(i) for i in plt.get_fignums()]
+
+
 
 
 
@@ -240,20 +309,51 @@ if __name__ == '__main__':
     scatterPlot(df_fba['ADH3_real_flux'], df_fba['ADH3_sim_flux'], title = 'ADH3', abs = True)
     plt.close()
 
-
     # Datasets with absolute and realtive errors
     df_fba_errors = createDatasetWithAbsRelError(df_fba)
     df_pfba_errors = createDatasetWithAbsRelError(df_pfba)
     list(df_pfba_errors.columns)
 
-
     # Biomass Values
     fba_biomass = getBiomassObj(res_fba)
     pfba_biomass = getBiomassObj(res_pfba)
 
+    # Check reactions
+    checkReaction('r_4041') #Biomass
+    checkReaction('r_2115') #EtOH
 
     # Get ethanol experimental values
     et_fba = getEthanolFux(df_fba)
     et_pfba = getEthanolFux(df_pfba)
+
+    # Testing EtOH fluxes with O2 consumption
+    genes = sorted(list(l_inv.values()))
+    range_o2 = list(np.arange(-20, 1, 2))
+
+    res_EtOH_fuxes = {}
+    for gene in genes:
+        print('Gene ' + gene + ':')
+        res_EtOH_fuxes[gene] = testO2EthanolProd(model, g_knockout = l[gene], gluc_lb = d[gene], range_o2 = range_o2)
+        print('Done!')
+
+    saveObjectToFile(res_EtOH_fuxes, 'Results/Case 7/res_EtOH_fuxes.csv')
+    res_EtOH_fuxes = loadObjectFromFile('Results/Case 7/res_EtOH_fuxes.csv')
+
+    # Get real EtOH fluxes
+    real_EtOH_fluxes = getEthanolFux(df_fba, 'r_2115')
+    real_EtOH_fluxes['ADH3']
+
+    #Plot results (horizontal line for real flux)
+    plotO2vsEtOH(res_EtOH_fuxes['ADH3'], gene = 'ADH3') # For ADH3 gene
+
+    plots_EtOH = multiplePlotO2vsEtOH(res_EtOH_fuxes, dict_real_EtOH_fulxes = real_EtOH_fluxes, pdf_filename = 'EtOH_fluxes_plot.pdf')
+
+
+    # Next:
+    closest_val = lambda num, list: min(list, key = lambda x: abs(x-num))
+    closest_val(5, [4,1,88,44,3])
+
+
+    
 
 
