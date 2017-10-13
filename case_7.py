@@ -131,7 +131,7 @@ def scatterPlot (real_flux, sim_flux, xlab = 'real_flux', ylab = 'sim_flux', tit
     plt.xlabel(xlab)
     plt.ylabel(ylab)
     plt.title(title)
-    plt.legend(['R_squared: ' + str(r_value)])
+    plt.legend(['R_squared: ' + str(r_value**2)])
     #plt.gca().set_aspect('equal', adjustable='box')
     plt.show()
 
@@ -207,7 +207,7 @@ def divide_list(l, n):
         yield l[i:i + n]
 
 
-def testO2EthanolProd (model, g_knockout = None, gluc_lb = -10, range_o2 = list(np.arange(-100, 1, 10))):
+def testO2EthanolProd (model, g_knockout = None, gluc_lb = -10, range_o2 = list(np.arange(-20, 0, 2))):
     res = {}
     for i in range_o2:
         with model as m:
@@ -220,34 +220,44 @@ def testO2EthanolProd (model, g_knockout = None, gluc_lb = -10, range_o2 = list(
     return res
 
 
-def plotO2vsEtOH (dict_gene_EtOH, xlab = 'O2 Flux', ylab = 'EtOH Flux', title = 'Ethanol production with O2 flux', gene = 'ADH3'):
+def plotO2vsEtOH (dict_gene_EtOH, dict_real_EtOH_fulxes, xlab = 'O2 Flux', ylab = 'EtOH Flux', title = 'Ethanol production with O2 flux', gene = 'ADH3'):
+    plt.figure(figsize = (10, 10))
     x = sorted([int(x) for x in dict_gene_EtOH.keys()])
     y = [dict_gene_EtOH[str(key)] for key in x]
-    plt.plot(x, y, 'o')
-    plt.axhline(y = real_EtOH_fluxes[gene])
+    slope, intercept, r_value, p_value, std_err = linregress(x, y)
+    line = [slope * x + intercept for x in x]
+    #plt.plot(x, y, 'o')
+    plt.plot(x, y, 'o', x, line)
+    plt.axhline(y = dict_real_EtOH_fulxes[gene])
     plt.xlabel(xlab)
     plt.ylabel(ylab)
     plt.title(title)
-    plt.legend([gene])
+    plt.legend([gene, 'R2: %.4f' % r_value**2, 'Real EtOH flux: %.2f' % dict_real_EtOH_fulxes[gene]])
     plt.show()
 
 
-def multiplePlotO2vsEtOH (dict_EtOH_fluxes, dict_real_EtOH_fulxes, n = 3, xlab = 'O2 Flux', ylab = 'EtOH Flux', title = 'Ethanol production with O2 flux', pdf_filename = None):
-
+def multiplePlotO2vsEtOH (dict_EtOH_fluxes, dict_real_EtOH_fluxes, n = 3, xlab = 'O2 Flux', ylab = 'EtOH Flux', title = 'Ethanol production with O2 flux', pdf_filename = None):
+    plt.rcParams["figure.figsize"] = (20,3)
     g_list = [genes for genes in iter(divide_list(sorted(list(dict_EtOH_fluxes.keys())), n))]
 
     for g_ind in range(1, len(g_list)):
-        plt.figure(g_ind)
+        plt.figure(g_ind, figsize = (10, 10))
         i = 1
         for gene in g_list[g_ind]:
             x = sorted([int(x) for x in dict_EtOH_fluxes[gene].keys()])
             y = [dict_EtOH_fluxes[gene][str(key)] for key in x]
+            slope, intercept, r_value, p_value, std_err = linregress(x, y)
+            line = [slope * x + intercept for x in x]
+            real_O2 = lambda x0: (y0 - intercept) / slope
+            y0 = dict_real_EtOH_fluxes[gene]
             plt.subplot(n, 1, i)
-            plt.plot(x, y, 'o')
-            plt.axhline(y = dict_real_EtOH_fulxes[gene])
+            #plt.plot(x, y, 'o')
+            plt.plot(x, y, 'o', x, line)
+            plt.axhline(y = dict_real_EtOH_fluxes[gene], ls = 'dashed')
+            # plt.axvline(x = real_O2(y0), ls = 'dashed')
             plt.ylabel(ylab)
             # plt.title(title)
-            plt.legend([gene])
+            plt.legend([gene, 'R2: %.4f' % r_value**2, 'Real EtOH flux: %.2f (O2 flux of %.2f)' % (dict_real_EtOH_fluxes[gene], real_O2(y0))])
 
             i += 1
         plt.xlabel(xlab)
@@ -260,6 +270,28 @@ def multiplePlotO2vsEtOH (dict_EtOH_fluxes, dict_real_EtOH_fulxes, n = 3, xlab =
 
     return [plt.figure(i) for i in plt.get_fignums()]
 
+
+def fixEtO2FluxesForPlotting (dict_EtOH_fuxes):
+    # Remove O2 fluxes that yield no EtOH (for plot slope reasons)
+    res = dict_EtOH_fuxes.copy()
+    for key in list(dict_EtOH_fuxes.keys()):
+        for k in list(dict_EtOH_fuxes[key].keys()):
+            if res[key][k] == 0:
+                del res[key][k]
+    return res
+
+
+def getO2flux (dict_EtOH_fluxes, dict_real_EtOH_fluxes):
+    res = {}
+    for gene in dict_EtOH_fluxes.keys():
+        x = sorted([int(x) for x in dict_EtOH_fluxes[gene].keys()])
+        y = [dict_EtOH_fluxes[gene][str(key)] for key in x]
+        slope, intercept, r_value, p_value, std_err = linregress(x, y)
+        real_O2 = lambda x0: (y0 - intercept) / slope
+        y0 = dict_real_EtOH_fluxes[gene]
+        res[gene] = format(real_O2(y0), '.2f')
+
+    return  res
 
 
 
@@ -328,7 +360,7 @@ if __name__ == '__main__':
 
     # Testing EtOH fluxes with O2 consumption
     genes = sorted(list(l_inv.values()))
-    range_o2 = list(np.arange(-20, 1, 2))
+    range_o2 = list(np.arange(-20, 0, 2))
 
     res_EtOH_fuxes = {}
     for gene in genes:
@@ -344,9 +376,15 @@ if __name__ == '__main__':
     real_EtOH_fluxes['ADH3']
 
     #Plot results (horizontal line for real flux)
-    plotO2vsEtOH(res_EtOH_fuxes['ADH3'], gene = 'ADH3') # For ADH3 gene
+    res_EtOH_fuxes_fix = fixEtO2FluxesForPlotting(res_EtOH_fuxes) # Remove O2 flux with no EtOH yield
+    plotO2vsEtOH(res_EtOH_fuxes_fix['ADH3'], real_EtOH_fluxes, gene = 'ADH3') # For ADH3 gene
+    plots_EtOH = multiplePlotO2vsEtOH(res_EtOH_fuxes_fix, real_EtOH_fluxes, pdf_filename = 'EtOH_fluxes_plot.pdf')
 
-    plots_EtOH = multiplePlotO2vsEtOH(res_EtOH_fuxes, dict_real_EtOH_fulxes = real_EtOH_fluxes, pdf_filename = 'EtOH_fluxes_plot.pdf')
+    #Get correct O2 flux according to exp EtOH flux
+    fluxes_O2 = getO2flux(res_EtOH_fuxes_fix, real_EtOH_fluxes)
+
+
+
 
 
     # Next:
@@ -354,6 +392,5 @@ if __name__ == '__main__':
     closest_val(5, [4,1,88,44,3])
 
 
-    
 
 
