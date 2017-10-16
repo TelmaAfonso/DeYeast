@@ -13,187 +13,208 @@ from yeastpack.data import Media
 from types import *
 import pickle
 import pandas as pd
+import numpy as np
 
-def checkModelInfo (model, n = 5):
-    ''' Prints model information for a quick overview.
+
+class YeastpackSim (object):
+
+    def __init__(self, cobra_model = None, medium = None):
+        self.model = cobra_model
+        if medium is not None and cobra_model is not None:
+            self.model.set_medium(self.translate_medium_modified(medium))
+
+    def checkModelInfo (self, n = 5):
+        ''' Prints model information for a quick overview.
+
+            Parameters
+            ----------
+            model (cobra.core.Model object) : model from cobra.Model
+            n (integer) : determines amount of information shown
+        '''
+        assert isinstance(n, int), 'n must be an integer'
+
+        print('Model ID: ', self.model.id)
+        print('Number of reactions:', len(self.model.reactions))
+        print('Number of metabolites:', len(self.model.metabolites))
+        print('Number of genes:', len(self.model.genes))
+        try:
+            print('First %i reactions:' % n)
+            [print('\t', x.id, x.name) for x in self.model.reactions[:n]]
+        except IndexError:
+            print('First %i reactions:' % len(self.model.reactions))
+            [print('\t', x.id, x.name) for x in self.model.reactions[:len(self.model.reactions)]]
+        try:
+            print('First %i metabolites:' % n)
+            [print('\t', x.id, x.name) for x in self.model.metabolites[:n]]
+        except IndexError:
+            print('First %i metabolites:' % len(self.model.metabolites))
+            [print('\t', x.id, x.name) for x in self.model.metabolites[:len(self.model.metabolites)]]
+        try:
+            print('First %i genes:' % n)
+            [print('\t', x.id, x.name, end = " ") for x in self.model.genes[:n]]
+        except IndexError:
+            print('First %i genes:' % len(self.model.genes))
+            [print('\t', x.id, x.name, end = " ") for x in self.model.genes[:len(self.model.genes)]]
+        print('Compartments:')
+        [print('\t', ID, c) for ID, c in self.model.compartments.items()]
+        print('Yeastpack model description:')
+        [print('\t', key, value) for key, value in self.model.describe().items()]
+
+    def saveObjectToFile (self, object, filename):
+        ''' Saves an object to a file for later use
+
+            Parameters
+            ----------
+            object : a python object to save to file
+            filename (str) : the name of the file to store the model
+        '''
+        assert isinstance(filename, str), 'filename must be a string'
+
+        with open(filename, 'wb') as f:
+            pickle.dump(object, f)
+
+    def loadObjectFromFile (self, filename):
+        ''' Loads an object object from a file
+
+            Parameters
+            ----------
+            filename (str) : the name of the file where the object is contained
+
+            Returns
+            ----------
+            object : the python object contained in the file
+        '''
+        assert isinstance(filename, str), 'filename must be a string'
+
+        with open(filename, 'rb') as f:
+            object = pickle.load(f)
+
+        return object
+
+    def writeMetReactToFile (self, filename, type = 'metabolites'):
+        ''' Writes the list of metabolites/reactions to a file
 
         Parameters
         ----------
+        filename (str) : the name of the file to be created
+        type (str): whether to write the reactions or metabolites to the file
+        '''
+        assert isinstance(filename, str), 'filename must be a string'
+        assert type in ['metabolites', 'reactions'], "type must be either 'metabolites' or 'reactions'"
+
+        dict = {}
+        if type == 'metabolites':
+            [dict.update({x.id: x.name}) for x in self.model.metabolites[:len(self.model.metabolites)]]
+        else:
+            [dict.update({x.id: x.name}) for x in self.model.reactions[:len(self.model.reactions)]]
+
+        with open(filename, 'w') as f:
+            for key, val in sorted(dict.items()):
+                f.write(key + '\t' + val + '\n')
+
+    def translate_medium_modified (self, medium):
+        ''' Modification of translate_medium function from yeastpack.utils
+
+        Parameters
+        ----------
+        medium (str) : the name of the medium to use
         model (cobra.core.Model object) : model from cobra.Model
-        n (integer) : determines amount of information shown
-    '''
-    assert isinstance(n, int), 'n must be an integer'
-
-    print('Model ID: ', model.id)
-    print('Number of reactions:', len(model.reactions))
-    print('Number of metabolites:', len(model.metabolites))
-    print('Number of genes:', len(model.genes))
-    try:
-        print('First %i reactions:' % n)
-        [print('\t', x.id, x.name) for x in model.reactions[:n]]
-    except IndexError:
-        print('First %i reactions:' % len(model.reactions))
-        [print('\t', x.id, x.name) for x in model.reactions[:len(model.reactions)]]
-    try:
-        print('First %i metabolites:' % n)
-        [print('\t', x.id, x.name) for x in model.metabolites[:n]]
-    except IndexError:
-        print('First %i metabolites:' % len(model.metabolites))
-        [print('\t', x.id, x.name) for x in model.metabolites[:len(model.metabolites)]]
-    try:
-        print('First %i genes:' % n)
-        [print('\t', x.id, x.name, end = " ") for x in model.genes[:n]]
-    except IndexError:
-        print('First %i genes:' % len(model.genes))
-        [print('\t', x.id, x.name, end = " ") for x in model.genes[:len(model.genes)]]
-    print('Compartments:')
-    [print('\t', ID, c) for ID, c in model.compartments.items()]
-    print('Yeastpack model description:')
-    [print('\t', key, value) for key, value in model.describe().items()]
-
-def saveObjectToFile (object, filename):
-    ''' Saves an object to a file for later use
-
-        Parameters
-        ----------
-        object : a python object to save to file
-        filename (str) : the name of the file to store the model
-    '''
-    assert isinstance(filename, str), 'filename must be a string'
-
-    with open(filename, 'wb') as f:
-        pickle.dump(object, f)
-
-def loadObjectFromFile (filename):
-    ''' Loads an object object from a file
-
-        Parameters
-        ----------
-        filename (str) : the name of the file where the object is contained
 
         Returns
         ----------
-        object : the python object contained in the file
-    '''
-    assert isinstance(filename, str), 'filename must be a string'
+        df (pandas dataframe) : a dataframe with the exchange reactions and respective lower/upper bounds
+        '''
+        media = [m for m in dir(Media) if m[0] is not '_']
+        assert medium in media, 'Please provide one of the following as medium:' + str(media)
+        medium_filename = getattr(Media, medium)
 
-    with open(filename, 'rb') as f:
-        object = pickle.load(f)
+        df = pd.read_csv(medium_filename, sep=";")
+        index = []
+        # Translate each exchange in medium. If not present in model, remove from medium
+        for i, row in df.iterrows():
+            try:
+                df.set_value(
+                    i, "Exchange", self.model.convert_exchange_name(Mod_name=row["Exchange"]))
+            except:
+                index.append(i)
 
-    return object
+        df.drop(df.index[index], inplace=True)
 
+        return df
 
-def writeMetReactToFile (filename, type = 'metabolites'):
-    ''' Writes the list of metabolites/reactions to a file
+    def convertStdToSyst (self, gene_name_list):
+        gs = pd.read_csv('genes_summary.csv', delim_whitespace = True)
+        d = dict(zip(gs['symbol'], gs['input']))
+        res = {}
 
-    Parameters
-    ----------
-    filename (str) : the name of the file to be created
-    type (str): whether to write the reactions or metabolites to the file
-    '''
-    assert isinstance(filename, str), 'filename must be a string'
-    assert type in ['metabolites', 'reactions'], "type must be either 'metabolites' or 'reactions'"
+        for g in gene_name_list:
+            if g in d.keys():
+                res[g] = d[g]
+            else:
+                print('No correspondence in this model for gene ' + g)
+        return res
 
-    dict = {}
-    if type == 'metabolites':
-        [dict.update({x.id: x.name}) for x in model.metabolites[:len(model.metabolites)]]
-    else:
-        [dict.update({x.id: x.name}) for x in model.reactions[:len(model.reactions)]]
+    def createResultsDataset (self, res_dict):
+        res_dict = res_dict.copy()
+        df = pd.DataFrame()
+        wt = pd.DataFrame()
 
-    with open(filename, 'w') as f:
-        for key, val in sorted(dict.items()):
-            f.write(key + '\t' + val + '\n')
+        for gene, r in sorted(res_dict.items()):
+            if gene != 'WildType':
+                df = pd.concat([df, pd.DataFrame(r.fluxes)], axis = 1)
+            else:
+                wt = pd.concat([wt, pd.DataFrame(r.fluxes)], axis = 1)
+                wt.columns = [gene]
+                del res_dict[gene]
 
+        df.columns = sorted(res_dict.keys())
 
-def translate_medium_modified (medium, model):
-    ''' Modification of translate_medium function from yeastpack.utils
+        return df, wt
 
-    Parameters
-    ----------
-    medium (str) : the name of the medium to use
-    model (cobra.core.Model object) : model from cobra.Model
+    def createResultsDatasetFVA (self, res_dict):
+        res_dict = res_dict.copy()
+        df = pd.DataFrame()
+        wt = pd.DataFrame()
 
-    Returns
-    ----------
-    df (pandas dataframe) : a dataframe with the exchange reactions and respective lower/upper bounds
-    '''
-    media = [m for m in dir(Media) if m[0] is not '_']
-    assert medium in media, 'Please provide one of the following as medium:' + str(media)
-    medium_filename = getattr(Media, medium)
+        for gene, r in sorted(res_dict.items()):
+            if gene != 'WildType':
+                df = pd.concat([df, r], axis = 1)
+            else:
+                wt = pd.concat([wt, r], axis = 1)
+                wt.columns = [gene + '_maximum', gene + '_minimum']
+                del res_dict[gene]
 
-    df = pd.read_csv(medium_filename, sep=";")
-    index = []
-    # Translate each exchange in medium. If not present in model, remove from medium
-    for i, row in df.iterrows():
-        try:
-            df.set_value(
-                i, "Exchange", model.convert_exchange_name(Mod_name=row["Exchange"]))
-        except:
-            index.append(i)
+        keys = sorted(res_dict.keys())
+        col_names = [[key + '_maximum', key + '_minimum'] for key in keys]
+        df.columns = [item for sublist in col_names for item in sublist]
 
-    df.drop(df.index[index], inplace=True)
+        return df, wt
 
-    return df
+    def convertKeggID (self, keggID):
+        id_df = pd.read_csv('kegg_yeast_ids.csv', sep = '\t', index_col = False, header = None)
+        id_df.columns = ['kegg', 'yeast', 'bool']
 
-def convertStdToSyst (gene_name_list):
-    gs = pd.read_csv('genes_summary.csv', delim_whitespace = True)
-    d = dict(zip(gs['symbol'], gs['input']))
-    res = {}
-
-    for g in gene_name_list:
-        if g in d.keys():
-            res[g] = d[g]
+        id_dict = dict(zip(id_df.kegg, id_df.yeast))
+        if keggID in id_dict.keys():
+            return id_dict[keggID]
         else:
-            print('No correspondence in this model for gene ' + g)
-    return res
+            print('No correspondence in this model for KEGG ID ' + keggID)
 
-def createResultsDataset (res_dict):
-    res_dict = res_dict.copy()
-    df = pd.DataFrame()
-    wt = pd.DataFrame()
+    def relativeError (self, actual, simulated):
+        return (absoluteError(actual, simulated)/np.absolute(actual))*100
 
-    for gene, r in sorted(res_dict.items()):
-        if gene != 'WildType':
-            df = pd.concat([df, pd.DataFrame(r.fluxes)], axis = 1)
-        else:
-            wt = pd.concat([wt, pd.DataFrame(r.fluxes)], axis = 1)
-            wt.columns = [gene]
-            del res_dict[gene]
+    def absoluteError (self, actual, simulated):
+        return np.absolute(actual - simulated)
 
-    df.columns = sorted(res_dict.keys())
+    def divide_list(self, l, n):
+        for i in range(0, len(l), n):
+            yield l[i:i + n]
 
-    return df, wt
-
-def createResultsDatasetFVA (res_dict):
-    res_dict = res_dict.copy()
-    df = pd.DataFrame()
-    wt = pd.DataFrame()
-
-    for gene, r in sorted(res_dict.items()):
-        if gene != 'WildType':
-            df = pd.concat([df, r], axis = 1)
-        else:
-            wt = pd.concat([wt, r], axis = 1)
-            wt.columns = [gene + '_maximum', gene + '_minimum']
-            del res_dict[gene]
-
-    keys = sorted(res_dict.keys())
-    col_names = [[key + '_maximum', key + '_minimum'] for key in keys]
-    df.columns = [item for sublist in col_names for item in sublist]
-
-    return df, wt
-
-
-def convertKeggID (keggID):
-    id_df = pd.read_csv('kegg_yeast_ids.csv', sep = '\t', index_col = False, header = None)
-    id_df.columns = ['kegg', 'yeast', 'bool']
-
-    id_dict = dict(zip(id_df.kegg, id_df.yeast))
-    if keggID in id_dict.keys():
-        return id_dict[keggID]
-    else:
-        print('No correspondence in this model for KEGG ID ' + keggID)
-
+    def checkReaction (self, reaction_id):
+        print('Reation (' + reaction_id + '): ' + self.model.reactions.get_by_id(reaction_id).name)
+        r = self.model.reactions.get_by_id(reaction_id).reaction.split()
+        r2 = [(self.model.metabolites.get_by_id(met).name if 's' in met else (met)) for met in r]
+        print('\n', ' '.join(r2))
 
 
 
@@ -269,3 +290,15 @@ if __name__ == '__main__':
     model.metabolites.get_by_id('s_1273').name
 
     model.genes.get_by_id('YMR083W').reactions
+
+
+    # USING NEW CLASS
+    ySim = YeastpackSim(loadObjectFromFile('model_yeast_76.sav'), 'MINIMAL_CASE7')
+    ySim.checkModelInfo()
+
+
+
+
+
+
+
