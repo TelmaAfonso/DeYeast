@@ -18,10 +18,9 @@ import numpy as np
 
 class YeastpackSim (object):
 
-    def __init__(self, cobra_model = None, medium = None):
+    def __init__(self, cobra_model = None):
         self.model = cobra_model
-        if medium is not None and cobra_model is not None:
-            self.model.set_medium(self.translate_medium_modified(medium))
+        self.medium = None
 
     def checkModelInfo (self, n = 5):
         ''' Prints model information for a quick overview.
@@ -201,7 +200,7 @@ class YeastpackSim (object):
             print('No correspondence in this model for KEGG ID ' + keggID)
 
     def relativeError (self, actual, simulated):
-        return (absoluteError(actual, simulated)/np.absolute(actual))*100
+        return (self.absoluteError(actual, simulated)/np.absolute(actual))*100
 
     def absoluteError (self, actual, simulated):
         return np.absolute(actual - simulated)
@@ -216,7 +215,13 @@ class YeastpackSim (object):
         r2 = [(self.model.metabolites.get_by_id(met).name if 's' in met else (met)) for met in r]
         print('\n', ' '.join(r2))
 
+    def setMedium (self, medium):
+        self.medium = medium
+        self.model.set_medium(self.translate_medium_modified(medium))
 
+    def printDict (self, dict):
+        for key, val in dict.items():
+            print(key, '\t', val)
 
 
 if __name__ == '__main__':
