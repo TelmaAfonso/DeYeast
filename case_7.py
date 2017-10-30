@@ -244,27 +244,29 @@ class Case7 (YeastpackSim):
 
         return dat
 
-    def convertPandasDFToExcel (self, reactions, df, title = 'FBA Results Case 7', filename = 'Results', isFVA = False):
-        df = pd.concat([reactions, df], axis = 1)
+    def convertPandasDFToExcel (self, reactions, dataframe, title = 'FBA Results Case 7', filename = 'Results', isFVA = False):
+        df = pd.concat([reactions, dataframe], axis = 1)
         writer = pd.ExcelWriter(filename, engine = 'xlsxwriter') # Create a Pandas Excel writer using XlsxWriter as the engine.
         df.to_excel(writer, sheet_name = 'Results', startrow = 2) # Convert the dataframe to an XlsxWriter Excel object.
         workbook  = writer.book # Get the xlsxwriter objects from the dataframe writer object.
         worksheet = writer.sheets['Results'] # Equivalent to xlsxwriter.Workbook('filename.xlsx').add_worksheet()
 
         # Formatting
-        header_format = workbook.add_format({'bold': True, 'text_wrap': False, 'valign': 'center', 'fg_color': '#D7E4BC', 'border': 0})
+        header_format = workbook.add_format({'bold': True, 'text_wrap': False, 'valign': 'vcenter', 'fg_color': '#d2d7bb', 'border': 0, 'align': 'center'})
+        header_format2 = workbook.add_format({'bold': True, 'text_wrap': False, 'valign': 'vcenter', 'fg_color': '#4e7792', 'border': 0, 'font_color': '#FFFFFF', 'align': 'center'})
         num_format = workbook.add_format({'num_format': '#,##0.0000', 'valign': 'center', 'font_size': 10, 'fg_color': '#FFFFFF'})
-        title_format = workbook.add_format({'bold': True, 'text_wrap': False, 'valign': 'center', 'font_size': 12})
+        title_format = workbook.add_format({'bold': True, 'text_wrap': False, 'valign': 'vcenter', 'font_size': 12})
         reactions_format = workbook.add_format({'text_wrap': False, 'valign': 'right', 'font_size': 8, 'fg_color': '#FFFFFF'})
-        fva_format = workbook.add_format({'num_format': '#,##0.0000', 'valign': 'center', 'font_size': 10, 'fg_color': '#fbf9f1'})
+        fva_format = workbook.add_format({'num_format': '#,##0.0000', 'valign': 'vcenter', 'font_size': 10, 'fg_color': '#fbf9f1'})
 
         worksheet.write(0, 1, title, title_format) #Title
-        worksheet.write(2, 0, 'Yeast7_ID', header_format)
+        worksheet.write(2, 0, 'Yeast7_ID', header_format2)
         for col_num, value in enumerate(list(df.columns.values)):
-            worksheet.write(2, col_num + 1, value, header_format) # Write the column headers with the defined format.
+            worksheet.write(2, col_num + 1, value, header_format2) # Write the column headers with the defined format.
         for row_num, value in enumerate(df.index):
             worksheet.write(row_num + 3, 0, value, header_format)
-        worksheet.set_column(2, df.shape[1], width = 13, cell_format = num_format) # Set column width
+        worksheet.set_column(2, df.shape[1], width = 15, cell_format = num_format) # Set column width
+        worksheet.set_row(2, height = 20)
 
         # Conditional Formatting
         if not isFVA:
@@ -277,6 +279,44 @@ class Case7 (YeastpackSim):
                 worksheet.set_column(i, i, width = 13, cell_format = fva_format)
 
         worksheet.set_column(1, 1, width = 40, cell_format = reactions_format)
+        worksheet.set_column(0, 0, width = 11)
+
+        # ============== Add case specific sheets ==============
+        l = [value for col_num, value in enumerate(list(dataframe.columns.values))]
+        cases = [vals for vals in iter(self.divide_list(l, 4))]
+
+        for ind, gene_l in enumerate(cases):
+            gene = gene_l[0].split('_')[0]
+            sub_df = pd.concat([reactions, dataframe[gene_l]], axis = 1)
+            sub_df.to_excel(writer, sheet_name = gene, startrow = 2)
+            setattr(self, 'worksheet' + str(ind), writer.sheets[gene])
+            getattr(self, 'worksheet' + str(ind)).write(0, 1, title + ' [' + gene + ']', title_format)
+
+
+            getattr(self, 'worksheet' + str(ind)).write(2, 0, 'Yeast7_ID', header_format2)
+            for col_num, value in enumerate(list(sub_df.columns.values)):
+                getattr(self, 'worksheet' + str(ind)).write(2, col_num + 1, value, header_format2) # Write the column headers with the defined format.
+            for row_num, value in enumerate(sub_df.index):
+                getattr(self, 'worksheet' + str(ind)).write(row_num + 3, 0, value, header_format)
+            getattr(self, 'worksheet' + str(ind)).set_column(2, sub_df.shape[1], width = 15, cell_format = num_format) # Set column width
+
+            # Conditional Formatting
+            if not isFVA:
+                inds = [i for i in range(4, sub_df.shape[1])] #Columns to colour
+                for i in inds:
+                    getattr(self, 'worksheet' + str(ind)).conditional_format(first_row = 3, last_row = sub_df.shape[0] + 3, first_col = i, last_col = i + 1, options = {'type': '3_color_scale'})
+            else:
+                inds = [i for i in range(4, sub_df.shape[1], 3)]
+                for i in inds:
+                    getattr(self, 'worksheet' + str(ind)).set_column(i, i, width = 13, cell_format = fva_format)
+
+            getattr(self, 'worksheet' + str(ind)).set_column(1, 1, width = 40, cell_format = reactions_format)
+            getattr(self, 'worksheet' + str(ind)).set_column(0, 0, width = 11)
+            getattr(self, 'worksheet' + str(ind)).set_row(2, height = 20)
+
+            #Add Images
+            getattr(self, 'worksheet' + str(ind)).insert_image('G3', 'Results/Case 7/EtOH_figs/' + gene + '_etOH.png', {'x_scale': 0.7, 'y_scale': 0.7})
+
 
         workbook.close()
 
@@ -328,6 +368,25 @@ class Case7 (YeastpackSim):
             pdf.close()
 
         return [plt.figure(i) for i in plt.get_fignums()]
+
+    def multiplePlotO2vsEtOHSaveFigs (self, dict_EtOH_fluxes, dict_real_EtOH_fluxes, xlab = 'O2 Flux', ylab = 'EtOH Flux', title = 'Ethanol production with O2 flux', folder = None):
+        plt.rcParams["figure.figsize"] = (10, 4)
+
+        for i, gene in enumerate(sorted(list(dict_EtOH_fluxes.keys()))):
+            plt.figure(i)
+            x = sorted([int(x) for x in dict_EtOH_fluxes[gene].keys()])
+            y = [dict_EtOH_fluxes[gene][str(key)] for key in x]
+            slope, intercept, r_value, p_value, std_err = linregress(x, y)
+            line = [slope * x + intercept for x in x]
+            real_O2 = lambda x0: (y0 - intercept) / slope
+            y0 = dict_real_EtOH_fluxes[gene]
+            plt.plot(x, y, 'o', x, line)
+            plt.axhline(y = dict_real_EtOH_fluxes[gene], ls = 'dashed')
+            plt.ylabel(ylab)
+            plt.xlabel(xlab)
+            plt.title(title)
+            plt.legend([gene, 'R2: %.4f' % r_value**2, 'Real EtOH flux: %.2f (O2 flux of %.2f)' % (dict_real_EtOH_fluxes[gene], real_O2(y0))])
+            plt.savefig(folder + '/' + gene + '_etOH.png')
 
     def plotGeneExpVsSim (self, absRelErrorDataset, n = 3, xlab = 'Experimental Flux', ylab = 'Simulated Flux', title = 'ADH3', pdf_filename = None, gene = 'ADH3'):
         plt.rcParams["figure.figsize"] = (10,5)
