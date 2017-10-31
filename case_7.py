@@ -10,6 +10,7 @@ from yeastpack.simulation import fba, fva, pfba, lmoma
 from yeastpack.data import Media
 from types import *
 import pickle
+import string
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -244,7 +245,7 @@ class Case7 (YeastpackSim):
 
         return dat
 
-    def convertPandasDFToExcel (self, reactions, dataframe, title = 'FBA Results Case 7', filename = 'Results', isFVA = False):
+    def convertPandasDFToExcel (self, reactions, dataframe, title = 'FBA Results Case 7', filename = 'Results', isFVA = False, imgFolder = None):
         df = pd.concat([reactions, dataframe], axis = 1)
         writer = pd.ExcelWriter(filename, engine = 'xlsxwriter') # Create a Pandas Excel writer using XlsxWriter as the engine.
         df.to_excel(writer, sheet_name = 'Results', startrow = 2) # Convert the dataframe to an XlsxWriter Excel object.
@@ -281,7 +282,18 @@ class Case7 (YeastpackSim):
         worksheet.set_column(1, 1, width = 40, cell_format = reactions_format)
         worksheet.set_column(0, 0, width = 11)
 
-        # ============== Add case specific sheets ==============
+        if not isFVA:
+            #Add Images
+            worksheet.write(34, 1, 'Experimental vs Simulated Fluxes (Reactions)', title_format)
+            worksheet.insert_image(35, 0, imgFolder + '/0_reacts.png', {'x_scale': 0.7, 'y_scale': 0.7})
+            col = 5
+            for i in range(1, 10):
+                worksheet.insert_image(35, col, imgFolder + '/' + str(i) + '_reacts.png', {'x_scale': 0.7, 'y_scale': 0.7})
+                col += 6
+
+
+
+    # ============== Add case specific sheets ==============
         l = [value for col_num, value in enumerate(list(dataframe.columns.values))]
         cases = [vals for vals in iter(self.divide_list(l, 4))]
 
@@ -305,6 +317,11 @@ class Case7 (YeastpackSim):
                 inds = [i for i in range(4, sub_df.shape[1])] #Columns to colour
                 for i in inds:
                     getattr(self, 'worksheet' + str(ind)).conditional_format(first_row = 3, last_row = sub_df.shape[0] + 3, first_col = i, last_col = i + 1, options = {'type': '3_color_scale'})
+
+                #Add Images
+                getattr(self, 'worksheet' + str(ind)).insert_image('G3', 'Results/Case 7/EtOH_figs/' + gene + '_etOH.png', {'x_scale': 0.7, 'y_scale': 0.7})
+                getattr(self, 'worksheet' + str(ind)).insert_image('G17', imgFolder + '/' + gene + '_genes.png', {'x_scale': 0.7, 'y_scale': 0.7})
+
             else:
                 inds = [i for i in range(4, sub_df.shape[1], 3)]
                 for i in inds:
@@ -313,10 +330,6 @@ class Case7 (YeastpackSim):
             getattr(self, 'worksheet' + str(ind)).set_column(1, 1, width = 40, cell_format = reactions_format)
             getattr(self, 'worksheet' + str(ind)).set_column(0, 0, width = 11)
             getattr(self, 'worksheet' + str(ind)).set_row(2, height = 20)
-
-            #Add Images
-            getattr(self, 'worksheet' + str(ind)).insert_image('G3', 'Results/Case 7/EtOH_figs/' + gene + '_etOH.png', {'x_scale': 0.7, 'y_scale': 0.7})
-
 
         workbook.close()
 
@@ -449,6 +462,31 @@ class Case7 (YeastpackSim):
 
         return [plt.figure(i) for i in plt.get_fignums()]
 
+    def multipleGenesPlotExpVsSimSaveFigs (self, absRelErrorDataset, xlab = 'Experimental Flux', ylab = 'Simulated Flux', title = 'Experimental vs Simulated Fluxes', folder = None):
+        plt.rcParams["figure.figsize"] = (10, 4)
+        genes = sorted(set([name.split('_')[0] for name in list(absRelErrorDataset.columns)]))
+
+        for i, gene in enumerate(genes):
+            plt.figure(i)
+            x = absRelErrorDataset[gene + '_real_flux']
+            y = absRelErrorDataset[gene + '_sim_flux']
+            gene_IDs = list(absRelErrorDataset.index)
+            slope, intercept, r_value, p_value, std_err = linregress(x, y)
+            line = [slope * x + intercept for x in x]
+            meanRelErr = absRelErrorDataset[gene + '_rel_error'].mean()
+            corr = absRelErrorDataset[gene + '_real_flux'].corr(absRelErrorDataset[gene + '_sim_flux'])
+
+            plt.plot(x, y, 'o', x, line)
+            for ind, gene_ID in enumerate(gene_IDs):
+                plt.annotate(gene_ID, (x[ind], y[ind]), fontsize = 8, xytext = (x[ind] + 0.25, y[ind] + 0.5))
+            plt.xlabel(xlab)
+            plt.ylabel(ylab)
+            plt.title(title)
+            plt.plot([], [], ' ') # To show correlation in legend
+            plt.plot([], [], ' ') # To show mean relative error in legend
+            plt.legend([gene, 'R2: %.4f' % r_value**2, 'Pearson correlation: %.4f' % corr, 'Mean relative error: %.4f' % meanRelErr])
+            plt.savefig(folder + '/' + gene + '_genes.png')
+
     def plotReactExpVsSim (self, simVsExpDataset, n = 3, xlab = 'Experimental Flux', ylab = 'Simulated Flux', title = 'r_0534', reaction = 'r_0534'):
         plt.rcParams["figure.figsize"] = (10,5)
         # Prepare dataset
@@ -476,8 +514,8 @@ class Case7 (YeastpackSim):
         plt.plot([], [], ' ') # To show mean relative error in legend
         plt.legend([reaction, 'R2: %.4f' % r_value**2, 'Pearson correlation: %.4f' % corr, 'Mean relative error: %.4f' % meanRelErr])
 
-    def multipleReactsPlotExpVsSim (self, simVsExpDataset, n = 3, xlab = 'Experimental Flux', ylab = 'Simulated Flux', pdf_filename = None):
-        plt.rcParams["figure.figsize"] = (20,3)
+    def multipleReactsPlotExpVsSim (self, simVsExpDataset, n = 3, xlab = 'Experimental Flux', ylab = 'Simulated Flux', pdf_filename = None, folder = None):
+        plt.rcParams["figure.figsize"] = (10, 10)
         # Prepare dataset
         df = simVsExpDataset.copy()
         df_sim = df[list(df.columns[1::2])].transpose()
@@ -486,7 +524,7 @@ class Case7 (YeastpackSim):
         genes = [gene.split('_')[0] for gene in list(df_exp.index)]
 
         for r_ind in range(0, len(r_list)):
-            plt.figure(r_ind, figsize = (10, 10))
+            plt.figure(r_ind)
             i = 1
             for reaction in r_list[r_ind]:
                 x = df_exp[reaction]
@@ -507,7 +545,10 @@ class Case7 (YeastpackSim):
                 plt.legend([reaction, 'R2: %.4f' % r_value**2, 'Pearson correlation: %.4f' % corr, 'Mean relative error: %.4f' % meanRelErr])
 
                 i += 1
+
             plt.xlabel(xlab)
+            if folder is not None:
+                plt.savefig(folder + '/' + str(r_ind) + '_reacts.png')
 
         if pdf_filename is not None:
             pdf = PdfPages(pdf_filename)
