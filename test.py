@@ -14,7 +14,7 @@ from yeastpack_test import YeastpackSim
 from case_7 import Case7
 
 
-def case7Pipeline (plot = False, makeFigs = False):
+def case7Pipeline (plot = False, makeFigs = False, ispFBA = False):
     # Experimental Fluxes
     exp_dataset, reactions = case7.loadExperimentalRes('Results/Case 7/case7_experimental_fluxes.csv')
 
@@ -22,18 +22,30 @@ def case7Pipeline (plot = False, makeFigs = False):
     real_EtOH_fluxes = case7.getEthanolFux(exp_dataset, 'r_2115')
     real_EtOH_fluxes['WildType'] = 23.6318184606019 #From authors file
 
-    # Testing EtOH fluxes with O2 consumption
-    # sim_EtOH_O2_fluxes = case7.testAllO2EthanolProd()
-    # case7.saveObjectToFile(sim_EtOH_O2_fluxes, 'Results/Case 7/dict_etOH_O2_fluxes.sav')
-    sim_EtOH_O2_fluxes = case7.loadObjectFromFile('Results/Case 7/dict_etOH_O2_fluxes.sav')
+    if ispFBA:
+        # Testing EtOH fluxes with O2 consumption
+        # sim_EtOH_O2_fluxes = case7.testAllO2EthanolProd(do_fba = ispFBA)
+        # case7.saveObjectToFile(sim_EtOH_O2_fluxes, 'Results/Case 7/dict_etOH_O2_fluxes_pfba.sav')
+        sim_EtOH_O2_fluxes = case7.loadObjectFromFile('Results/Case 7/dict_etOH_O2_fluxes_pfba.sav')
+    else:
+        # Testing EtOH fluxes with O2 consumption
+        # sim_EtOH_O2_fluxes = case7.testAllO2EthanolProd()
+        # case7.saveObjectToFile(sim_EtOH_O2_fluxes, 'Results/Case 7/dict_etOH_O2_fluxes.sav')
+        sim_EtOH_O2_fluxes = case7.loadObjectFromFile('Results/Case 7/dict_etOH_O2_fluxes.sav')
 
     # Fix EtOH fluxes with O2 consumption for plotting
     sim_EtOH_O2_fluxes_fixed = case7.fixEtO2FluxesForPlotting(sim_EtOH_O2_fluxes)
     if plot:
-        case7.multiplePlotO2vsEtOH (sim_EtOH_O2_fluxes_fixed, real_EtOH_fluxes, pdf_filename = 'Results/Case 7/etOH_O2_fluxes_plot.pdf')
-
+        if ispFBA:
+            case7.multiplePlotO2vsEtOH(sim_EtOH_O2_fluxes_fixed, real_EtOH_fluxes, pdf_filename = 'Results/Case 7/etOH_O2_fluxes_plot_pfba.pdf')
+        else:
+            case7.multiplePlotO2vsEtOH(sim_EtOH_O2_fluxes_fixed, real_EtOH_fluxes, pdf_filename = 'Results/Case 7/etOH_O2_fluxes_plot.pdf')
     if makeFigs:
-        case7.multiplePlotO2vsEtOHSaveFigs(sim_EtOH_O2_fluxes_fixed, real_EtOH_fluxes, folder = 'Results/Case 7/EtOH_figs')
+        if ispFBA:
+            case7.multiplePlotO2vsEtOHSaveFigs(sim_EtOH_O2_fluxes_fixed, real_EtOH_fluxes, folder = 'Results/Case 7/EtOH_figs', ispFBA = True)
+        else:
+            case7.multiplePlotO2vsEtOHSaveFigs(sim_EtOH_O2_fluxes_fixed, real_EtOH_fluxes, folder = 'Results/Case 7/EtOH_figs', ispFBA = False)
+
     # Get correct O2 flux according to exp EtOH flux
     fluxes_O2 = case7.getO2flux(sim_EtOH_O2_fluxes_fixed, real_EtOH_fluxes)
     #case7.printDict(fluxes_O2)
@@ -105,7 +117,7 @@ def fvaPipeline ():
     # Dataset with experimental vs simulated fluxes
     df_fva_exp_sim = case7.createDatasetExpVsSimulFVA(exp_dataset, res_fva_df)
 
-    #NOT FiNISHED - PLOTS NEXT (?)
+    #NOT FINISHED - PLOTS NEXT (?)
 
     # if plot == 'genes':
     #     #Plots w/ errors for genes
@@ -128,21 +140,25 @@ if __name__ == '__main__':
     case7.dictsForCase7()
 
     # General datasets
-    exp_dataset, reactions, real_EtOH_fluxes, sim_EtOH_O2_fluxes_fixed, fluxes_O2 = case7Pipeline(plot = False, makeFigs = False)
+    exp_dataset, reactions, real_EtOH_fluxes, sim_EtOH_O2_fluxes_fixed, fluxes_O2 = case7Pipeline(plot = False, makeFigs = False, ispFBA = True)
 
     # FBA
     res_fba, res_fba_df, wt_fba_df, df_fba_exp_sim, df_fba_exp_sim_errors = fbaPipeline(saveGenesPlot = False)
 
     # pFBA
-    res_pfba, res_pfba_df, wt_pfba_df, df_pfba_exp_sim, df_pfba_exp_sim_errors = pfbaPipeline(saveGenesPlot = False, plotReacts = False)
+    res_pfba, res_pfba_df, wt_pfba_df, df_pfba_exp_sim, df_pfba_exp_sim_errors = pfbaPipeline(saveGenesPlot = False, plotReacts = False, plotGenes = False)
+
+    # FVA
+    res_fva, res_fva_df, wt_fva_df, df_fva_exp_sim = fvaPipeline()
 
     # Create xlsx with results
-    #case7.convertPandasDFToExcel(reactions, df_fba_exp_sim_errors, filename = 'Results/Case 7/fba_results_case7_test.xlsx', imgFolder = 'Results/Case 7/FBA_figs')
-    case7.convertPandasDFToExcel(reactions, df_pfba_exp_sim_errors, title = 'pFBA Results Case 7', filename = 'Results/Case 7/pfba_results_case7_test.xlsx', imgFolder = 'Results/Case 7/pFBA_figs')
+    case7.convertPandasDFToExcel(reactions, df_fba_exp_sim_errors, filename = 'Results/Case 7/fba_results_case7_test.xlsx', imgFolder = 'Results/Case 7/FBA_figs')
+    case7.convertPandasDFToExcel(reactions, df_pfba_exp_sim_errors, title = 'pFBA Results Case 7', filename = 'Results/Case 7/pfba_results_case7_test.xlsx', imgFolder = 'Results/Case 7/pFBA_figs', ispFBA = True)
+    case7.convertPandasDFToExcelFVA(reactions, df_fva_exp_sim, title = 'FVA Results Case 7', filename = 'Results/Case 7/fva_results_case7_test.xlsx')
 
 
-
-
+    #Plot FVA Test
+    #case7.plotGeneExpVsSimFVA(df_fva_exp_sim, gene = 'ADH3')
 
 
 

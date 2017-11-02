@@ -203,15 +203,15 @@ class Case7 (YeastpackSim):
         for key, val in sorted(res.items()): print(key, '\t', val)
         return res
 
-    def testAllO2EthanolProd (self, range_o2 = list(np.arange(-20, 0, 2))):
+    def testAllO2EthanolProd (self, range_o2 = list(np.arange(-20, 0, 2)), do_fba = False):
         res_EtOH_fuxes = {}
         genes = sorted(list(self.l_inv.values()))
         for gene in genes:
             print('Gene ' + gene + ':')
-            res_EtOH_fuxes[gene] = self.testO2EthanolProd(g_knockout = self.l[gene], gluc_lb = self.d[gene], range_o2 = range_o2)
+            res_EtOH_fuxes[gene] = self.testO2EthanolProd(g_knockout = self.l[gene], gluc_lb = self.d[gene], range_o2 = range_o2, do_fba = do_fba)
             print('Done!')
         print('Wild Type:')
-        res_EtOH_fuxes['WildType'] = self.testO2EthanolProd(g_knockout = None, gluc_lb = -16.7, range_o2 = range_o2)
+        res_EtOH_fuxes['WildType'] = self.testO2EthanolProd(g_knockout = None, gluc_lb = -16.7, range_o2 = range_o2, do_fba = do_fba)
         print('Done!')
         return res_EtOH_fuxes
 
@@ -245,7 +245,7 @@ class Case7 (YeastpackSim):
 
         return dat
 
-    def convertPandasDFToExcel (self, reactions, dataframe, title = 'FBA Results Case 7', filename = 'Results', isFVA = False, imgFolder = None):
+    def convertPandasDFToExcel (self, reactions, dataframe, title = 'FBA Results Case 7', filename = 'Results', imgFolder = None, ispFBA = False):
         df = pd.concat([reactions, dataframe], axis = 1)
         writer = pd.ExcelWriter(filename, engine = 'xlsxwriter') # Create a Pandas Excel writer using XlsxWriter as the engine.
         df.to_excel(writer, sheet_name = 'Results', startrow = 2) # Convert the dataframe to an XlsxWriter Excel object.
@@ -270,30 +270,23 @@ class Case7 (YeastpackSim):
         worksheet.set_row(2, height = 20)
 
         # Conditional Formatting
-        if not isFVA:
-            inds = [i for i in range(4, df.shape[1], 4)] #Columns to colour
-            for i in inds:
-                worksheet.conditional_format(first_row = 3, last_row = df.shape[0] + 3, first_col = i, last_col = i + 1, options = {'type': '3_color_scale'})
-        else:
-            inds = [i for i in range(4, df.shape[1], 3)]
-            for i in inds:
-                worksheet.set_column(i, i, width = 13, cell_format = fva_format)
+        inds = [i for i in range(4, df.shape[1], 4)] #Columns to colour
+        for i in inds:
+            worksheet.conditional_format(first_row = 3, last_row = df.shape[0] + 3, first_col = i, last_col = i + 1,
+                                         options = {'type': '3_color_scale', 'min_color': '#63BE7B',  'mid_color': '#FFEB84', 'max_color': '#F8696B'})
 
         worksheet.set_column(1, 1, width = 40, cell_format = reactions_format)
         worksheet.set_column(0, 0, width = 11)
 
-        if not isFVA:
-            #Add Images
-            worksheet.write(34, 1, 'Experimental vs Simulated Fluxes (Reactions)', title_format)
-            worksheet.insert_image(35, 0, imgFolder + '/0_reacts.png', {'x_scale': 0.7, 'y_scale': 0.7})
-            col = 5
-            for i in range(1, 10):
-                worksheet.insert_image(35, col, imgFolder + '/' + str(i) + '_reacts.png', {'x_scale': 0.7, 'y_scale': 0.7})
-                col += 6
+        #Add Images
+        worksheet.write(34, 1, 'Experimental vs Simulated Fluxes (Reactions)', title_format)
+        worksheet.insert_image(35, 0, imgFolder + '/0_reacts.png', {'x_scale': 0.7, 'y_scale': 0.7})
+        col = 5
+        for i in range(1, 10):
+            worksheet.insert_image(35, col, imgFolder + '/' + str(i) + '_reacts.png', {'x_scale': 0.7, 'y_scale': 0.7})
+            col += 6
 
-
-
-    # ============== Add case specific sheets ==============
+        # ============== Add case specific sheets ==============
         l = [value for col_num, value in enumerate(list(dataframe.columns.values))]
         cases = [vals for vals in iter(self.divide_list(l, 4))]
 
@@ -313,19 +306,16 @@ class Case7 (YeastpackSim):
             getattr(self, 'worksheet' + str(ind)).set_column(2, sub_df.shape[1], width = 15, cell_format = num_format) # Set column width
 
             # Conditional Formatting
-            if not isFVA:
-                inds = [i for i in range(4, sub_df.shape[1])] #Columns to colour
-                for i in inds:
-                    getattr(self, 'worksheet' + str(ind)).conditional_format(first_row = 3, last_row = sub_df.shape[0] + 3, first_col = i, last_col = i + 1, options = {'type': '3_color_scale'})
-
-                #Add Images
-                getattr(self, 'worksheet' + str(ind)).insert_image('G3', 'Results/Case 7/EtOH_figs/' + gene + '_etOH.png', {'x_scale': 0.7, 'y_scale': 0.7})
-                getattr(self, 'worksheet' + str(ind)).insert_image('G17', imgFolder + '/' + gene + '_genes.png', {'x_scale': 0.7, 'y_scale': 0.7})
-
+            inds = [i for i in range(4, sub_df.shape[1])] #Columns to colour
+            for i in inds:
+                getattr(self, 'worksheet' + str(ind)).conditional_format(first_row = 3, last_row = sub_df.shape[0] + 3, first_col = i, last_col = i + 1,
+                                                                         options = {'type': '3_color_scale', 'min_color': '#63BE7B',  'mid_color': '#FFEB84', 'max_color': '#F8696B'})
+            #Add Images
+            if ispFBA:
+                getattr(self, 'worksheet' + str(ind)).insert_image('G3', 'Results/Case 7/EtOH_figs/' + gene + '_etOH_pFBA.png', {'x_scale': 0.7, 'y_scale': 0.7})
             else:
-                inds = [i for i in range(4, sub_df.shape[1], 3)]
-                for i in inds:
-                    getattr(self, 'worksheet' + str(ind)).set_column(i, i, width = 13, cell_format = fva_format)
+                getattr(self, 'worksheet' + str(ind)).insert_image('G3', 'Results/Case 7/EtOH_figs/' + gene + '_etOH.png', {'x_scale': 0.7, 'y_scale': 0.7})
+            getattr(self, 'worksheet' + str(ind)).insert_image('G17', imgFolder + '/' + gene + '_genes.png', {'x_scale': 0.7, 'y_scale': 0.7})
 
             getattr(self, 'worksheet' + str(ind)).set_column(1, 1, width = 40, cell_format = reactions_format)
             getattr(self, 'worksheet' + str(ind)).set_column(0, 0, width = 11)
@@ -333,6 +323,68 @@ class Case7 (YeastpackSim):
 
         workbook.close()
 
+    def convertPandasDFToExcelFVA (self, reactions, dataframe, title = 'FVA Results Case 7', filename = 'Results', imgFolder = None):
+        df = pd.concat([reactions, dataframe], axis = 1)
+        writer = pd.ExcelWriter(filename, engine = 'xlsxwriter') # Create a Pandas Excel writer using XlsxWriter as the engine.
+        df.to_excel(writer, sheet_name = 'Results', startrow = 2) # Convert the dataframe to an XlsxWriter Excel object.
+        workbook  = writer.book # Get the xlsxwriter objects from the dataframe writer object.
+        worksheet = writer.sheets['Results'] # Equivalent to xlsxwriter.Workbook('filename.xlsx').add_worksheet()
+
+        # Formatting
+        header_format = workbook.add_format({'bold': True, 'text_wrap': False, 'valign': 'vcenter', 'fg_color': '#d2d7bb', 'border': 0, 'align': 'center'})
+        header_format2 = workbook.add_format({'bold': True, 'text_wrap': False, 'valign': 'vcenter', 'fg_color': '#4e7792', 'border': 0, 'font_color': '#FFFFFF', 'align': 'center'})
+        num_format = workbook.add_format({'num_format': '#,##0.0000', 'valign': 'center', 'font_size': 10, 'fg_color': '#FFFFFF'})
+        title_format = workbook.add_format({'bold': True, 'text_wrap': False, 'valign': 'vcenter', 'font_size': 12})
+        reactions_format = workbook.add_format({'text_wrap': False, 'valign': 'right', 'font_size': 8, 'fg_color': '#FFFFFF'})
+        fva_format = workbook.add_format({'num_format': '#,##0.0000', 'valign': 'vcenter', 'font_size': 10, 'fg_color': '#fbf9f1', 'align': 'center'})
+
+        worksheet.write(0, 1, title, title_format) #Title
+        worksheet.write(2, 0, 'Yeast7_ID', header_format2)
+        for col_num, value in enumerate(list(df.columns.values)):
+            worksheet.write(2, col_num + 1, value, header_format2) # Write the column headers with the defined format.
+        for row_num, value in enumerate(df.index):
+            worksheet.write(row_num + 3, 0, value, header_format)
+        worksheet.set_column(2, df.shape[1], width = 15, cell_format = num_format) # Set column width
+        worksheet.set_row(2, height = 20)
+
+        # Conditional Formatting
+        inds = [i for i in range(4, df.shape[1], 3)]
+        for i in inds:
+            worksheet.set_column(i, i, width = 15, cell_format = fva_format)
+
+        worksheet.set_column(1, 1, width = 50, cell_format = reactions_format)
+        worksheet.set_column(0, 0, width = 11)
+
+        # ============== Add case specific sheets ==============
+        l = [value for col_num, value in enumerate(list(dataframe.columns.values))]
+        cases = [vals for vals in iter(self.divide_list(l, 3))]
+
+        for ind, gene_l in enumerate(cases):
+            gene = gene_l[0].split('_')[0]
+            sub_df = pd.concat([reactions, dataframe[gene_l]], axis = 1)
+            sub_df.to_excel(writer, sheet_name = gene, startrow = 2)
+            setattr(self, 'worksheet' + str(ind), writer.sheets[gene])
+            getattr(self, 'worksheet' + str(ind)).write(0, 1, title + ' [' + gene + ']', title_format)
+
+
+            getattr(self, 'worksheet' + str(ind)).write(2, 0, 'Yeast7_ID', header_format2)
+            for col_num, value in enumerate(list(sub_df.columns.values)):
+                getattr(self, 'worksheet' + str(ind)).write(2, col_num + 1, value, header_format2) # Write the column headers with the defined format.
+            for row_num, value in enumerate(sub_df.index):
+                getattr(self, 'worksheet' + str(ind)).write(row_num + 3, 0, value, header_format)
+            getattr(self, 'worksheet' + str(ind)).set_column(2, sub_df.shape[1], width = 15, cell_format = num_format) # Set column width
+
+            # Conditional Formatting
+            getattr(self, 'worksheet' + str(ind)).set_column(4, 4, width = 15, cell_format = fva_format)
+
+            # getattr(self, 'worksheet' + str(ind)).conditional_format('E4:E33', {'type':     'formula',
+            #                                                                     'criteria': '=AND(E4 >= D4, E4 <= C4)',
+            #                                                                     'format':   fva_format})
+            getattr(self, 'worksheet' + str(ind)).set_column(1, 1, width = 60, cell_format = reactions_format)
+            getattr(self, 'worksheet' + str(ind)).set_column(0, 0, width = 11)
+            getattr(self, 'worksheet' + str(ind)).set_row(2, height = 20)
+
+        workbook.close()
 
     # PLOTS
 
@@ -382,7 +434,7 @@ class Case7 (YeastpackSim):
 
         return [plt.figure(i) for i in plt.get_fignums()]
 
-    def multiplePlotO2vsEtOHSaveFigs (self, dict_EtOH_fluxes, dict_real_EtOH_fluxes, xlab = 'O2 Flux', ylab = 'EtOH Flux', title = 'Ethanol production with O2 flux', folder = None):
+    def multiplePlotO2vsEtOHSaveFigs (self, dict_EtOH_fluxes, dict_real_EtOH_fluxes, xlab = 'O2 Flux', ylab = 'EtOH Flux', title = 'Ethanol production with O2 flux', folder = None, ispFBA = False):
         plt.rcParams["figure.figsize"] = (10, 4)
 
         for i, gene in enumerate(sorted(list(dict_EtOH_fluxes.keys()))):
@@ -399,7 +451,10 @@ class Case7 (YeastpackSim):
             plt.xlabel(xlab)
             plt.title(title)
             plt.legend([gene, 'R2: %.4f' % r_value**2, 'Real EtOH flux: %.2f (O2 flux of %.2f)' % (dict_real_EtOH_fluxes[gene], real_O2(y0))])
-            plt.savefig(folder + '/' + gene + '_etOH.png')
+            if ispFBA:
+                plt.savefig(folder + '/' + gene + '_etOH_pFBA.png')
+            else:
+                plt.savefig(folder + '/' + gene + '_etOH.png')
 
     def plotGeneExpVsSim (self, absRelErrorDataset, n = 3, xlab = 'Experimental Flux', ylab = 'Simulated Flux', title = 'ADH3', pdf_filename = None, gene = 'ADH3'):
         plt.rcParams["figure.figsize"] = (10,5)
@@ -558,16 +613,18 @@ class Case7 (YeastpackSim):
 
         return [plt.figure(i) for i in plt.get_fignums()]
 
-    def plotGeneExpVsSimFVA (self, simVsExpDataset, n = 3, xlab = 'Experimental Flux', ylab = 'Simulated Flux', title = 'ADH3', pdf_filename = None, gene = 'ADH3'):
+    def plotGeneExpVsSimFVA (self, simVsExpDataset, xlab = 'Experimental Flux', ylab = 'Simulated Flux', title = 'ADH3', gene = 'ADH3'):
         # NOT FINISHED
         plt.rcParams["figure.figsize"] = (10,5)
 
         x = simVsExpDataset[gene + '_real_flux']
         ymin = simVsExpDataset[gene + '_minimum']
         ymax = simVsExpDataset[gene + '_maximum']
+        y = [np.mean(y) for y in list(zip(ymin, ymax))]
 
-        plt.plot(x, 'o')
-        plt.fill_between(range(len(ymin)), ymin, ymax, alpha=.1)
+        plt.errorbar(x, y, yerr = [ymin, ymax], fmt = 'o')
+        #plt.plot(x, 'o')
+        #lt.fill_between(range(len(ymin)), ymin, ymax, alpha=.1)
 
         # react_IDs = list(simVsExpDataset.index)
         #
@@ -577,13 +634,13 @@ class Case7 (YeastpackSim):
         plt.ylabel(ylab)
         plt.xlabel(xlab)
         plt.title(title)
-
+        plt.show()
 
 
 
 # Pipelines
 
-def case7Pipeline (plot = False):
+def case7Pipeline (plot = False, makeFigs = False, ispFBA = False):
     # Experimental Fluxes
     exp_dataset, reactions = case7.loadExperimentalRes('Results/Case 7/case7_experimental_fluxes.csv')
 
@@ -591,15 +648,29 @@ def case7Pipeline (plot = False):
     real_EtOH_fluxes = case7.getEthanolFux(exp_dataset, 'r_2115')
     real_EtOH_fluxes['WildType'] = 23.6318184606019 #From authors file
 
-    # Testing EtOH fluxes with O2 consumption
-    # sim_EtOH_O2_fluxes = case7.testAllO2EthanolProd()
-    # case7.saveObjectToFile(sim_EtOH_O2_fluxes, 'Results/Case 7/dict_etOH_O2_fluxes.sav')
-    sim_EtOH_O2_fluxes = case7.loadObjectFromFile('Results/Case 7/dict_etOH_O2_fluxes.sav')
+    if ispFBA:
+        # Testing EtOH fluxes with O2 consumption
+        # sim_EtOH_O2_fluxes = case7.testAllO2EthanolProd(do_fba = ispFBA)
+        # case7.saveObjectToFile(sim_EtOH_O2_fluxes, 'Results/Case 7/dict_etOH_O2_fluxes_pfba.sav')
+        sim_EtOH_O2_fluxes = case7.loadObjectFromFile('Results/Case 7/dict_etOH_O2_fluxes_pfba.sav')
+    else:
+        # Testing EtOH fluxes with O2 consumption
+        # sim_EtOH_O2_fluxes = case7.testAllO2EthanolProd()
+        # case7.saveObjectToFile(sim_EtOH_O2_fluxes, 'Results/Case 7/dict_etOH_O2_fluxes.sav')
+        sim_EtOH_O2_fluxes = case7.loadObjectFromFile('Results/Case 7/dict_etOH_O2_fluxes.sav')
 
     # Fix EtOH fluxes with O2 consumption for plotting
     sim_EtOH_O2_fluxes_fixed = case7.fixEtO2FluxesForPlotting(sim_EtOH_O2_fluxes)
     if plot:
-        case7.multiplePlotO2vsEtOH (sim_EtOH_O2_fluxes_fixed, real_EtOH_fluxes, pdf_filename = 'Results/Case 7/etOH_O2_fluxes_plot.pdf')
+        if ispFBA:
+            case7.multiplePlotO2vsEtOH(sim_EtOH_O2_fluxes_fixed, real_EtOH_fluxes, pdf_filename = 'Results/Case 7/etOH_O2_fluxes_plot_pfba.pdf')
+        else:
+            case7.multiplePlotO2vsEtOH(sim_EtOH_O2_fluxes_fixed, real_EtOH_fluxes, pdf_filename = 'Results/Case 7/etOH_O2_fluxes_plot.pdf')
+    if makeFigs:
+        if ispFBA:
+            case7.multiplePlotO2vsEtOHSaveFigs(sim_EtOH_O2_fluxes_fixed, real_EtOH_fluxes, folder = 'Results/Case 7/EtOH_figs', ispFBA = True)
+        else:
+            case7.multiplePlotO2vsEtOHSaveFigs(sim_EtOH_O2_fluxes_fixed, real_EtOH_fluxes, folder = 'Results/Case 7/EtOH_figs', ispFBA = False)
 
     # Get correct O2 flux according to exp EtOH flux
     fluxes_O2 = case7.getO2flux(sim_EtOH_O2_fluxes_fixed, real_EtOH_fluxes)
@@ -607,7 +678,7 @@ def case7Pipeline (plot = False):
 
     return exp_dataset, reactions, real_EtOH_fluxes, sim_EtOH_O2_fluxes_fixed, fluxes_O2
 
-def fbaPipeline (plot = None):
+def fbaPipeline (plotGenes = False, plotReacts = False, saveGenesPlot = False):
     # res_fba = case7.case7fba(fluxes_O2)
     # case7.saveObjectToFile(res_fba, 'Results/Case 7/res_fba_case7.sav')
     res_fba = case7.loadObjectFromFile('Results/Case 7/res_fba_case7.sav')
@@ -621,18 +692,20 @@ def fbaPipeline (plot = None):
     # Dataset with absolute and realtive errors
     df_fba_exp_sim_errors = case7.createDatasetWithAbsRelError(df_fba_exp_sim)
 
-    if plot == 'genes':
+    if plotGenes:
         #Plots w/ errors for genes
         # case7.plotGeneExpVsSim(df_fba_exp_sim_errors, gene = 'ADH3')
         case7.multipleGenesPlotExpVsSim(df_fba_exp_sim_errors, pdf_filename = 'Results/Case 7/fba_genes_exp_vs_sim_plots.pdf')
-    elif plot == 'reactions':
+    if plotReacts:
         #Plots w/ errors for reactions
         # case7.plotReactExpVsSim(df_fba_exp_sim, reaction = 'r_1054')
-        case7.multipleReactsPlotExpVsSim(df_fba_exp_sim, pdf_filename = 'Results/Case 7/fba_reacts_exp_vs_sim_plots.pdf')
+        case7.multipleReactsPlotExpVsSim(df_fba_exp_sim, pdf_filename = 'Results/Case 7/fba_reacts_exp_vs_sim_plots.pdf', folder = 'Results/Case 7/FBA_figs')
+    if saveGenesPlot:
+        case7.multipleGenesPlotExpVsSimSaveFigs(df_fba_exp_sim_errors, folder = 'Results/Case 7/FBA_figs')
 
     return res_fba, res_fba_df, wt_fba_df, df_fba_exp_sim, df_fba_exp_sim_errors
 
-def pfbaPipeline (plot = None):
+def pfbaPipeline (plotGenes = False, plotReacts = False, saveGenesPlot = False):
     # res_pfba = case7.case7pfba(fluxes_O2)
     # case7.saveObjectToFile(res_pfba, 'Results/Case 7/res_pfba_case7.sav')
     res_pfba = case7.loadObjectFromFile('Results/Case 7/res_pfba_case7.sav')
@@ -646,14 +719,16 @@ def pfbaPipeline (plot = None):
     # Dataset with absolute and realtive errors
     df_pfba_exp_sim_errors = case7.createDatasetWithAbsRelError(df_pfba_exp_sim)
 
-    if plot == 'genes':
+    if plotGenes:
         #Plots w/ errors for genes
         # case7.plotGeneExpVsSim(df_fba_exp_sim_errors, gene = 'ADH3')
         case7.multipleGenesPlotExpVsSim(df_pfba_exp_sim_errors, pdf_filename = 'Results/Case 7/pfba_genes_exp_vs_sim_plots.pdf')
-    elif plot == 'reactions':
+    if plotReacts:
         #Plots w/ errors for reactions
         # case7.plotReactExpVsSim(df_fba_exp_sim, reaction = 'r_1054')
-        case7.multipleReactsPlotExpVsSim(df_fba_exp_sim, pdf_filename = 'Results/Case 7/pfba_reacts_exp_vs_sim_plots.pdf')
+        case7.multipleReactsPlotExpVsSim(df_pfba_exp_sim, pdf_filename = 'Results/Case 7/pfba_reacts_exp_vs_sim_plots.pdf', folder = 'Results/Case 7/pFBA_figs')
+    if saveGenesPlot:
+        case7.multipleGenesPlotExpVsSimSaveFigs(df_pfba_exp_sim_errors, folder = 'Results/Case 7/pFBA_figs')
 
     return res_pfba, res_pfba_df, wt_pfba_df, df_pfba_exp_sim, df_pfba_exp_sim_errors
 
@@ -668,7 +743,7 @@ def fvaPipeline ():
     # Dataset with experimental vs simulated fluxes
     df_fva_exp_sim = case7.createDatasetExpVsSimulFVA(exp_dataset, res_fva_df)
 
-    #NOT FiNISHED - PLOTS NEXT (?)
+    #NOT FINISHED - PLOTS NEXT (?)
 
     # if plot == 'genes':
     #     #Plots w/ errors for genes
@@ -683,8 +758,6 @@ def fvaPipeline ():
 
 
 
-
-
 if __name__ == '__main__':
 
     #Initialization
@@ -694,26 +767,26 @@ if __name__ == '__main__':
     case7.dictsForCase7()
 
     # General datasets
-    exp_dataset, reactions, real_EtOH_fluxes, sim_EtOH_O2_fluxes_fixed, fluxes_O2 = case7Pipeline(plot = False)
+    exp_dataset, reactions, real_EtOH_fluxes, sim_EtOH_O2_fluxes_fixed, fluxes_O2 = case7Pipeline(plot = False, makeFigs = False, ispFBA = False)
 
     # FBA
-    res_fba, res_fba_df, wt_fba_df, df_fba_exp_sim, df_fba_exp_sim_errors = fbaPipeline(plot = None)
+    res_fba, res_fba_df, wt_fba_df, df_fba_exp_sim, df_fba_exp_sim_errors = fbaPipeline(saveGenesPlot = False)
 
     # pFBA
-    res_pfba, res_pfba_df, wt_pfba_df, df_pfba_exp_sim, df_pfba_exp_sim_errors = pfbaPipeline(plot = None)
+    res_pfba, res_pfba_df, wt_pfba_df, df_pfba_exp_sim, df_pfba_exp_sim_errors = pfbaPipeline(saveGenesPlot = False, plotReacts = False, plotGenes = False)
 
     # FVA
     res_fva, res_fva_df, wt_fva_df, df_fva_exp_sim = fvaPipeline()
 
     # Create xlsx with results
-    case7.convertPandasDFToExcel(reactions, df_fba_exp_sim_errors, filename = 'Results/Case 7/fba_results_case7.xlsx')
-    case7.convertPandasDFToExcel(reactions, df_pfba_exp_sim_errors, title = 'pFBA Results Case 7', filename = 'Results/Case 7/pfba_results_case7.xlsx')
-    case7.convertPandasDFToExcel(reactions, df_fva_exp_sim, title = 'FVA Results Case 7', filename = 'Results/Case 7/fva_results_case7.xlsx', isFVA = True)
+    case7.convertPandasDFToExcel(reactions, df_fba_exp_sim_errors, filename = 'Results/Case 7/fba_results_case7.xlsx', imgFolder = 'Results/Case 7/FBA_figs')
+    case7.convertPandasDFToExcel(reactions, df_pfba_exp_sim_errors, title = 'pFBA Results Case 7', filename = 'Results/Case 7/pfba_results_case7.xlsx', imgFolder = 'Results/Case 7/pFBA_figs', ispFBA = True)
+    case7.convertPandasDFToExcelFVA(reactions, df_fva_exp_sim, title = 'FVA Results Case 7', filename = 'Results/Case 7/fva_results_case7.xlsx')
 
     # Compare biomasses
-    biom = case7.getBiomassObj(res_fba)
-    case7.printDict(biom)
-    case7.printDict(case7.exp_biomass)
+    # biom = case7.getBiomassObj(res_fba)
+    # case7.printDict(biom)
+    # case7.printDict(case7.exp_biomass)
 
 
     # EXCEL TEST

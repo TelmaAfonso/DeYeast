@@ -360,7 +360,7 @@ if __name__ == '__main__':
     # readingModels()
     # simulatingFBA(model)
     # simulatingFVA(model)
-    # simulatingpFBA(model)
+    simulatingpFBA(model)
     # simulatingDels()
     # productionEnvelopes(model)
     # solvers(model)
