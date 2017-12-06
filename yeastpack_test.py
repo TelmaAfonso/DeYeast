@@ -1,22 +1,23 @@
 #!/usr/bin/env python
 
 '''
-File for testing yeastpack features
+File for testing phenomenaly features
 
 Author: Telma Afonso
 '''
 
+import cplex
 from cobra.io.sbml import create_cobra_model_from_sbml_file
-from yeastpack.io import load_yeast_76
-from yeastpack.simulation import fba, fva, pfba, lmoma, simulate_auxotrophy, simulate_essentiality
-from yeastpack.data import Media
+from phenomenaly.io import load_yeast_76
+from phenomenaly.simulation import fba, fva, pfba, lmoma, simulate_auxotrophy, simulate_essentiality
+from phenomenaly.variables import Media
 from types import *
 import pickle
 import pandas as pd
 import numpy as np
 
 
-class YeastpackSim (object):
+class PhenomenalySim (object):
 
     def __init__(self, cobra_model = None):
         self.model = cobra_model
@@ -163,6 +164,26 @@ class YeastpackSim (object):
                 df = pd.concat([df, pd.DataFrame(r.fluxes)], axis = 1)
             else:
                 wt = pd.concat([wt, pd.DataFrame(r.fluxes)], axis = 1)
+                wt.columns = [gene]
+                del res_dict[gene]
+
+        df.columns = sorted(res_dict.keys())
+
+        return df, wt
+
+    def createResultsDatasetLMOMA (self, res_dict):
+        #Because it is of type LegacySolution (deprecated)
+        res_dict = res_dict.copy()
+        df = pd.DataFrame()
+        wt = pd.DataFrame()
+
+        for gene, r in sorted(res_dict.items()):
+            if gene != 'WildType':
+                res = pd.DataFrame(list(r.x_dict.items())).set_index([0])
+                df = pd.concat([df, pd.DataFrame(res)], axis = 1)
+            else:
+                res = pd.DataFrame(list(r.x_dict.items())).set_index([0])
+                wt = pd.concat([wt, pd.DataFrame(res)], axis = 1)
                 wt.columns = [gene]
                 del res_dict[gene]
 
