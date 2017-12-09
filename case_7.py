@@ -280,15 +280,6 @@ class Case7 (PhenomenalySim):
 
         return res
 
-    def correctReversedReactions (self, dataset, reactions = None):
-        if reactions is None:
-            reactions = ['r_0962', 'r_0300', 'r_1022', 'r_0454', 'r_1054', 'r_0452', 'r_0892', 'r_0893', 'r_1049']
-
-        dat = dataset.copy()
-        dat.update(dat.loc[reactions] * -1)
-
-        return dat
-
     def convertPandasDFToExcel (self, reactions, dataframe,  title = 'FBA Results Case 7', filename = 'Results', imgFolder = None, type = 'fba'):
         df = pd.concat([reactions, dataframe], axis = 1)
         writer = pd.ExcelWriter(filename, engine = 'xlsxwriter') # Create a Pandas Excel writer using XlsxWriter as the engine.
@@ -910,7 +901,7 @@ if __name__ == '__main__':
     #Initialization
     case7 = Case7()
     case7.model = case7.loadObjectFromFile('model_yeast_76.sav')
-    case7.setMedium('MINIMAL_CASE7')
+    case7.setMedium('MINIMAL')
     case7.dictsForCase7()
 
     # General datasets

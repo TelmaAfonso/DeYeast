@@ -17,7 +17,7 @@ warnings.filterwarnings('ignore')
 case7 = Case7()
 case7.model = case7.loadObjectFromFile('model_yeast_76.sav')
 case7.model.solver = 'optlang-cplex'
-case7.setMedium('MINIMAL_CASE7')
+case7.setMedium('MINIMAL')
 case7.dictsForCase7()
 
 # General datasets
@@ -68,6 +68,17 @@ wt_res = case7.createResultsDataframeWT(reactions, wt_fba_df, wt_pfba_df, wt_lmo
 res = case7.singleSimulation('ADH3', fluxes_O2 = fluxes_O2, gl_lb = None, o2_lb = None, type = 'fba')
 res.fluxes.loc['r_4041']
 res.fluxes.loc['r_2116']
+
+a = ['ADH3', 'MAL2', 'SUC2', 'MAE1']
+case7.convertStdToSyst(a)
+
+mae1 = case7.model.genes.get_by_id('YKL029C')
+mae1.reactions
+
+case7.checkReaction('r_0718')
+case7.checkReaction('r_0719')
+
+
 
 
 

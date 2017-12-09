@@ -244,6 +244,25 @@ class PhenomenalySim (object):
         for key, val in dict.items():
             print(key, '\t', val)
 
+    def correctReversedReactions (self, dataset, reactions = None):
+        if reactions is None:
+            reactions = ['r_0962', 'r_0300', 'r_1022', 'r_0454', 'r_1054', 'r_0452', 'r_0892', 'r_0893', 'r_1049']
+
+        dat = dataset.copy()
+        dat.update(dat.loc[reactions] * -1)
+
+        return dat
+
+    def checkReactionLB (self, reaction_id):
+        print('Reation (' + reaction_id + '): ' + self.model.reactions.get_by_id(reaction_id).name)
+        lb = self.model.reactions.get_by_id(reaction_id).lower_bound
+        print('Lower bound: {}'.format(lb))
+
+    def checkReactionUB (self, reaction_id):
+        print('Reation (' + reaction_id + '): ' + self.model.reactions.get_by_id(reaction_id).name)
+        ub = self.model.reactions.get_by_id(reaction_id).upper_bound
+        print('Upper bound: {}'.format(ub))
+
 
 if __name__ == '__main__':
     # dir(a) #check object attributes
