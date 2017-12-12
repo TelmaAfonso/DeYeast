@@ -132,59 +132,62 @@ class Case6 (PhenomenalySim):
             plt.savefig(save_fig_path)
 
 
-#Initialization
-case6 = Case6()
-case6.model = case6.loadObjectFromFile('model_yeast_76.sav')
-case6.model.solver = 'optlang-cplex'
-case6.setMedium('MINIMAL')
 
-#General datasets
-exp_dataset, reactions = case6.loadExperimentalRes('Results/Case 6/case6_experimental_fluxes.csv')
-# NO EXPERIMENTAL ETHANOL FLUXES TO ADJUST O2 LB
+if __name__ == '__main__':
 
-# ====== WILD TYPE ======
-#FBA
-wt_fba_res, wt_fba_exp_sim, wt_fba_exp_sim_errors = case6.simulationPipeline(exp_dataset.ix[:,1], type = 'fba', res_exists = True)
-case6.plotExpVsSim(wt_fba_exp_sim_errors, save_fig_path = 'Results/Case 6/wt_fba_exp_sim_plot.png', title = 'FBA Wild Type')
-plt.close('all')
+    #Initialization
+    case6 = Case6()
+    case6.model = case6.loadObjectFromFile('model_yeast_76.sav')
+    case6.model.solver = 'optlang-cplex'
+    case6.setMedium('MINIMAL')
 
-#pFBA
-wt_pfba_res, wt_pfba_exp_sim, wt_pfba_exp_sim_errors = case6.simulationPipeline(exp_dataset.ix[:,1], type = 'pfba', res_exists = True)
-case6.plotExpVsSim(wt_pfba_exp_sim_errors, save_fig_path = 'Results/Case 6/wt_pfba_exp_sim_plot.png', title = 'pFBA Wild Type')
-plt.close('all')
+    #General datasets
+    exp_dataset, reactions = case6.loadExperimentalRes('Results/Case 6/case6_experimental_fluxes.csv')
+    # NO EXPERIMENTAL ETHANOL FLUXES TO ADJUST O2 LB
 
-#FVA
-wt_fva_res, wt_fva_exp_sim, _ = case6.simulationPipeline(exp_dataset.ix[:,1], type = 'fva', res_exists = True)
+    # ====== WILD TYPE ======
+    #FBA
+    wt_fba_res, wt_fba_exp_sim, wt_fba_exp_sim_errors = case6.simulationPipeline(exp_dataset.ix[:,1], type = 'fba', res_exists = True)
+    case6.plotExpVsSim(wt_fba_exp_sim_errors, save_fig_path = 'Results/Case 6/wt_fba_exp_sim_plot.png', title = 'FBA Wild Type')
+    plt.close('all')
 
+    #pFBA
+    wt_pfba_res, wt_pfba_exp_sim, wt_pfba_exp_sim_errors = case6.simulationPipeline(exp_dataset.ix[:,1], type = 'pfba', res_exists = True)
+    case6.plotExpVsSim(wt_pfba_exp_sim_errors, save_fig_path = 'Results/Case 6/wt_pfba_exp_sim_plot.png', title = 'pFBA Wild Type')
+    plt.close('all')
 
-# ====== MAE1 DELETION ======
-
-mae1 = case6.convertStdToSyst(['MAE1'])['MAE1']
-
-#FBA
-mae1_fba_res, mae1_fba_exp_sim, mae1_fba_exp_sim_errors = case6.simulationPipeline(exp_dataset.ix[:,0], geneko = mae1, type = 'fba', res_exists = False)
-case6.plotExpVsSim(mae1_fba_exp_sim_errors, save_fig_path = 'Results/Case 6/mae1_fba_exp_sim_plot.png', title = 'FBA MAE1 Del')
-plt.close('all')
-
-#pFBA
-mae1_pfba_res, mae1_pfba_exp_sim, mae1_pfba_exp_sim_errors = case6.simulationPipeline(exp_dataset.ix[:,0], geneko = mae1, type = 'pfba', res_exists = True)
-case6.plotExpVsSim(mae1_pfba_exp_sim_errors, save_fig_path = 'Results/Case 6/mae1_pfba_exp_sim_plot.png', title = 'pFBA MAE1 Del')
-plt.close('all')
-
-#LMOMA
-mae1_lmoma_res, mae1_lmoma_exp_sim, mae1_lmoma_exp_sim_errors = case6.simulationPipeline(exp_dataset.ix[:,0], geneko = mae1, type = 'lmoma', res_exists = True)
-case6.plotExpVsSim(mae1_lmoma_exp_sim_errors, save_fig_path = 'Results/Case 6/mae1_lmoma_exp_sim_plot.png', title = 'LMOMA MAE1 Del')
-plt.close('all')
-
-#FVA
-mae1_fva_res, mae1_fva_exp_sim, _ = case6.simulationPipeline(exp_dataset.ix[:,0], geneko = mae1, type = 'fva', res_exists = True)
+    #FVA
+    wt_fva_res, wt_fva_exp_sim, _ = case6.simulationPipeline(exp_dataset.ix[:,1], type = 'fva', res_exists = True)
 
 
+    # ====== MAE1 DELETION ======
 
-# case6.checkReaction('r_0302')
-# case6.checkReactionLB('r_1992')
+    mae1 = case6.convertStdToSyst(['MAE1'])['MAE1']
 
-print('DONE!')
+    #FBA
+    mae1_fba_res, mae1_fba_exp_sim, mae1_fba_exp_sim_errors = case6.simulationPipeline(exp_dataset.ix[:,0], geneko = mae1, type = 'fba', res_exists = False)
+    case6.plotExpVsSim(mae1_fba_exp_sim_errors, save_fig_path = 'Results/Case 6/mae1_fba_exp_sim_plot.png', title = 'FBA MAE1 Del')
+    plt.close('all')
+
+    #pFBA
+    mae1_pfba_res, mae1_pfba_exp_sim, mae1_pfba_exp_sim_errors = case6.simulationPipeline(exp_dataset.ix[:,0], geneko = mae1, type = 'pfba', res_exists = True)
+    case6.plotExpVsSim(mae1_pfba_exp_sim_errors, save_fig_path = 'Results/Case 6/mae1_pfba_exp_sim_plot.png', title = 'pFBA MAE1 Del')
+    plt.close('all')
+
+    #LMOMA
+    mae1_lmoma_res, mae1_lmoma_exp_sim, mae1_lmoma_exp_sim_errors = case6.simulationPipeline(exp_dataset.ix[:,0], geneko = mae1, type = 'lmoma', res_exists = True)
+    case6.plotExpVsSim(mae1_lmoma_exp_sim_errors, save_fig_path = 'Results/Case 6/mae1_lmoma_exp_sim_plot.png', title = 'LMOMA MAE1 Del')
+    plt.close('all')
+
+    #FVA
+    mae1_fva_res, mae1_fva_exp_sim, _ = case6.simulationPipeline(exp_dataset.ix[:,0], geneko = mae1, type = 'fva', res_exists = True)
+
+
+
+    # case6.checkReaction('r_0302')
+    # case6.checkReactionLB('r_1992')
+
+    print('DONE!')
 
 
 

@@ -120,122 +120,121 @@ class Case10 (PhenomenalySim):
             plt.savefig(save_fig_path)
 
 
+if __name__ == '__main__':
 
-#Initialization
-case10 = Case10()
-case10.model = case10.loadObjectFromFile('model_yeast_76.sav')
-case10.model.solver = 'optlang-cplex'
-case10.setMedium('MINIMAL')
-case10.dictsForCase10()
+    #Initialization
+    case10 = Case10()
+    case10.model = case10.loadObjectFromFile('model_yeast_76.sav')
+    case10.model.solver = 'optlang-cplex'
+    case10.setMedium('MINIMAL')
+    case10.dictsForCase10()
 
-#General datasets
-exp_dataset, reactions = case10.loadExperimentalRes('Results/Case 10/case10_experimental_fluxes.csv')
+    #General datasets
+    exp_dataset, reactions = case10.loadExperimentalRes('Results/Case 10/case10_experimental_fluxes.csv')
 
-# ====== CS: GLUCOSE ======
-#FBA
-g_fba_res, g_fba_exp_sim, g_fba_exp_sim_errors = case10.simulationPipeline(exp_dataset.ix[:,0], cs = 'glucose', type = 'fba', res_exists = True, fname = 'Results/Case 10/res_fba_glucose_case10.sav')
-case10.plotExpVsSim(g_fba_exp_sim_errors, save_fig_path = 'Results/Case 10/g_fba_exp_sim_plot.png', title = 'FBA GLucose Carbon Source')
-plt.close('all')
+    # ====== CS: GLUCOSE ======
+    #FBA
+    g_fba_res, g_fba_exp_sim, g_fba_exp_sim_errors = case10.simulationPipeline(exp_dataset.ix[:,0], cs = 'glucose', type = 'fba', res_exists = True, fname = 'Results/Case 10/res_fba_glucose_case10.sav')
+    case10.plotExpVsSim(g_fba_exp_sim_errors, save_fig_path = 'Results/Case 10/g_fba_exp_sim_plot.png', title = 'FBA GLucose Carbon Source')
+    plt.close('all')
 
-#pFBA
-g_pfba_res, g_pfba_exp_sim, g_pfba_exp_sim_errors = case10.simulationPipeline(exp_dataset.ix[:,0], cs = 'glucose', type = 'pfba', res_exists = True, fname = 'Results/Case 10/res_pfba_glucose_case10.sav')
-case10.plotExpVsSim(g_pfba_exp_sim_errors, save_fig_path = 'Results/Case 10/g_pfba_exp_sim_plot.png', title = 'pFBA GLucose Carbon Source')
-plt.close('all')
+    #pFBA
+    g_pfba_res, g_pfba_exp_sim, g_pfba_exp_sim_errors = case10.simulationPipeline(exp_dataset.ix[:,0], cs = 'glucose', type = 'pfba', res_exists = True, fname = 'Results/Case 10/res_pfba_glucose_case10.sav')
+    case10.plotExpVsSim(g_pfba_exp_sim_errors, save_fig_path = 'Results/Case 10/g_pfba_exp_sim_plot.png', title = 'pFBA GLucose Carbon Source')
+    plt.close('all')
 
-#LMOMA
-g_lmoma_res, g_lmoma_exp_sim, g_lmoma_exp_sim_errors = case10.simulationPipeline(exp_dataset.ix[:,0], cs = 'glucose', type = 'lmoma', res_exists = True, fname = 'Results/Case 10/res_lmoma_glucose_case10.sav')
-case10.plotExpVsSim(g_lmoma_exp_sim_errors, save_fig_path = 'Results/Case 10/g_lmoma_exp_sim_plot.png', title = 'LMOMA GLucose Carbon Source')
-plt.close('all')
+    #LMOMA
+    g_lmoma_res, g_lmoma_exp_sim, g_lmoma_exp_sim_errors = case10.simulationPipeline(exp_dataset.ix[:,0], cs = 'glucose', type = 'lmoma', res_exists = True, fname = 'Results/Case 10/res_lmoma_glucose_case10.sav')
+    case10.plotExpVsSim(g_lmoma_exp_sim_errors, save_fig_path = 'Results/Case 10/g_lmoma_exp_sim_plot.png', title = 'LMOMA GLucose Carbon Source')
+    plt.close('all')
 
-#FVA
-g_fva_res, g_fva_exp_sim, _ = case10.simulationPipeline(exp_dataset.ix[:,0], cs = 'glucose', type = 'fva', res_exists = True, fname = 'Results/Case 10/res_fva_glucose_case10.sav')
-
-
-# ====== CS: MALTOSE ======
-# Maltose only participates in two reactions (transport and exchange)
-# Consider maltose as glucose?? (maltose <==> D-Glucose, relative flux of 100)
-#FBA
-m_fba_res, m_fba_exp_sim, m_fba_exp_sim_errors = case10.simulationPipeline(exp_dataset.ix[:,1], cs = 'maltose', type = 'fba', res_exists = True, fname = 'Results/Case 10/res_fba_maltose_case10.sav')
-case10.plotExpVsSim(m_fba_exp_sim_errors, save_fig_path = 'Results/Case 10/m_fba_exp_sim_plot.png', title = 'FBA Maltose Carbon Source')
-plt.close('all')
-
-#pFBA
-m_pfba_res, m_pfba_exp_sim, m_pfba_exp_sim_errors = case10.simulationPipeline(exp_dataset.ix[:,1], cs = 'maltose', type = 'pfba', res_exists = True, fname = 'Results/Case 10/res_pfba_maltose_case10.sav')
-case10.plotExpVsSim(m_pfba_exp_sim_errors, save_fig_path = 'Results/Case 10/m_pfba_exp_sim_plot.png', title = 'pFBA Maltose Carbon Source')
-plt.close('all')
-
-#LMOMA
-m_lmoma_res, m_lmoma_exp_sim, m_lmoma_exp_sim_errors = case10.simulationPipeline(exp_dataset.ix[:,1], cs = 'maltose', type = 'lmoma', res_exists = True, fname = 'Results/Case 10/res_lmoma_maltose_case10.sav')
-case10.plotExpVsSim(m_lmoma_exp_sim_errors, save_fig_path = 'Results/Case 10/m_lmoma_exp_sim_plot.png', title = 'LMOMA Maltose Carbon Source')
-plt.close('all')
-
-#FVA
-m_fva_res, m_fva_exp_sim, _ = case10.simulationPipeline(exp_dataset.ix[:,1], cs = 'maltose', type = 'fva', res_exists = True, fname = 'Results/Case 10/res_fva_maltose_case10.sav')
+    #FVA
+    g_fva_res, g_fva_exp_sim, _ = case10.simulationPipeline(exp_dataset.ix[:,0], cs = 'glucose', type = 'fva', res_exists = True, fname = 'Results/Case 10/res_fva_glucose_case10.sav')
 
 
-# ====== CS: ETHANOL ======
-#FBA
-e_fba_res, e_fba_exp_sim, e_fba_exp_sim_errors = case10.simulationPipeline(exp_dataset.ix[:,2], cs = 'ethanol', type = 'fba', res_exists = True, fname = 'Results/Case 10/res_fba_ethanol_case10.sav')
-case10.plotExpVsSim(e_fba_exp_sim_errors, save_fig_path = 'Results/Case 10/e_fba_exp_sim_plot.png', title = 'FBA Ethanol Carbon Source')
-plt.close('all')
+    # ====== CS: MALTOSE ======
+    # Maltose only participates in two reactions (transport and exchange)
+    # Consider maltose as glucose?? (maltose <==> D-Glucose, relative flux of 100)
+    #FBA
+    m_fba_res, m_fba_exp_sim, m_fba_exp_sim_errors = case10.simulationPipeline(exp_dataset.ix[:,1], cs = 'maltose', type = 'fba', res_exists = True, fname = 'Results/Case 10/res_fba_maltose_case10.sav')
+    case10.plotExpVsSim(m_fba_exp_sim_errors, save_fig_path = 'Results/Case 10/m_fba_exp_sim_plot.png', title = 'FBA Maltose Carbon Source')
+    plt.close('all')
 
-#pFBA
-e_pfba_res, e_pfba_exp_sim, e_pfba_exp_sim_errors = case10.simulationPipeline(exp_dataset.ix[:,2], cs = 'ethanol', type = 'pfba', res_exists = True, fname = 'Results/Case 10/res_pfba_ethanol_case10.sav')
-case10.plotExpVsSim(e_pfba_exp_sim_errors, save_fig_path = 'Results/Case 10/e_pfba_exp_sim_plot.png', title = 'pFBA Ethanol Carbon Source')
-plt.close('all')
+    #pFBA
+    m_pfba_res, m_pfba_exp_sim, m_pfba_exp_sim_errors = case10.simulationPipeline(exp_dataset.ix[:,1], cs = 'maltose', type = 'pfba', res_exists = True, fname = 'Results/Case 10/res_pfba_maltose_case10.sav')
+    case10.plotExpVsSim(m_pfba_exp_sim_errors, save_fig_path = 'Results/Case 10/m_pfba_exp_sim_plot.png', title = 'pFBA Maltose Carbon Source')
+    plt.close('all')
 
-#LMOMA
-e_lmoma_res, e_lmoma_exp_sim, e_lmoma_exp_sim_errors = case10.simulationPipeline(exp_dataset.ix[:,2], cs = 'ethanol', type = 'lmoma', res_exists = True, fname = 'Results/Case 10/res_lmoma_ethanol_case10.sav')
-case10.plotExpVsSim(e_lmoma_exp_sim_errors, save_fig_path = 'Results/Case 10/e_lmoma_exp_sim_plot.png', title = 'LMOMA Ethanol Carbon Source')
-plt.close('all')
+    #LMOMA
+    m_lmoma_res, m_lmoma_exp_sim, m_lmoma_exp_sim_errors = case10.simulationPipeline(exp_dataset.ix[:,1], cs = 'maltose', type = 'lmoma', res_exists = True, fname = 'Results/Case 10/res_lmoma_maltose_case10.sav')
+    case10.plotExpVsSim(m_lmoma_exp_sim_errors, save_fig_path = 'Results/Case 10/m_lmoma_exp_sim_plot.png', title = 'LMOMA Maltose Carbon Source')
+    plt.close('all')
 
-#FVA
-e_fva_res, e_fva_exp_sim, _ = case10.simulationPipeline(exp_dataset.ix[:,2], cs = 'ethanol', type = 'fva', res_exists = True, fname = 'Results/Case 10/res_fva_ethanol_case10.sav')
-
-
-# ====== CS: ACETATE ======
-#FBA
-a_fba_res, a_fba_exp_sim, a_fba_exp_sim_errors = case10.simulationPipeline(exp_dataset.ix[:,3], cs = 'acetate', type = 'fba', res_exists = True, fname = 'Results/Case 10/res_fba_acetate_case10.sav')
-case10.plotExpVsSim(a_fba_exp_sim_errors, save_fig_path = 'Results/Case 10/a_fba_exp_sim_plot.png', title = 'FBA Acetate Carbon Source')
-plt.close('all')
-
-#pFBA
-a_pfba_res, a_pfba_exp_sim, a_pfba_exp_sim_errors = case10.simulationPipeline(exp_dataset.ix[:,3], cs = 'acetate', type = 'pfba', res_exists = True, fname = 'Results/Case 10/res_pfba_acetate_case10.sav')
-case10.plotExpVsSim(a_pfba_exp_sim_errors, save_fig_path = 'Results/Case 10/a_pfba_exp_sim_plot.png', title = 'pFBA Acetate Carbon Source')
-plt.close('all')
-
-#LMOMA
-a_lmoma_res, a_lmoma_exp_sim, a_lmoma_exp_sim_errors = case10.simulationPipeline(exp_dataset.ix[:,3], cs = 'acetate', type = 'lmoma', res_exists = True, fname = 'Results/Case 10/res_lmoma_acetate_case10.sav')
-case10.plotExpVsSim(a_lmoma_exp_sim_errors, save_fig_path = 'Results/Case 10/a_lmoma_exp_sim_plot.png', title = 'LMOMA Acetate Carbon Source')
-plt.close('all')
-
-#FVA
-a_fva_res, a_fva_exp_sim, _ = case10.simulationPipeline(exp_dataset.ix[:,3], cs = 'acetate', type = 'fva', res_exists = True, fname = 'Results/Case 10/res_fva_acetate_case10.sav')
+    #FVA
+    m_fva_res, m_fva_exp_sim, _ = case10.simulationPipeline(exp_dataset.ix[:,1], cs = 'maltose', type = 'fva', res_exists = True, fname = 'Results/Case 10/res_fva_maltose_case10.sav')
 
 
+    # ====== CS: ETHANOL ======
+    #FBA
+    e_fba_res, e_fba_exp_sim, e_fba_exp_sim_errors = case10.simulationPipeline(exp_dataset.ix[:,2], cs = 'ethanol', type = 'fba', res_exists = True, fname = 'Results/Case 10/res_fba_ethanol_case10.sav')
+    case10.plotExpVsSim(e_fba_exp_sim_errors, save_fig_path = 'Results/Case 10/e_fba_exp_sim_plot.png', title = 'FBA Ethanol Carbon Source')
+    plt.close('all')
+
+    #pFBA
+    e_pfba_res, e_pfba_exp_sim, e_pfba_exp_sim_errors = case10.simulationPipeline(exp_dataset.ix[:,2], cs = 'ethanol', type = 'pfba', res_exists = True, fname = 'Results/Case 10/res_pfba_ethanol_case10.sav')
+    case10.plotExpVsSim(e_pfba_exp_sim_errors, save_fig_path = 'Results/Case 10/e_pfba_exp_sim_plot.png', title = 'pFBA Ethanol Carbon Source')
+    plt.close('all')
+
+    #LMOMA
+    e_lmoma_res, e_lmoma_exp_sim, e_lmoma_exp_sim_errors = case10.simulationPipeline(exp_dataset.ix[:,2], cs = 'ethanol', type = 'lmoma', res_exists = True, fname = 'Results/Case 10/res_lmoma_ethanol_case10.sav')
+    case10.plotExpVsSim(e_lmoma_exp_sim_errors, save_fig_path = 'Results/Case 10/e_lmoma_exp_sim_plot.png', title = 'LMOMA Ethanol Carbon Source')
+    plt.close('all')
+
+    #FVA
+    e_fva_res, e_fva_exp_sim, _ = case10.simulationPipeline(exp_dataset.ix[:,2], cs = 'ethanol', type = 'fva', res_exists = True, fname = 'Results/Case 10/res_fva_ethanol_case10.sav')
+
+
+    # ====== CS: ACETATE ======
+    #FBA
+    a_fba_res, a_fba_exp_sim, a_fba_exp_sim_errors = case10.simulationPipeline(exp_dataset.ix[:,3], cs = 'acetate', type = 'fba', res_exists = True, fname = 'Results/Case 10/res_fba_acetate_case10.sav')
+    case10.plotExpVsSim(a_fba_exp_sim_errors, save_fig_path = 'Results/Case 10/a_fba_exp_sim_plot.png', title = 'FBA Acetate Carbon Source')
+    plt.close('all')
+
+    #pFBA
+    a_pfba_res, a_pfba_exp_sim, a_pfba_exp_sim_errors = case10.simulationPipeline(exp_dataset.ix[:,3], cs = 'acetate', type = 'pfba', res_exists = True, fname = 'Results/Case 10/res_pfba_acetate_case10.sav')
+    case10.plotExpVsSim(a_pfba_exp_sim_errors, save_fig_path = 'Results/Case 10/a_pfba_exp_sim_plot.png', title = 'pFBA Acetate Carbon Source')
+    plt.close('all')
+
+    #LMOMA
+    a_lmoma_res, a_lmoma_exp_sim, a_lmoma_exp_sim_errors = case10.simulationPipeline(exp_dataset.ix[:,3], cs = 'acetate', type = 'lmoma', res_exists = True, fname = 'Results/Case 10/res_lmoma_acetate_case10.sav')
+    case10.plotExpVsSim(a_lmoma_exp_sim_errors, save_fig_path = 'Results/Case 10/a_lmoma_exp_sim_plot.png', title = 'LMOMA Acetate Carbon Source')
+    plt.close('all')
+
+    #FVA
+    a_fva_res, a_fva_exp_sim, _ = case10.simulationPipeline(exp_dataset.ix[:,3], cs = 'acetate', type = 'fva', res_exists = True, fname = 'Results/Case 10/res_fva_acetate_case10.sav')
 
 
 
-#OTHER
-# r_0717, r_0982 inverse
-#
-# case10.checkReaction(case6.convertKeggID('R02035'))
-# case10.getReactionInfo('r_0982')
-#
-# case10.checkReaction('r_0567')
-# r = pd.DataFrame(reactions)
-# r.index
-#
-# for i in r.index:
-#     print(i, str(i) + '_reversed' in res.keys())
-#
-# a_fba_exp_sim_errors.loc['r_1049']
-# res = a_pfba_res.x_dict
-# res.keys()
-#
-# a = case10.model.reactions.get_by_id('r_1049')
-# vars(a)
-#
-# reactions = ['r_0962', 'r_0300', 'r_1022', 'r_0454', 'r_1054', 'r_0452', 'r_0892', 'r_0893', 'r_1049']
-# for r in reactions:
-#     case10.checkReaction(r)
+    # TESTS
+    # r_0717, r_0982 inverse
+    #
+    # case10.checkReaction(case6.convertKeggID('R02035'))
+    # case10.getReactionInfo('r_0982')
+    #
+    # case10.checkReaction('r_0567')
+    # r = pd.DataFrame(reactions)
+    # r.index
+    #
+    # for i in r.index:
+    #     print(i, str(i) + '_reversed' in res.keys())
+    #
+    # a_fba_exp_sim_errors.loc['r_1049']
+    # res = a_pfba_res.x_dict
+    # res.keys()
+    #
+    # a = case10.model.reactions.get_by_id('r_1049')
+    # vars(a)
+    #
+    # reactions = ['r_0962', 'r_0300', 'r_1022', 'r_0454', 'r_1054', 'r_0452', 'r_0892', 'r_0893', 'r_1049']
+    # for r in reactions:
+    #     case10.checkReaction(r)
