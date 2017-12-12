@@ -35,6 +35,7 @@ datasets_text = """\
 
 datasets_code = """\
 exp_dataset, reactions = case6.loadExperimentalRes('Results/Case 6/case6_experimental_fluxes.csv')
+pd.DataFrame(reactions)
 # NO EXPERIMENTAL ETHANOL FLUXES TO ADJUST O2 LB
 """
 

@@ -263,6 +263,31 @@ class PhenomenalySim (object):
         ub = self.model.reactions.get_by_id(reaction_id).upper_bound
         print('Upper bound: {}'.format(ub))
 
+    def singleSimulation(self, carbon_source = 'r_1714', cs_lb = -1.5, geneko = None, o2_lb = None, type = 'fba'):
+        with self.model as m:
+            m.set_carbon_source(carbon_source, lb = cs_lb)
+            if geneko is not None:
+                m.set_environmental_conditions(gene_knockout = geneko)
+            if o2_lb is not None:
+                m.reactions.get_by_id('r_1992').lower_bound = float(o2_lb)
+
+            if type == 'fba':
+                res = fba(m)
+            elif type == 'pfba':
+                res = pfba(m)
+            elif type == 'fva':
+                res = fva(m, reaction_list = m.reactions, fix_biomass = True)
+            elif type == 'lmoma':
+                r = pfba(m)
+                res = lmoma(m, r)
+
+        return res
+
+    def getReactionInfo(self, reaction_id):
+        r = self.model.reactions.get_by_id(reaction_id)
+        for k,v in vars(r).items():
+            print(k, '\t', v)
+
 
 if __name__ == '__main__':
     # dir(a) #check object attributes
