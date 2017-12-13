@@ -143,11 +143,6 @@ if __name__ == '__main__':
     case10.plotExpVsSim(g_pfba_exp_sim_errors, save_fig_path = 'Results/Case 10/g_pfba_exp_sim_plot.png', title = 'pFBA GLucose Carbon Source')
     plt.close('all')
 
-    #LMOMA
-    g_lmoma_res, g_lmoma_exp_sim, g_lmoma_exp_sim_errors = case10.simulationPipeline(exp_dataset.ix[:,0], cs = 'glucose', type = 'lmoma', res_exists = True, fname = 'Results/Case 10/res_lmoma_glucose_case10.sav')
-    case10.plotExpVsSim(g_lmoma_exp_sim_errors, save_fig_path = 'Results/Case 10/g_lmoma_exp_sim_plot.png', title = 'LMOMA GLucose Carbon Source')
-    plt.close('all')
-
     #FVA
     g_fva_res, g_fva_exp_sim, _ = case10.simulationPipeline(exp_dataset.ix[:,0], cs = 'glucose', type = 'fva', res_exists = True, fname = 'Results/Case 10/res_fva_glucose_case10.sav')
 

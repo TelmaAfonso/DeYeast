@@ -1,4 +1,4 @@
-Reaction;Reaction_name;Yeast7_ID;glucose rel flux;glucose exp flux;mannose rel flux;mannose exp flux;galactose rel flux;galactose rxpeel flux;pyruvate rel flux;pyruvate exp flux
+Reaction;Reaction_name;Yeast7_ID;glucose rel flux;glucose exp flux;mannose rel flux;mannose exp flux;galactose rel flux;galactose exp flux;pyruvate rel flux;pyruvate exp flux
 D-Glucose(ex) <==> D-Glucose-6-phosphate;R01786;r_0534;100,0000;1,5000;x;x;x;x;x;x
 mannose <==>D-Fructose-6-phosphate;R00772;r_0723;x;x;100,0000;1,5000;x;x;x;x
 galactose <==> D-Glucose-6-phosphate;R01092;r_0458;x;x;x;x;100,0000;1,5000;x;x
