@@ -26,7 +26,7 @@ from yeastpack_test import PhenomenalySim
 class Case14 (PhenomenalySim):
 
     def __int__(self, cobra_model = None):
-        super(Case10, self).__int__(self, cobra_model)
+        super(Case14, self).__int__(self, cobra_model)
 
 
     def loadExperimentalRes (self, filename_exp, sep = ';'):
@@ -108,7 +108,7 @@ class Case14 (PhenomenalySim):
         if save_fig_path is not None:
             plt.savefig(save_fig_path)
 
-    def testO2EthanolProd (self, g_knockout = None, cs = 'r_1714', cs_lb = -1.5, range_o2 = list(np.arange(-1000, 0, 100))):
+    def testO2EthanolProd (self, g_knockout = None, cs = 'r_1714', cs_lb = -1.5, range_o2 = list(np.arange(-20, 0, 2))):
         loading_bars = 40*'='
         res = {}
         for i in range_o2:
@@ -126,6 +126,26 @@ class Case14 (PhenomenalySim):
         for key, val in sorted(res.items()): print(key, '\t', val)
         return res
 
+    def plotO2vsEtOH (self, dict_EtOH_res, real_EtOH_flux = 0, xlab = 'O2 Flux', ylab = 'EtOH Flux', title = 'Ethanol production with O2 flux', legend = 'Wild Type', fname = None):
+        plt.figure(figsize = (10, 5))
+        x = sorted([float(x) for x in dict_EtOH_res.keys()])
+        y = [float(dict_EtOH_res[str(key)]) for key in x]
+        slope, intercept, r_value, p_value, std_err = linregress(x, y)
+        line = [slope * x + intercept for x in x]
+        real_O2 = lambda x0: (y0 - intercept) / slope
+        y0 = real_EtOH_flux
+        plt.plot(x, y, 'o', x, line)
+        plt.axhline(y = real_EtOH_flux, ls = 'dashed')
+        plt.xlabel(xlab)
+        plt.ylabel(ylab)
+        plt.title(title)
+        plt.legend([legend, 'R2: %.4f' % r_value**2, 'Real EtOH flux: %.2f (O2 flux of %.2f)' % (real_EtOH_flux, real_O2(y0))])
+        plt.show()
+
+        if fname is not None:
+            plt.savefig(fname)
+
+        return round(real_O2(y0), 4)
 
 
 # if __name__ == '__main__':
@@ -142,26 +162,63 @@ HXK2 = case14.convertStdToSyst(genes)['HXK2'] # Gene match only for HXK2 gene
 
 #General datasets
 exp_dataset, reactions = case14.loadExperimentalRes('Results/Case 14/case14_experimental_fluxes.csv')
-wt_etOH = case14.testO2EthanolProd()
+
 
 # ====== WILD TYPE ======
+
+# O2 FLUX ESTIMATION
+# wt_etOH = case14.testO2EthanolProd(range_o2 = list(np.arange(-2, 0, 0.2)))
+# case14.saveObjectToFile(wt_etOH2, 'Results/Case 14/wt_dict_etOH_O2_fluxes.sav')
+wt_etOH = case14.loadObjectFromFile('Results/Case 14/wt_dict_etOH_O2_fluxes.sav')
+wt_o2_lb = case14.plotO2vsEtOH(wt_etOH, real_EtOH_flux = 2.1080, fname = 'Results/Case 14/wt_etOH_plot.png')
+plt.close('all')
+
+
 #FBA
-wt_fba_res, wt_fba_exp_sim, wt_fba_exp_sim_errors = case14.simulationPipeline(exp_dataset.ix[:,0], type = 'fba', res_exists = False, fname = 'Results/Case 14/res_fba_wt_case14.sav')
+wt_fba_res, wt_fba_exp_sim, wt_fba_exp_sim_errors = case14.simulationPipeline(exp_dataset.ix[:,0], o2_lb = wt_o2_lb, type = 'fba', res_exists = True, fname = 'Results/Case 14/res_fba_wt_case14.sav')
 case14.plotExpVsSim(wt_fba_exp_sim_errors, save_fig_path = 'Results/Case 14/wt_fba_exp_sim_plot.png', title = 'FBA Wild Type')
 plt.close('all')
 
 #pFBA
-wt_pfba_res, wt_pfba_exp_sim, wt_pfba_exp_sim_errors = case14.simulationPipeline(exp_dataset.ix[:,0], type = 'pfba', res_exists = False, fname = 'Results/Case 14/res_pfba_wt_case14.sav')
+wt_pfba_res, wt_pfba_exp_sim, wt_pfba_exp_sim_errors = case14.simulationPipeline(exp_dataset.ix[:,0], o2_lb = wt_o2_lb, type = 'pfba', res_exists = True, fname = 'Results/Case 14/res_pfba_wt_case14.sav')
 case14.plotExpVsSim(wt_pfba_exp_sim_errors, save_fig_path = 'Results/Case 14/wt_pfba_exp_sim_plot.png', title = 'pFBA Wild Type')
+
 plt.close('all')
 
 #FVA
-wt_fva_res, wt_fva_exp_sim, _ = case14.simulationPipeline(exp_dataset.ix[:,0], type = 'fva', res_exists = False, fname = 'Results/Case 14/res_fva_wt_case14.sav')
+wt_fva_res, wt_fva_exp_sim, _ = case14.simulationPipeline(exp_dataset.ix[:,0], o2_lb = wt_o2_lb, type = 'fva', res_exists = True, fname = 'Results/Case 14/res_fva_wt_case14.sav')
 
 
 
-#
-#
+# ====== HXK2 DELETION ======
+
+# O2 FLUX ESTIMATION
+# hxk2_etOH = case14.testO2EthanolProd(g_knockout = HXK2,range_o2 = list(np.arange(-2, 0, 0.2)))
+# case14.saveObjectToFile(hxk2_etOH, 'Results/Case 14/hxk2_dict_etOH_O2_fluxes.sav')
+hxk2_etOH = case14.loadObjectFromFile('Results/Case 14/hxk2_dict_etOH_O2_fluxes.sav')
+hxk2_02_lb = case14.plotO2vsEtOH(hxk2_etOH, real_EtOH_flux = 1.4221, fname = 'Results/Case 14/hxk2_etOH_plot.png')
+plt.close('all')
+
+
+#FBA
+hxk2_fba_res, hxk2_fba_exp_sim, hxk2_fba_exp_sim_errors = case14.simulationPipeline(exp_dataset.ix[:,5], o2_lb = hxk2_02_lb, type = 'fba', res_exists = True, fname = 'Results/Case 14/res_fba_hxk2_case14.sav')
+case14.plotExpVsSim(hxk2_fba_exp_sim_errors, save_fig_path = 'Results/Case 14/hxk2_fba_exp_sim_plot.png', title = 'FBA HXK2 Del')
+plt.close('all')
+
+#pFBA
+hxk2_pfba_res, hxk2_pfba_exp_sim, hxk2_pfba_exp_sim_errors = case14.simulationPipeline(exp_dataset.ix[:,5], o2_lb = hxk2_02_lb, type = 'pfba', res_exists = True, fname = 'Results/Case 14/res_pfba_hxk2_case14.sav')
+case14.plotExpVsSim(hxk2_pfba_exp_sim_errors, save_fig_path = 'Results/Case 14/hxk2_pfba_exp_sim_plot.png', title = 'pFBA HXK2 Del')
+plt.close('all')
+
+#FVA
+hxk2_fva_res, hxk2_fva_exp_sim, _ = case14.simulationPipeline(exp_dataset.ix[:,5], o2_lb = hxk2_02_lb, type = 'fva', res_exists = True, fname = 'Results/Case 14/res_fva_hxk2_case14.sav')
+
+
+
+# SEE r_0962 signal in exp dataset
+
+
+
 # # TESTS
 # import time
 # import sys
@@ -189,14 +246,14 @@ wt_fva_res, wt_fva_exp_sim, _ = case14.simulationPipeline(exp_dataset.ix[:,0], t
 # for i in tqdm(range(10)):
 #     time.sleep(3)
 #
-#
-# from progress.bar import Bar
-#
-# bar = Bar('Processing', max=20)
-# for i in range(20):
-#     print('Do stuff')
-#     bar.next()
-# bar.finish()
+
+from progress.bar import Bar
+
+bar = Bar('Processing', max=20)
+for i in range(20):
+    print('Do stuff')
+    bar.next()
+bar.finish()
 #
 #
 #

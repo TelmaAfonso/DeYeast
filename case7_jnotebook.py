@@ -154,6 +154,6 @@ nb['cells'] = [nbf.v4.new_markdown_cell(text),
                nbf.v4.new_code_cell(genes_dataset)
                ] + [eval(exp) for exp in nbcells]
 
-with open('test.ipynb', 'w') as f:
+with open('case7.ipynb', 'w') as f:
     nbf.write(nb, f)
 

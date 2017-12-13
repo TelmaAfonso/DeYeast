@@ -238,3 +238,4 @@ if __name__ == '__main__':
     # reactions = ['r_0962', 'r_0300', 'r_1022', 'r_0454', 'r_1054', 'r_0452', 'r_0892', 'r_0893', 'r_1049']
     # for r in reactions:
     #     case10.checkReaction(r)
+
