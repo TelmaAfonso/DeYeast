@@ -126,6 +126,8 @@ class Case3 (PhenomenalySim):
 
 #if __name__ == '__main__':
 
+#Strain FY4 is derived from S288C (very similar)
+
 #Initialization
 case3 = Case3()
 case3.model = case3.loadObjectFromFile('model_yeast_76.sav')
