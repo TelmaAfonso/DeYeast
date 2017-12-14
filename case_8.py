@@ -1,6 +1,6 @@
 
 '''
-Functions for case 5 simulations
+Functions for case 8 simulations
 
 Author: Telma Afonso
 '''
@@ -23,17 +23,17 @@ pd.set_option('display.max_colwidth', -1)
 from yeastpack_test import PhenomenalySim
 
 
-class Case5 (PhenomenalySim):
+class Case8 (PhenomenalySim):
 
     def __int__(self, cobra_model = None):
-        super(Case5, self).__int__(self, cobra_model)
+        super(Case8, self).__int__(self, cobra_model)
 
-    def dictsForCase5 (self):
+    def dictsForCase8 (self):
         # Carbon source lbs
-        cs_lb = {'glucose': -1.5, 'ethanol': -5} #Shophia's values
+        cs_lb = {'glucose': -1.5, 'galactose': -1.5, 'glycerol': -2.5, 'ethanol': -5} #Shophia's values
 
         # Carbon source exchange reactions
-        cs_reaction = {'glucose': 'r_1714', 'ethanol': 'r_1761'}
+        cs_reaction = {'glucose': 'r_1714', 'galactose': 'r_1710', 'glycerol': 'r_1808', 'ethanol': 'r_1761'}
 
         self.cs_lb, self.cs_reaction = cs_lb, cs_reaction
 
@@ -132,7 +132,7 @@ class Case5 (PhenomenalySim):
         for i in range_o2:
             with self.model as m:
                 m.set_carbon_source(cs, lb = cs_lb)
-                m.reactions.get_by_id('r_1992').lower_bound = float(i)
+                m.reactions.get_by_id('r_2115').lower_bound = float(i)
                 if g_knockout is not None:
                     m.set_environmental_conditions(gene_knockout = g_knockout)
                 r = pfba(m)
@@ -171,17 +171,21 @@ class Case5 (PhenomenalySim):
 #Strain FY4 is derived from S288C (very similar)
 
 #Initialization
-case5 = Case5()
-case5.model = case5.loadObjectFromFile('model_yeast_76.sav')
-case5.model.solver = 'optlang-cplex'
-case5.setMedium('MINIMAL')
-case5.dictsForCase5()
+case8 = Case8()
+case8.model = case8.loadObjectFromFile('model_yeast_76.sav')
+case8.model.solver = 'optlang-cplex'
+case8.setMedium('MINIMAL')
+case8.dictsForCase8()
+
+#S. Cerevisiae BY4741 deltas
+genes = ['HIS3', 'LEU2', 'MET17', 'URA3']
+genes = list(case8.convertStdToSyst(genes).values())
 
 #General datasets
-exp_dataset, reactions = case5.loadExperimentalRes('Results/Case 5/case5_experimental_fluxes.csv')
+exp_dataset, reactions = case8.loadExperimentalRes('Results/Case 8/case8_experimental_fluxes.csv')
 
 # ====== CS: GLUCOSE ======
-g_exp_df = case5.getColumnWithoutNAs(exp_dataset, 0)
+g_exp_df = case8.getColumnWithoutNAs(exp_dataset, 0, 'X')
 
 # O2 FLUX ESTIMATION - ALL ZERO!
 # g_etOH = case5.testO2EthanolProd(range_o2 = list(np.arange(-10, 0, 1)))
@@ -205,19 +209,10 @@ plt.close('all')
 g_fva_res, g_fva_exp_sim, _ = case5.simulationPipeline(g_exp_df, cs = 'glucose', type = 'fva', res_exists = True, fname = 'Results/Case 5/res_fva_glucose_case5.sav')
 
 
-# ====== CS: ETHANOL ======
-e_exp_df = case5.getColumnWithoutNAs(exp_dataset, 1)
+# R03668 - KEGGID Wrong in cecafdb dataset
+# D-Glyceraldehyde-3-phosphate <==> Glycerol (transport) not present in model
+# Acetyl-CoA <==> Acetyl-CoA-mit	(transport) not present in model
 
-#FBA
-e_fba_res, e_fba_exp_sim, e_fba_exp_sim_errors = case5.simulationPipeline(e_exp_df, cs = 'ethanol', type = 'fba', res_exists = False, fname = 'Results/Case 5/res_fba_ethanol_case5.sav')
-e_fba_exp_sim_errors = case5.getDFWithoutExtremeFluxes(e_fba_exp_sim_errors) #without r_0302, for plotting
-case5.plotExpVsSim(e_fba_exp_sim_errors, save_fig_path = 'Results/Case 5/e_fba_exp_sim_plot.png', title = 'FBA Ethanol Carbon Source')
-plt.close('all')
 
-#pFBA
-e_pfba_res, e_pfba_exp_sim, e_pfba_exp_sim_errors = case5.simulationPipeline(e_exp_df, cs = 'ethanol', type = 'pfba', res_exists = False, fname = 'Results/Case 5/res_pfba_ethanol_case5.sav')
-case5.plotExpVsSim(e_pfba_exp_sim_errors, save_fig_path = 'Results/Case 5/e_pfba_exp_sim_plot.png', title = 'pFBA Ethanol Carbon Source')
-plt.close('all')
+case5.checkReaction(case5.convertKeggID('R03668'))
 
-#FVA
-e_fva_res, e_fva_exp_sim, _ = case5.simulationPipeline(e_exp_df, cs = 'ethanol', type = 'fva', res_exists = False, fname = 'Results/Case 5/res_fva_ethanol_case5.sav')
