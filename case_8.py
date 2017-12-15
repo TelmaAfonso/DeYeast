@@ -126,13 +126,13 @@ class Case8 (PhenomenalySim):
         if save_fig_path is not None:
             plt.savefig(save_fig_path)
 
-    def testO2EthanolProd (self, g_knockout = None, cs = 'r_1714', cs_lb = -1.5, range_o2 = list(np.arange(-20, 0, 2))):
+    def testO2EthanolProd (self, g_knockout = None, cs = 'glucose', range_o2 = list(np.arange(-20, 0, 2))):
         loading_bars = 40*'='
         res = {}
         for i in range_o2:
             with self.model as m:
-                m.set_carbon_source(cs, lb = cs_lb)
-                m.reactions.get_by_id('r_2115').lower_bound = float(i)
+                m.set_carbon_source(self.cs_reaction[cs], lb = self.cs_lb[cs])
+                m.reactions.get_by_id('r_1992').lower_bound = float(i)
                 if g_knockout is not None:
                     m.set_environmental_conditions(gene_knockout = g_knockout)
                 r = pfba(m)
@@ -140,7 +140,7 @@ class Case8 (PhenomenalySim):
                     fluxes = pd.DataFrame(list(r.x_dict.items())).set_index(0)
                 else:
                     fluxes = r.fluxes
-                res[str(i)] = fluxes.loc['r_0163']
+                res[str(i)] = fluxes.loc['r_2115']
         for key, val in sorted(res.items()): print(key, '\t', val)
         return res
 
@@ -166,53 +166,152 @@ class Case8 (PhenomenalySim):
         return round(real_O2(y0), 4)
 
 
-#if __name__ == '__main__':
+if __name__ == '__main__':
 
-#Strain FY4 is derived from S288C (very similar)
+    #Strain FY4 is derived from S288C (very similar)
 
-#Initialization
-case8 = Case8()
-case8.model = case8.loadObjectFromFile('model_yeast_76.sav')
-case8.model.solver = 'optlang-cplex'
-case8.setMedium('MINIMAL')
-case8.dictsForCase8()
+    #Initialization
+    case8 = Case8()
+    case8.model = case8.loadObjectFromFile('model_yeast_76.sav')
+    case8.model.solver = 'optlang-cplex'
+    case8.setMedium('MINIMAL')
+    case8.dictsForCase8()
 
-#S. Cerevisiae BY4741 deltas
-genes = ['HIS3', 'LEU2', 'MET17', 'URA3']
-genes = list(case8.convertStdToSyst(genes).values())
+    #S. Cerevisiae BY4741 deltas
+    genes = ['HIS3', 'LEU2', 'MET17', 'URA3']
+    genes = list(case8.convertStdToSyst(genes).values())
 
-#General datasets
-exp_dataset, reactions = case8.loadExperimentalRes('Results/Case 8/case8_experimental_fluxes.csv')
+    #General datasets
+    exp_dataset, reactions = case8.loadExperimentalRes('Results/Case 8/case8_experimental_fluxes.csv')
 
-# ====== CS: GLUCOSE ======
-g_exp_df = case8.getColumnWithoutNAs(exp_dataset, 0, 'X')
+    # ====== CS: GLUCOSE ======
+    g_exp_df = case8.getColumnWithoutNAs(exp_dataset, 0, 'X')
 
-# O2 FLUX ESTIMATION - ALL ZERO!
-# g_etOH = case5.testO2EthanolProd(range_o2 = list(np.arange(-10, 0, 1)))
-# case5.saveObjectToFile(g_etOH, 'Results/Case 5/g_dict_etOH_O2_fluxes.sav')
-# g_etOH = case5.loadObjectFromFile('Results/Case 5/g_dict_etOH_O2_fluxes.sav')
-# g_o2_lb = case5.plotO2vsEtOH(g_etOH, real_EtOH_flux = -0.2478, fname = 'Results/Case 5/g_etOH_plot.png')
-# plt.close('all')
+    # O2 FLUX ESTIMATION - ALL ZERO
+    # g_etOH = case8.testO2EthanolProd(g_knockout = genes, cs = 'glucose', range_o2 = list(np.arange(-2, 0, 0.1)))
+    # case8.saveObjectToFile(g_etOH, 'Results/Case 8/g_dict_etOH_O2_fluxes.sav')
+    g_etOH = case8.loadObjectFromFile('Results/Case 8/g_dict_etOH_O2_fluxes.sav')
+    g_o2_lb = case8.plotO2vsEtOH(g_etOH, real_EtOH_flux = 2.115, legend = 'FY4 - Glucose', fname = 'Results/Case 8/g_etOH_plot.png')
+    plt.close('all')
 
-#FBA
-g_fba_res, g_fba_exp_sim, g_fba_exp_sim_errors = case5.simulationPipeline(g_exp_df, cs = 'glucose', type = 'fba', res_exists = True, fname = 'Results/Case 5/res_fba_glucose_case5.sav')
-g_fba_exp_sim_errors = case5.getDFWithoutExtremeFluxes(g_fba_exp_sim_errors) #without r_0302, for plotting
-case5.plotExpVsSim(g_fba_exp_sim_errors, save_fig_path = 'Results/Case 5/g_fba_exp_sim_plot.png', title = 'FBA Glucose Carbon Source')
-plt.close('all')
+    #FBA
+    g_fba_res, g_fba_exp_sim, g_fba_exp_sim_errors = case8.simulationPipeline(g_exp_df, cs = 'glucose', geneko = genes, type = 'fba', res_exists = True, fname = 'Results/Case 8/res_fba_glucose_case5.sav')
+    g_fba_exp_sim_errors = case8.getDFWithoutExtremeFluxes(g_fba_exp_sim_errors) #without extreme fluxes (for plotting)
+    case8.plotExpVsSim(g_fba_exp_sim_errors, save_fig_path = 'Results/Case 8/g_fba_exp_sim_plot.png', title = 'FBA Glucose Carbon Source')
+    plt.close('all')
 
-#pFBA
-g_pfba_res, g_pfba_exp_sim, g_pfba_exp_sim_errors = case5.simulationPipeline(g_exp_df, cs = 'glucose', type = 'pfba', res_exists = True, fname = 'Results/Case 5/res_pfba_glucose_case5.sav')
-case5.plotExpVsSim(g_pfba_exp_sim_errors, save_fig_path = 'Results/Case 5/g_pfba_exp_sim_plot.png', title = 'pFBA Glucose Carbon Source')
-plt.close('all')
+    #pFBA
+    g_pfba_res, g_pfba_exp_sim, g_pfba_exp_sim_errors = case8.simulationPipeline(g_exp_df, cs = 'glucose', geneko = genes, type = 'pfba', res_exists = True, fname = 'Results/Case 8/res_pfba_glucose_case5.sav')
+    case8.plotExpVsSim(g_pfba_exp_sim_errors, save_fig_path = 'Results/Case 8/g_pfba_exp_sim_plot.png', title = 'pFBA Glucose Carbon Source')
+    plt.close('all')
 
-#FVA
-g_fva_res, g_fva_exp_sim, _ = case5.simulationPipeline(g_exp_df, cs = 'glucose', type = 'fva', res_exists = True, fname = 'Results/Case 5/res_fva_glucose_case5.sav')
+    #LMOMA
+    g_lmoma_res, g_lmoma_exp_sim, g_lmoma_exp_sim_errors = case8.simulationPipeline(g_exp_df, cs = 'glucose', geneko = genes, type = 'lmoma', res_exists = True, fname = 'Results/Case 8/res_lmoma_glucose_case5.sav')
+    case8.plotExpVsSim(g_lmoma_exp_sim_errors, save_fig_path = 'Results/Case 8/g_lmoma_exp_sim_plot.png', title = 'LMOMA Glucose Carbon Source')
+    plt.close('all')
+
+    #FVA
+    g_fva_res, g_fva_exp_sim, _ = case8.simulationPipeline(g_exp_df, cs = 'glucose', geneko = genes, type = 'fva', res_exists = True, fname = 'Results/Case 8/res_fva_glucose_case5.sav')
 
 
-# R03668 - KEGGID Wrong in cecafdb dataset
-# D-Glyceraldehyde-3-phosphate <==> Glycerol (transport) not present in model
-# Acetyl-CoA <==> Acetyl-CoA-mit	(transport) not present in model
+
+    # ====== CS: GALACTOSE ======
+    gal_exp_df = case8.getColumnWithoutNAs(exp_dataset, 1, 'X')
+
+    # O2 FLUX ESTIMATION - ALL ZERO
+    # gal_etOH = case8.testO2EthanolProd(g_knockout = genes, cs = 'galactose', range_o2 = list(np.arange(-2, 0, 0.1)))
+    # case8.saveObjectToFile(gal_etOH, 'Results/Case 8/gal_dict_etOH_O2_fluxes.sav')
+    gal_etOH = case8.loadObjectFromFile('Results/Case 8/gal_dict_etOH_O2_fluxes.sav')
+    gal_o2_lb = case8.plotO2vsEtOH(gal_etOH, real_EtOH_flux = 1.545, legend = 'FY4 - Galactose', fname = 'Results/Case 8/gal_etOH_plot.png')
+    plt.close('all')
+
+    #FBA
+    gal_fba_res, gal_fba_exp_sim, gal_fba_exp_sim_errors = case8.simulationPipeline(gal_exp_df, cs = 'galactose', geneko = genes, type = 'fba', res_exists = True, fname = 'Results/Case 8/res_fba_galactose_case5.sav')
+    gal_fba_exp_sim_errors = case8.getDFWithoutExtremeFluxes(gal_fba_exp_sim_errors)
+    case8.plotExpVsSim(gal_fba_exp_sim_errors, save_fig_path = 'Results/Case 8/gal_fba_exp_sim_plot.png', title = 'FBA Galactose Carbon Source')
+    plt.close('all')
+
+    #pFBA - ALL ZERO???????
+    gal_pfba_res, gal_pfba_exp_sim, gal_pfba_exp_sim_errors = case8.simulationPipeline(gal_exp_df, cs = 'galactose', geneko = genes, type = 'pfba', res_exists = True, fname = 'Results/Case 8/res_pfba_galactose_case5.sav')
+    case8.plotExpVsSim(gal_pfba_exp_sim_errors, save_fig_path = 'Results/Case 8/gal_pfba_exp_sim_plot.png', title = 'pFBA Galactose Carbon Source')
+    plt.close('all')
+
+    #LMOMA
+    gal_lmoma_res, gal_lmoma_exp_sim, gal_lmoma_exp_sim_errors = case8.simulationPipeline(gal_exp_df, cs = 'galactose', geneko = genes, type = 'lmoma', res_exists = True, fname = 'Results/Case 8/res_lmoma_galactose_case5.sav')
+    case8.plotExpVsSim(gal_lmoma_exp_sim_errors, save_fig_path = 'Results/Case 8/gal_lmoma_exp_sim_plot.png', title = 'LMOMA Galactose Carbon Source')
+    plt.close('all')
+
+    #FVA
+    gal_fva_res, gal_fva_exp_sim, _ = case8.simulationPipeline(gal_exp_df, cs = 'galactose', geneko = genes, type = 'fva', res_exists = True, fname = 'Results/Case 8/res_fva_galactose_case5.sav')
 
 
-case5.checkReaction(case5.convertKeggID('R03668'))
+    # ====== CS: GLYCEROL ======
+    gly_exp_df = case8.getColumnWithoutNAs(exp_dataset, 2, 'X')
+
+    # O2 FLUX ESTIMATION - ALL ZERO
+    # gly_etOH = case8.testO2EthanolProd(g_knockout = genes, cs = 'glycerol', range_o2 = list(np.arange(-2, 0, 0.1)))
+    # case8.saveObjectToFile(gly_etOH, 'Results/Case 8/gly_dict_etOH_O2_fluxes.sav')
+    gly_etOH = case8.loadObjectFromFile('Results/Case 8/gly_dict_etOH_O2_fluxes.sav')
+    gly_o2_lb = case8.plotO2vsEtOH(gly_etOH, real_EtOH_flux = 0.175, legend = 'FY4 - Glycerol', fname = 'Results/Case 8/gly_etOH_plot.png')
+    plt.close('all')
+
+    #FBA
+    gly_fba_res, gly_fba_exp_sim, gly_fba_exp_sim_errors = case8.simulationPipeline(gly_exp_df, cs = 'glycerol', geneko = genes, type = 'fba', res_exists = True, fname = 'Results/Case 8/res_fba_glycerol_case5.sav')
+    gly_fba_exp_sim_errors = case8.getDFWithoutExtremeFluxes(gly_fba_exp_sim_errors)
+    case8.plotExpVsSim(gly_fba_exp_sim_errors, save_fig_path = 'Results/Case 8/gly_fba_exp_sim_plot.png', title = 'FBA Glycerol Carbon Source')
+    plt.close('all')
+
+    #pFBA
+    gly_pfba_res, gly_pfba_exp_sim, gly_pfba_exp_sim_errors = case8.simulationPipeline(gly_exp_df, cs = 'glycerol', geneko = genes, type = 'pfba', res_exists = True, fname = 'Results/Case 8/res_pfba_glycerol_case5.sav')
+    case8.plotExpVsSim(gly_pfba_exp_sim_errors, save_fig_path = 'Results/Case 8/gly_pfba_exp_sim_plot.png', title = 'pFBA Glycerol Carbon Source')
+    plt.close('all')
+
+    #LMOMA
+    gly_lmoma_res, gly_lmoma_exp_sim, gly_lmoma_exp_sim_errors = case8.simulationPipeline(gly_exp_df, cs = 'glycerol', geneko = genes, type = 'lmoma', res_exists = True, fname = 'Results/Case 8/res_lmoma_glycerol_case5.sav')
+    case8.plotExpVsSim(gly_lmoma_exp_sim_errors, save_fig_path = 'Results/Case 8/gly_lmoma_exp_sim_plot.png', title = 'LMOMA Glycerol Carbon Source')
+    plt.close('all')
+
+    #FVA
+    gly_fva_res, gly_fva_exp_sim, _ = case8.simulationPipeline(gly_exp_df, cs = 'glycerol', geneko = genes, type = 'fva', res_exists = True, fname = 'Results/Case 8/res_fva_glycerol_case5.sav')
+
+
+    # ====== CS: ETHANOL ======
+    e_exp_df = case8.getColumnWithoutNAs(exp_dataset, 3, 'X')
+
+    #FBA
+    e_fba_res, e_fba_exp_sim, e_fba_exp_sim_errors = case8.simulationPipeline(e_exp_df, cs = 'ethanol', geneko = genes, type = 'fba', res_exists = False, fname = 'Results/Case 8/res_fba_ethanol_case5.sav')
+    e_fba_exp_sim_errors = case8.getDFWithoutExtremeFluxes(e_fba_exp_sim_errors) #without r_0302, for plotting
+    case8.plotExpVsSim(e_fba_exp_sim_errors, save_fig_path = 'Results/Case 8/e_fba_exp_sim_plot.png', title = 'FBA Ethanol Carbon Source')
+    plt.close('all')
+
+    #pFBA
+    e_pfba_res, e_pfba_exp_sim, e_pfba_exp_sim_errors = case8.simulationPipeline(e_exp_df, cs = 'ethanol', geneko = genes, type = 'pfba', res_exists = False, fname = 'Results/Case 8/res_pfba_ethanol_case5.sav')
+    case8.plotExpVsSim(e_pfba_exp_sim_errors, save_fig_path = 'Results/Case 8/e_pfba_exp_sim_plot.png', title = 'pFBA Ethanol Carbon Source')
+    plt.close('all')
+
+    #LMOMA
+    e_lmoma_res, e_lmoma_exp_sim, e_lmoma_exp_sim_errors = case8.simulationPipeline(e_exp_df, cs = 'ethanol', geneko = genes, type = 'lmoma', res_exists = False, fname = 'Results/Case 8/res_lmoma_ethanol_case5.sav')
+    case8.plotExpVsSim(e_lmoma_exp_sim_errors, save_fig_path = 'Results/Case 8/e_lmoma_exp_sim_plot.png', title = 'LMOMA Ethanol Carbon Source')
+    plt.close('all')
+
+    #FVA
+    e_fva_res, e_fva_exp_sim, _ = case8.simulationPipeline(e_exp_df, cs = 'ethanol', geneko = genes, type = 'fva', res_exists = False, fname = 'Results/Case 8/res_fva_ethanol_case5.sav')
+
+
+
+
+    #TESTS
+    # pd.concat([pd.DataFrame(reactions), gly_fba_exp_sim_errors], axis = 1, join = 'inner')
+    # result = pd.DataFrame(reactions).join(gly_fba_exp_sim_errors, how = 'inner')
+
+    # R03668 - KEGGID Wrong in cecafdb dataset
+    # D-Glyceraldehyde-3-phosphate <==> Glycerol (transport) not present in model
+    # Acetyl-CoA <==> Acetyl-CoA-mit	(transport) not present in model
+
+
+    # case5.checkReaction(case5.convertKeggID('R03668'))
+    # case8.checkReaction('r_0454')
+
+
+
 

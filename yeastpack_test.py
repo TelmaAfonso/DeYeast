@@ -266,10 +266,15 @@ class PhenomenalySim (object):
     def singleSimulation(self, carbon_source = 'r_1714', cs_lb = -1.5, geneko = None, o2_lb = None, type = 'fba'):
         with self.model as m:
             m.set_carbon_source(carbon_source, lb = cs_lb)
-            if geneko is not None:
-                m.set_environmental_conditions(gene_knockout = geneko)
             if o2_lb is not None:
                 m.reactions.get_by_id('r_1992').lower_bound = float(o2_lb)
+            if geneko is not None:
+                if type == 'lmoma':
+                    r = pfba(m)
+                    m.set_environmental_conditions(gene_knockout = geneko)
+                    res = lmoma(m, r)
+                else:
+                    m.set_environmental_conditions(gene_knockout = geneko)
 
             if type == 'fba':
                 res = fba(m)
@@ -277,9 +282,6 @@ class PhenomenalySim (object):
                 res = pfba(m)
             elif type == 'fva':
                 res = fva(m, reaction_list = m.reactions, fix_biomass = True)
-            elif type == 'lmoma':
-                r = pfba(m)
-                res = lmoma(m, r)
 
         return res
 
