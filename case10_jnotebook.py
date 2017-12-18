@@ -10,8 +10,39 @@ import nbformat as nbf
 nb = nbf.v4.new_notebook()
 
 text = """\
-# Case 10 Report
+# Case 10 Report (Daran-Lapujade et al, 2004)
+
 This report contains the results with case 10 simulations.
+
+Paper: [*Role of Transcriptional Regulation in Controlling Fluxes in Central Carbon Metabolism of Saccharomyces cerevisiae*](http://www.jbc.org/content/279/10/9125.long)
+
+**Abstract**
+In contrast to batch cultivation, chemostat cultivation allows the identification of carbon source responses
+without interference by carbon-catabolite repression, accumulation of toxic products, and differences in specific 
+growth rate. This study focuses on the yeast Saccharomyces cerevisiae, grown in aerobic, carbon-limited
+chemostat cultures. Genome-wide transcript levels and in vivo fluxes were compared for growth on two sugars,
+glucose and maltose, and for two C2-compounds, ethanol and acetate. In contrast to previous reports on batch
+cultures, few genes (180 genes) responded to changes of the carbon source by a changed transcript level. Very
+few transcript levels were changed when glucose as the growth-limiting nutrient was compared with maltose
+(33 transcripts), or when acetate was compared with ethanol (16 transcripts). Although metabolic flux analy-
+sis using a stoichiometric model revealed major changes in the central carbon metabolism, only 117 genes exhib-
+ited a significantly different transcript level when sugars and C2-compounds were provided as the growth-
+limiting nutrient. Despite the extensive knowledge on carbon source regulation in yeast, many of the carbon
+source-responsive genes encoded proteins with unknown or incompletely characterized biological functions. 
+In silico promoter analysis of carbon source-responsive genes confirmed the involvement of several
+known transcriptional regulators and suggested the involvement of additional regulators. Transcripts 
+involved in the glyoxylate cycle and gluconeogenesis showed a good correlation with in vivo fluxes. This 
+correlation was, however, not observed for other important pathways, including the pentose-phosphate pathway,
+tricarboxylic acid cycle, and, in particular, glycolysis. These results indicate that in vivo fluxes in the central
+carbon metabolism of S. cerevisiae grown in steady-state, carbon-limited chemostat cultures are controlled
+to a large extent via post-transcriptional mechanisms.
+
+**NOTES**
+- Wild-Type S.Cerevisiae CEN.PK 113-7D (MATa MAL2-8c SUC2) used in this study is very similar to that used to build the model (S288C)
+- Maltose only participates in two reactions (transport and exchange) in the model (maltose metabolism not incorporated into Yeast 7?)
+
+<p style="float: center; font-size: 9pt; text-align: center; width: 100%;"><img src = "Results/Case 10/daran_lapujade_2004_fig1", width = 80%></p>
+
 """
 
 code = """\
