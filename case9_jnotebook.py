@@ -10,8 +10,34 @@ import nbformat as nbf
 nb = nbf.v4.new_notebook()
 
 text = """\
-# Case 9 Report
+# Case 9 Report (Gombert et al, 2001)
+
 This report contains the results with case 9 simulations.
+
+Paper: [*Network Identification and Flux Quantification in the Central Metabolism of Saccharomyces cerevisiae under Different Conditions of Glucose Repression*](http://jb.asm.org/content/183/4/1441.long)
+
+**Abstract**
+The network structure and the metabolic fluxes in central carbon metabolism were characterized in aerobically 
+grown cells of Saccharomyces cerevisiae. The cells were grown under both high and low glucose concentrations, 
+i.e., either in a chemostat at steady state with a specific growth rate of 0.1 h ⴚ1 or in a batch culture with
+a specific growth rate of 0.37 h ⴚ1 . Experiments were carried out using [1- 13 C]glucose as the limiting substrate,
+and the resulting summed fractional labelings of intracellular metabolites were measured by gas chromatography 
+coupled to mass spectrometry. The data were used as inputs to a flux estimation routine that involved
+appropriate mathematical modelling of the central carbon metabolism of S. cerevisiae. The results showed that
+the analysis is very robust, and it was possible to quantify the fluxes in the central carbon metabolism under
+both growth conditions. In the batch culture, 16.2 of every 100 molecules of glucose consumed by the cells entered 
+the pentose-phosphate pathway, whereas the same relative flux was 44.2 per 100 molecules in the chemostat. 
+The tricarboxylic acid cycle does not operate as a cycle in batch-growing cells, in contrast to the
+chemostat condition. Quantitative evidence was also found for threonine aldolase and malic enzyme activities,
+in accordance with published data. Disruption of the MIG1 gene did not cause changes in the metabolic network 
+structure or in the flux pattern.
+
+**NOTES**
+- Wild-Type S.Cerevisiae CEN.PK 113-7D (MATa MAL2-8c SUC2) used in this study is very similar to that used to build the model (S288C)
+- O2 flux estimation not possible (ethanol flux of 0 independently of O2 flux)
+
+<p style="float: center; font-size: 9pt; text-align: center; width: 100%;"><img src = "Results/Case 9/gombert_2001_fig2", width = 80%></p>
+
 """
 
 code = """\
