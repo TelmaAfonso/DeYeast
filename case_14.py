@@ -43,6 +43,11 @@ class Case14 (PhenomenalySim):
 
         return sub_exp_fluxes, reactions
 
+    def getDFWithoutExtremeFluxes (self, dataframe, column_index = 1, val = 900):
+        df = dataframe[(dataframe.ix[:, column_index] > -val) & (dataframe.ix[:, column_index] < val)]
+
+        return df.astype('float')
+
     def createDatasetExpVsSimul (self, exp_fluxes, sim_fluxes):
         dsim = sim_fluxes.copy()
         df = pd.concat([exp_fluxes, sim_fluxes], axis = 1, join = 'inner')
@@ -176,6 +181,7 @@ plt.close('all')
 
 #FBA
 wt_fba_res, wt_fba_exp_sim, wt_fba_exp_sim_errors = case14.simulationPipeline(exp_dataset.ix[:,0], o2_lb = wt_o2_lb, type = 'fba', res_exists = True, fname = 'Results/Case 14/res_fba_wt_case14.sav')
+wt_fba_exp_sim_errors = case14.getDFWithoutExtremeFluxes(wt_fba_exp_sim_errors) #without extreme fluxes (for plotting)
 case14.plotExpVsSim(wt_fba_exp_sim_errors, save_fig_path = 'Results/Case 14/wt_fba_exp_sim_plot.png', title = 'FBA Wild Type')
 plt.close('all')
 
@@ -202,6 +208,7 @@ plt.close('all')
 
 #FBA
 hxk2_fba_res, hxk2_fba_exp_sim, hxk2_fba_exp_sim_errors = case14.simulationPipeline(exp_dataset.ix[:,5], o2_lb = hxk2_02_lb, type = 'fba', res_exists = True, fname = 'Results/Case 14/res_fba_hxk2_case14.sav')
+hxk2_fba_exp_sim_errors = case14.getDFWithoutExtremeFluxes(hxk2_fba_exp_sim_errors) #without extreme fluxes (for plotting)
 case14.plotExpVsSim(hxk2_fba_exp_sim_errors, save_fig_path = 'Results/Case 14/hxk2_fba_exp_sim_plot.png', title = 'FBA HXK2 Del')
 plt.close('all')
 
@@ -246,15 +253,15 @@ hxk2_fva_res, hxk2_fva_exp_sim, _ = case14.simulationPipeline(exp_dataset.ix[:,5
 # for i in tqdm(range(10)):
 #     time.sleep(3)
 #
-
-from progress.bar import Bar
-
-bar = Bar('Processing', max=20)
-for i in range(20):
-    print('Do stuff')
-    bar.next()
-bar.finish()
 #
+# from progress.bar import Bar
+#
+# bar = Bar('Processing', max=20)
+# for i in range(20):
+#     print('Do stuff')
+#     bar.next()
+# bar.finish()
+# #
 #
 #
 # import progressbar

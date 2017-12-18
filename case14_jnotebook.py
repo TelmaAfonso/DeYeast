@@ -10,8 +10,38 @@ import nbformat as nbf
 nb = nbf.v4.new_notebook()
 
 text = """\
-# Case 14 Report
+# Case 14 Report (Raghevendran et al, 2004)
+
 This report contains the results with case 14 simulations.
+
+Paper: [*Phenotypic characterization of glucose repression mutants of Saccharomyces cerevisiae using experiments with 13 C-labelled glucose*](http://onlinelibrary.wiley.com/doi/10.1002/yea.1136/abstract)
+
+**Abstract**
+In the field of metabolic engineering and functional genomics, methods for analysis of
+metabolic fluxes in the cell are attractive as they give an overview of the phenotypic
+response of the cells at the level of the active metabolic network. This is unlike several
+other high-throughput experimental techniques, which do not provide information
+about the integrated response a specific genetic modification has on the cellular
+function. In this study we have performed phenotypic characterization of several
+mutants of the yeast Saccharomyces cerevisiae through the use of experiments with
+13
+C-labelled glucose. Through GC–MS analysis of the 13 C incorporated into the amino
+acids of cellular proteins, it was possible to obtain quantitative information on the
+function of the central carbon metabolism in the different mutants. Traditionally,
+such labelling data have been used to quantify metabolic fluxes through the use of a
+suitable mathematical model, but here we show that the raw labelling data may also
+be used directly for phenotypic characterization of different mutant strains. Different
+glucose derepressed strains investigated employed are the disruption mutants reg1,
+hxk2, grr1, mig1 and mig1mig2 and the reference strain CEN.PK113-7D. Principal
+components analysis of the summed fractional labelling data show that deleting the
+genes HXK2 and GRR1 results in similar phenotype at the fluxome level, with a
+partial alleviation of glucose repression on the respiratory metabolism. Furthermore,
+deletion of the genes MIG1, MIG1/MIG2 and REG1 did not result in a significant
+change in the phenotype at the fluxome level. 
+
+**NOTES**
+- From all the knockouts in this study ('REG1', 'MIG1', 'MIG2', 'GRR1', 'HXK2') only the latter had a gene correspondence in the model.
+
 """
 
 code = """\
