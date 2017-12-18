@@ -10,8 +10,37 @@ import nbformat as nbf
 nb = nbf.v4.new_notebook()
 
 text = """\
-# Case 8 Report
+# Case 8 Report (Kuepfer et al, 2005)
 This report contains the results with case 8 simulations.
+
+Paper: [*Metabolic functions of duplicate genes in Saccharomyces cerevisiae*](http://genome.cshlp.org/content/15/10/1421.long)
+
+**Abstract**
+The roles of duplicate genes and their contribution to the phenomenon of enzyme dispensability are a central issue
+in molecular and genome evolution. A comprehensive classification of the mechanisms that may have led to their
+preservation, however, is currently lacking. In a systems biology approach, we classify here back-up, regulatory, and
+gene dosage functions for the 105 duplicate gene families of Saccharomyces cerevisiae metabolism. The key tool was the
+reconciled genome-scale metabolic model iLL672, which was based on the older iFF708. Computational predictions of
+all metabolic gene knockouts were validated with the experimentally determined phenotypes of the entire singleton
+yeast library of 4658 mutants under five environmental conditions. iLL672 correctly identified 96%–98% and
+73%–80% of the viable and lethal singleton phenotypes, respectively. Functional roles for each duplicate family
+were identified by integrating the iLL672-predicted in silico duplicate knockout phenotypes, genome-scale
+carbon-flux distributions, singleton mutant phenotypes, and network topology analysis. The results provide no
+evidence for a particular dominant function that maintains duplicate genes in the genome. In particular, the back-up
+function is not favored by evolutionary selection because duplicates do not occur more frequently in essential
+reactions than singleton genes. Instead of a prevailing role, multigene-encoded enzymes cover different functions.
+Thus, at least for metabolism, persistence of the paralog fraction in the genome can be better explained with an
+array of different, often overlapping functional roles.
+
+**NOTES**
+- Strain BY4741  (MATa his3 delta1 leu2 delta0 met15 delta0 ura3 delta0) used in this study is derived from that used to build the model (S288C)
+- O2 flux estimation not possible (ethanol flux of 0 independently of O2 flux)
+- Authors did not provide specific rate values (used Sophia's rates instead)
+
+<p style="float: center; font-size: 9pt; text-align: center; width: 100%;"><img src = "Results/Case 8/kuepfer_2005_fig4", width = 80%></p>
+
+
+
 """
 
 code = """\
@@ -67,7 +96,6 @@ g_text = """\
 
 g_fba_datasets = """\
 g_exp_df = case8.getColumnWithoutNAs(exp_dataset, 0, 'X')
-# O2 flux estimation not possible (ethanol flux of 0 independently of O2 flux)
 
 g_fba_res, g_fba_exp_sim, g_fba_exp_sim_errors = case8.simulationPipeline(g_exp_df, cs = 'glucose', geneko = genes, type = 'fba', res_exists = True, fname = 'Results/Case 8/res_fba_glucose_case5.sav')
 pd.concat([reactions, g_fba_exp_sim_errors], axis = 1, join = 'inner')
@@ -97,7 +125,6 @@ gal_text = """\
 
 gal_fba_datasets = """\
 gal_exp_df = case8.getColumnWithoutNAs(exp_dataset, 1, 'X')
-# O2 flux estimation not possible (ethanol flux of 0 independently of O2 flux)
 
 gal_fba_res, gal_fba_exp_sim, gal_fba_exp_sim_errors = case8.simulationPipeline(gal_exp_df, cs = 'galactose', geneko = genes, type = 'fba', res_exists = True, fname = 'Results/Case 8/res_fba_galactose_case5.sav')
 pd.concat([reactions, gal_fba_exp_sim_errors], axis = 1, join = 'inner')
@@ -127,7 +154,6 @@ gly_text = """\
 
 gly_fba_datasets = """\
 gly_exp_df = case8.getColumnWithoutNAs(exp_dataset, 2, 'X')
-# O2 flux estimation not possible (ethanol flux of 0 independently of O2 flux)
 
 gly_fba_res, gly_fba_exp_sim, gly_fba_exp_sim_errors = case8.simulationPipeline(gly_exp_df, cs = 'glycerol', geneko = genes, type = 'fba', res_exists = True, fname = 'Results/Case 8/res_fba_glycerol_case5.sav')
 pd.DataFrame(reactions).join(gly_fba_exp_sim_errors, how = 'inner')

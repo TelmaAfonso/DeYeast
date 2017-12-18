@@ -168,8 +168,6 @@ class Case8 (PhenomenalySim):
 
 if __name__ == '__main__':
 
-    #Strain FY4 is derived from S288C (very similar)
-
     #Initialization
     case8 = Case8()
     case8.model = case8.loadObjectFromFile('model_yeast_76.sav')
@@ -279,23 +277,23 @@ if __name__ == '__main__':
     e_exp_df = case8.getColumnWithoutNAs(exp_dataset, 3, 'X')
 
     #FBA
-    e_fba_res, e_fba_exp_sim, e_fba_exp_sim_errors = case8.simulationPipeline(e_exp_df, cs = 'ethanol', geneko = genes, type = 'fba', res_exists = False, fname = 'Results/Case 8/res_fba_ethanol_case5.sav')
+    e_fba_res, e_fba_exp_sim, e_fba_exp_sim_errors = case8.simulationPipeline(e_exp_df, cs = 'ethanol', geneko = genes, type = 'fba', res_exists = True, fname = 'Results/Case 8/res_fba_ethanol_case5.sav')
     e_fba_exp_sim_errors = case8.getDFWithoutExtremeFluxes(e_fba_exp_sim_errors) #without r_0302, for plotting
     case8.plotExpVsSim(e_fba_exp_sim_errors, save_fig_path = 'Results/Case 8/e_fba_exp_sim_plot.png', title = 'FBA Ethanol Carbon Source')
     plt.close('all')
 
     #pFBA
-    e_pfba_res, e_pfba_exp_sim, e_pfba_exp_sim_errors = case8.simulationPipeline(e_exp_df, cs = 'ethanol', geneko = genes, type = 'pfba', res_exists = False, fname = 'Results/Case 8/res_pfba_ethanol_case5.sav')
+    e_pfba_res, e_pfba_exp_sim, e_pfba_exp_sim_errors = case8.simulationPipeline(e_exp_df, cs = 'ethanol', geneko = genes, type = 'pfba', res_exists = True, fname = 'Results/Case 8/res_pfba_ethanol_case5.sav')
     case8.plotExpVsSim(e_pfba_exp_sim_errors, save_fig_path = 'Results/Case 8/e_pfba_exp_sim_plot.png', title = 'pFBA Ethanol Carbon Source')
     plt.close('all')
 
     #LMOMA
-    e_lmoma_res, e_lmoma_exp_sim, e_lmoma_exp_sim_errors = case8.simulationPipeline(e_exp_df, cs = 'ethanol', geneko = genes, type = 'lmoma', res_exists = False, fname = 'Results/Case 8/res_lmoma_ethanol_case5.sav')
+    e_lmoma_res, e_lmoma_exp_sim, e_lmoma_exp_sim_errors = case8.simulationPipeline(e_exp_df, cs = 'ethanol', geneko = genes, type = 'lmoma', res_exists = True, fname = 'Results/Case 8/res_lmoma_ethanol_case5.sav')
     case8.plotExpVsSim(e_lmoma_exp_sim_errors, save_fig_path = 'Results/Case 8/e_lmoma_exp_sim_plot.png', title = 'LMOMA Ethanol Carbon Source')
     plt.close('all')
 
     #FVA
-    e_fva_res, e_fva_exp_sim, _ = case8.simulationPipeline(e_exp_df, cs = 'ethanol', geneko = genes, type = 'fva', res_exists = False, fname = 'Results/Case 8/res_fva_ethanol_case5.sav')
+    e_fva_res, e_fva_exp_sim, _ = case8.simulationPipeline(e_exp_df, cs = 'ethanol', geneko = genes, type = 'fva', res_exists = True, fname = 'Results/Case 8/res_fva_ethanol_case5.sav')
 
 
 
