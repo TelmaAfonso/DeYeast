@@ -1,0 +1,40 @@
+Reaction;Reaction_name;Yeast7_ID;oxidative rel flux;oxidative exp flux;respiro-fermentative rel flux;respiro-fermentative exp flux;fermentative rel flux;fermentative exp flux
+D-Glucose(ex) <==> D-Glucose-6-phosphate;R01786;r_0534;100,0000;1,5600;100,0000;4,9000;100,0000;8,2300
+Pyruvate <==> Phosphoenolpyruvate;R00200;r_0962;-124,3000;-1,9391;-153,2000;-7,5068;-164,6000;-13,5466
+Pyruvate-mit + CoA <==> Acetyl-CoA-mit + CO2-mit;R00209;r_0961;21,8000;,3401;49,5000;2,4255;23,7000;1,9505
+Isocitrate <==> 2-Oxoglutarate + CO2-mit;R00267;r_2131;73,1000;1,1404;54,4000;2,6656;22,9000;1,8847
+(S)-Malate-mit <==> Oxaloacetate-mit;R00342;r_0713;63,4000;,9890;47,2000;2,3128;16,8000;1,3826
+Citrate + CoA <==> Acetyl-CoA-mit + Oxaloacetate-mit;R00351;r_0300;-73,1000;-1,1404;-54,4000;-2,6656;-22,9000;-1,8847
+Succinate-mit + CoA <==> Succinyl-CoA;R00405;r_1022;-63,4000;-,9890;-47,2000;-2,3128;-16,8000;-1,3826
+Succinate-mit <==> Fumarate;R00402;r_0454;63,4000;,9890;47,2000;2,3128;16,8000;1,3826
+D-Glyceraldehyde-3-phosphate <==> Glycerone-phosphate;R01015;r_1054;-58,3000;-,9095;-73,1000;-3,5819;-80,5000;-6,6252
+D-Glyceraldehyde-3-phosphate <==> 3-Phospho-D-glyceroyl-phosphate;R01061;r_0486;134,1000;2,0920;159,8000;7,8302;171,0000;14,0733
+D-Fructose-1,6-bisphosphate <==> Glycerone-phosphate + D-Glyceraldehyde-3-phosphate;R01070;r_0450;60,2000;,9391;78,7000;3,8563;87,1000;7,1683
+(S)-Malate-mit <==> Fumarate;R01082;r_0452;-63,4000;-,9890;-47,2000;-2,3128;-16,8000;-1,3826
+Citrate <==> Isocitrate;R01324;r_0302;73,1000;1,1404;54,4000;2,6656;22,9000;1,8847
+3-Phospho-D-glycerate <==> 3-Phospho-D-glyceroyl-phosphate;R01512;r_0892;-134,1000;-2,0920;-159,8000;-7,8302;-171,0000;-14,0733
+2-Phospho-D-glycerate <==> 3-Phospho-D-glycerate;R01518;r_0893;-128,7000;-2,0077;-156,9000;-7,6881;-167,4000;-13,7770
+6-Phospho-D-gluconate <==> D-Ribulose-5-phosphate + CO2;R01528;r_0889;54,7000;,8533;29,6000;1,4504;15,1000;1,2427
+Sedoheptulose-7-phosphate + D-Glyceraldehyde-3-phosphate <==> D-Ribose-5-phosphate + D-Xylulose-5-phosphate;R01641;r_1049;-18,7000;-,2917;-10,2000;-,4998;-5,3000;-,4362
+Sedoheptulose-7-phosphate + D-Glyceraldehyde-3-phosphate <==> D-Erythrose-4-phosphate + D-Fructose-6-phosphate;R01827;r_1048;18,7000;,2917;10,2000;,4998;5,3000;,4362
+D-Fructose-6-phosphate + D-Glyceraldehyde-3-phosphate <==> D-Erythrose-4-phosphate + D-Xylulose-5-phosphate;R01830;r_1050;-16,3000;-,2543;-8,5000;-,4165;-3,8000;-,3127
+D-Glucose-6-phosphate <==> D-Glucono-1,5-lactone-6-phosphate;R02736;r_0466;54,7000;,8533;29,6000;1,4504;15,1000;1,2427
+D-Glucose-6-phosphate <==> D-Fructose-6-phosphate;R02740;r_0467;25,2000;,3931;60,0000;2,9400;77,9000;6,4112
+D-Fructose-6-phosphate <==> D-Fructose-1,6-bisphosphate;R04779;r_0886;60,2000;,9391;78,7000;3,8563;87,1000;7,1683
+Pyruvate <==> Acetaldehyde;R00750;r_0959;73,3000;1,1435;82,9000;4,0621;123,5000;10,1641
+Acetaldehyde <==> Ethanol;R02679;r_2115;X;X;X;X;X;X
+Acetaldehyde <==> Acetate;R00634;r_2116;73,6000;1,1482;34,2000;1,6758;16,1000;1,3250
+Acetate <==> Acetyl-CoA;R00229;r_0112;73,6000;1,1482;19,5000;,9555;11,1000;,9135
+Pyruvate + CO2 <==> Oxaloacetate;R00344;r_0958;X;X;X;X;X;X
+(S)-Malate <==> Glyoxylate-cyt + Acetyl-CoA;R00472;r_0716;X;X;X;X;X;X
+Isocitrate-cyt <==> Succinate + Glyoxylate-cyt;R00479;r_0662;X;X;X;X;X;X
+2-Phospho-D-glycerate <==> Phosphoenolpyruvate;R00658;r_0366;128,7000;2,0077;156,9000;7,6881;167,4000;13,7770
+2-Oxoglutarate + CoA <==> Succinyl-CoA + CO2-mit;R08549;r_0832;63,4000;,9890;47,2000;2,3128;16,8000;1,3826
+Oxaloacetate <==> Phosphoenolpyruvate + CO2;R00341;r_0884;X;X;X;X;X;X
+D-Glucono-1,5-lactone-6-phosphate <==> 6-Phospho-D-gluconate;R02035;r_0091;54,7000;,8533;29,6000;1,4504;15,1000;1,2427
+D-Ribulose-5-phosphate <==> D-Xylulose-5-phosphate;R01529;r_0984;X;X;X;X;X;X
+D-Ribose-5-phosphate <==> D-Ribulose-5-phosphate;R01056;r_0982;X;X;X;X;X;X
+(S)-Malate-mit <==> Pyruvate + CO2;R00214;r_0718;7,2000;,1123;14,5000;,7105;20,9000;1,7201
+Pyruvate + CO2 <==> Oxaloacetate;R00217;r_0958;23,8000;,3713;27,4000;1,3426;31,4000;2,5842
+Pyruvate <==> Pyruvate-mit;transport;r_2034;27,0000;,4212;42,8000;2,0972;9,7000;,7983
+Oxaloacetate <==> Oxaloacetate-mit;transport;r_1239;16,8000;,2621;21,7000;1,0633;27,1000;2,2303

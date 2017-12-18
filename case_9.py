@@ -165,63 +165,63 @@ class Case9 (PhenomenalySim):
         return round(real_O2(y0), 4)
 
 
-#if __name__ == '__main__':
+if __name__ == '__main__':
 
-#Initialization
-case9 = Case9()
-case9.model = case9.loadObjectFromFile('model_yeast_76.sav')
-case9.model.solver = 'optlang-cplex'
-case9.setMedium('MINIMAL')
-case9.dictsForCase9()
+    #Initialization
+    case9 = Case9()
+    case9.model = case9.loadObjectFromFile('model_yeast_76.sav')
+    case9.model.solver = 'optlang-cplex'
+    case9.setMedium('MINIMAL')
+    case9.dictsForCase9()
 
-#General datasets
-exp_dataset, reactions = case9.loadExperimentalRes('Results/Case 9/case9_experimental_fluxes.csv')
+    #General datasets
+    exp_dataset, reactions = case9.loadExperimentalRes('Results/Case 9/case9_experimental_fluxes.csv')
 
-# ====== BATCH ======
-b_exp_df = case9.getColumnWithoutNAs(exp_dataset, 0, 'X')
+    # ====== BATCH ======
+    b_exp_df = case9.getColumnWithoutNAs(exp_dataset, 0, 'X')
 
-# O2 FLUX ESTIMATION - ALL ZERO
-# b_etOH = case9.testO2EthanolProd(cs = 'glucose', range_o2 = list(np.arange(-2, 0, 0.1)))
-# case9.saveObjectToFile(b_etOH, 'Results/Case 9/b_dict_etOH_O2_fluxes.sav')
-# b_etOH = case9.loadObjectFromFile('Results/Case 9/b_dict_etOH_O2_fluxes.sav')
-# b_o2_lb = case9.plotO2vsEtOH(b_etOH, real_EtOH_flux = 2.385, legend = 'Batch Culture', fname = 'Results/Case 9/b_etOH_plot.png')
-# plt.close('all')
+    # O2 FLUX ESTIMATION - ALL ZERO
+    # b_etOH = case9.testO2EthanolProd(cs = 'glucose', range_o2 = list(np.arange(-2, 0, 0.1)))
+    # case9.saveObjectToFile(b_etOH, 'Results/Case 9/b_dict_etOH_O2_fluxes.sav')
+    # b_etOH = case9.loadObjectFromFile('Results/Case 9/b_dict_etOH_O2_fluxes.sav')
+    # b_o2_lb = case9.plotO2vsEtOH(b_etOH, real_EtOH_flux = 2.385, legend = 'Batch Culture', fname = 'Results/Case 9/b_etOH_plot.png')
+    # plt.close('all')
 
-#FBA
-b_fba_res, b_fba_exp_sim, b_fba_exp_sim_errors = case9.simulationPipeline(b_exp_df, cs = 'glucose', type = 'fba', res_exists = True, fname = 'Results/Case 9/res_fba_batch_case9.sav')
-b_fba_exp_sim_errors = case9.getDFWithoutExtremeFluxes(b_fba_exp_sim_errors) #without extreme fluxes (for plotting)
-case9.plotExpVsSim(b_fba_exp_sim_errors, save_fig_path = 'Results/Case 9/b_fba_exp_sim_plot.png', title = 'FBA Batch')
-plt.close('all')
+    #FBA
+    b_fba_res, b_fba_exp_sim, b_fba_exp_sim_errors = case9.simulationPipeline(b_exp_df, cs = 'glucose', type = 'fba', res_exists = True, fname = 'Results/Case 9/res_fba_batch_case9.sav')
+    b_fba_exp_sim_errors = case9.getDFWithoutExtremeFluxes(b_fba_exp_sim_errors) #without extreme fluxes (for plotting)
+    case9.plotExpVsSim(b_fba_exp_sim_errors, save_fig_path = 'Results/Case 9/b_fba_exp_sim_plot.png', title = 'FBA Batch')
+    plt.close('all')
 
-#pFBA
-b_pfba_res, b_pfba_exp_sim, b_pfba_exp_sim_errors = case9.simulationPipeline(b_exp_df, cs = 'glucose',type = 'pfba', res_exists = True, fname = 'Results/Case 9/res_pfba_batch_case9.sav')
-case9.plotExpVsSim(b_pfba_exp_sim_errors, save_fig_path = 'Results/Case 9/b_pfba_exp_sim_plot.png', title = 'pFBA Batch')
-plt.close('all')
+    #pFBA
+    b_pfba_res, b_pfba_exp_sim, b_pfba_exp_sim_errors = case9.simulationPipeline(b_exp_df, cs = 'glucose',type = 'pfba', res_exists = True, fname = 'Results/Case 9/res_pfba_batch_case9.sav')
+    case9.plotExpVsSim(b_pfba_exp_sim_errors, save_fig_path = 'Results/Case 9/b_pfba_exp_sim_plot.png', title = 'pFBA Batch')
+    plt.close('all')
 
-#FVA
-b_fva_res, b_fva_exp_sim, _ = case9.simulationPipeline(b_exp_df, cs = 'glucose', type = 'fva', res_exists = True, fname = 'Results/Case 9/res_fva_batch_case9.sav')
+    #FVA
+    b_fva_res, b_fva_exp_sim, _ = case9.simulationPipeline(b_exp_df, cs = 'glucose', type = 'fva', res_exists = True, fname = 'Results/Case 9/res_fva_batch_case9.sav')
 
 
-# ====== CHEMOSTAT ======
-c_exp_df = case9.getColumnWithoutNAs(exp_dataset, 1, 'X')
+    # ====== CHEMOSTAT ======
+    c_exp_df = case9.getColumnWithoutNAs(exp_dataset, 1, 'X')
 
-# O2 FLUX ESTIMATION - ALL ZERO
-# c_etOH = case9.testO2EthanolProd(cs = 'glucose', range_o2 = list(np.arange(-2, 0, 0.1)))
-# case9.saveObjectToFile(c_etOH, 'Results/Case 9/c_dict_etOH_O2_fluxes.sav')
-# c_etOH = case9.loadObjectFromFile('Results/Case 9/c_dict_etOH_O2_fluxes.sav')
-# c_o2_lb = case9.plotO2vsEtOH(c_etOH, real_EtOH_flux = 2.385, legend = 'Batch Culture', fname = 'Results/Case 9/c_etOH_plot.png')
-# plt.close('all')
+    # O2 FLUX ESTIMATION - ALL ZERO
+    # c_etOH = case9.testO2EthanolProd(cs = 'glucose', range_o2 = list(np.arange(-2, 0, 0.1)))
+    # case9.saveObjectToFile(c_etOH, 'Results/Case 9/c_dict_etOH_O2_fluxes.sav')
+    # c_etOH = case9.loadObjectFromFile('Results/Case 9/c_dict_etOH_O2_fluxes.sav')
+    # c_o2_lb = case9.plotO2vsEtOH(c_etOH, real_EtOH_flux = 2.385, legend = 'Batch Culture', fname = 'Results/Case 9/c_etOH_plot.png')
+    # plt.close('all')
 
-#FBA
-c_fba_res, c_fba_exp_sim, c_fba_exp_sim_errors = case9.simulationPipeline(c_exp_df, cs = 'glucose', type = 'fba', res_exists = True, fname = 'Results/Case 9/res_fba_chemostat_case9.sav')
-c_fba_exp_sim_errors = case9.getDFWithoutExtremeFluxes(c_fba_exp_sim_errors) #without extreme fluxes (for plotting)
-case9.plotExpVsSim(c_fba_exp_sim_errors, save_fig_path = 'Results/Case 9/c_fba_exp_sim_plot.png', title = 'FBA Chemostat')
-plt.close('all')
+    #FBA
+    c_fba_res, c_fba_exp_sim, c_fba_exp_sim_errors = case9.simulationPipeline(c_exp_df, cs = 'glucose', type = 'fba', res_exists = True, fname = 'Results/Case 9/res_fba_chemostat_case9.sav')
+    c_fba_exp_sim_errors = case9.getDFWithoutExtremeFluxes(c_fba_exp_sim_errors) #without extreme fluxes (for plotting)
+    case9.plotExpVsSim(c_fba_exp_sim_errors, save_fig_path = 'Results/Case 9/c_fba_exp_sim_plot.png', title = 'FBA Chemostat')
+    plt.close('all')
 
-#pFBA
-c_pfba_res, c_pfba_exp_sim, c_pfba_exp_sim_errors = case9.simulationPipeline(c_exp_df, cs = 'glucose',type = 'pfba', res_exists = True, fname = 'Results/Case 9/res_pfba_chemostat_case9.sav')
-case9.plotExpVsSim(c_pfba_exp_sim_errors, save_fig_path = 'Results/Case 9/c_pfba_exp_sim_plot.png', title = 'pFBA Chemostat')
-plt.close('all')
+    #pFBA
+    c_pfba_res, c_pfba_exp_sim, c_pfba_exp_sim_errors = case9.simulationPipeline(c_exp_df, cs = 'glucose',type = 'pfba', res_exists = True, fname = 'Results/Case 9/res_pfba_chemostat_case9.sav')
+    case9.plotExpVsSim(c_pfba_exp_sim_errors, save_fig_path = 'Results/Case 9/c_pfba_exp_sim_plot.png', title = 'pFBA Chemostat')
+    plt.close('all')
 
-#FVA
-c_fva_res, c_fva_exp_sim, _ = case9.simulationPipeline(c_exp_df, cs = 'glucose', type = 'fva', res_exists = True, fname = 'Results/Case 9/res_fva_chemostat_case9.sav')
+    #FVA
+    c_fva_res, c_fva_exp_sim, _ = case9.simulationPipeline(c_exp_df, cs = 'glucose', type = 'fva', res_exists = True, fname = 'Results/Case 9/res_fva_chemostat_case9.sav')
