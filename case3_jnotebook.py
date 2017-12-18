@@ -1,6 +1,6 @@
 
 '''
-Jupyter Notebook for Case 13
+Jupyter Notebook for Case 3
 
 Author: Telma Afonso
 '''
@@ -10,8 +10,35 @@ import nbformat as nbf
 nb = nbf.v4.new_notebook()
 
 text = """\
-# Case 3 Report
+# Case 3 Report (Fendt et al, 2010)
 This report contains the results with case 3 simulations.
+
+Paper: *Transcriptional regulation of respiration in yeast metabolizing differently repressive carbon substrates*
+
+**Background:** Depending on the carbon source, Saccharomyces cerevisiae displays various degrees of respiration.
+These range from complete respiration as in the case of ethanol, to almost complete fermentation, and thus very
+low degrees of respiration on glucose. While many key regulators are known for these extreme cases, we focus
+here on regulators that are relevant at intermediate levels of respiration.
+
+**Results:** We address this question by linking the functional degree of respiration to transcriptional regulation via
+enzyme abundances. Specifically, we investigated aerobic batch cultures with the differently repressive carbon
+sources glucose, mannose, galactose and pyruvate. Based on 13 C flux analysis, we found that the respiratory
+contribution to cellular energy production was largely absent on glucose and mannose, intermediate on galactose
+and highest on pyruvate. In vivo abundances of 40 respiratory enzymes were quantified by GFP-fusions under each
+condition. During growth on the partly and fully respired substrates galactose and pyruvate, several TCA cycle and
+respiratory chain enzymes were significantly up-regulated. From these enzyme levels and the known regulatory
+network structure, we determined the probability for a given transcription factor to cause the coordinated
+expression changes. The most probable transcription factors to regulate the different degrees of respiration were
+Gcr1p, Cat8p, the Rtg-proteins and the Hap-complex. For the latter three ones we confirmed their importance for
+respiration by quantifying the degree of respiration and biomass yields in the corresponding deletion strains.
+
+**Conclusions:** Cat8p is required for wild-type like respiration, independent of its known activation of gluconeogenic
+genes. The Rtg-proteins and the Hap-complex are essential for wild-type like respiration under partially respiratory
+conditions. Under fully respiratory conditions, the Hap-complex, but not the Rtg-proteins are essential for
+respiration.
+
+<p style="float: center; font-size: 9pt; text-align: center; width: 100%;"><img src = "Results/Case 3/Fendt_2010_fig1", width = 50%></p>
+
 """
 
 code = """\
@@ -152,7 +179,7 @@ pd.concat([reactions, p_fva_exp_sim], axis = 1, join = 'inner')
 #Generate cells with plots
 x = sum([['g' + i, 'm' + i, 'gal' + i, 'p' + i] for i in ['_fba', '_pfba']], [])
 for name in x:
-    vars()[name + '_plot'] = '<p style="float: center; font-size: 9pt; text-align: center; width: 80%;"><img src = "Results/Case 3/'+ name +'_exp_sim_plot.png", width = 100%></p>'
+    vars()[name + '_plot'] = '<p style="float: center; font-size: 9pt; text-align: center; width: 100%;"><img src = "Results/Case 3/'+ name +'_exp_sim_plot.png", width = 80%></p>'
 
 #List with nbformat expressions
 cs = ['g', 'm', 'gal', 'p']
