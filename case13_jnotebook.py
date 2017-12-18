@@ -10,8 +10,48 @@ import nbformat as nbf
 nb = nbf.v4.new_notebook()
 
 text = """\
-# Case 13 Report
+# Case 13 Report (Frick et al, 2005)
+
 This report contains the results with case 13 simulations.
+
+Paper: [*Characterization of the metabolic shift between oxidative and fermentative growth in Saccharomyces cerevisiae by comparative 13C flux analysis*](http://www.microbialcellfactories.com/content/4/1/30)
+
+**Background:** One of the most fascinating properties of the biotechnologically important organism
+Saccharomyces cerevisiae is its ability to perform simultaneous respiration and fermentation at high
+growth rate even under fully aerobic conditions. In the present work, this Crabtree effect called
+phenomenon was investigated in detail by comparative 13 C metabolic flux analysis of S. cerevisiae
+growing under purely oxidative, respiro-fermentative and predominantly fermentative conditions.
+
+**Results:** The metabolic shift from oxidative to fermentative growth was accompanied by complex
+changes of carbon flux throughout the whole central metabolism. This involved a flux redirection
+from the pentose phosphate pathway (PPP) towards glycolysis, an increased flux through pyruvate
+carboxylase, the fermentative pathways and malic enzyme, a flux decrease through the TCA cycle,
+and a partial relocation of alanine biosynthesis from the mitochondrion to the cytosol. S. cerevisiae
+exhibited a by-pass of pyruvate dehydrogenase in all physiological regimes. During oxidative growth
+this by-pass was mainly provided via pyruvate decarboxylase, acetaldehyde dehydrogenase, acetyl-
+CoA synthase and transport of acetyl-CoA into the mitochondrion. During fermentative growth
+this route, however, was saturated due to limited enzyme capacity. Under these conditions the
+cells exhibited high carbon flux through a chain of reactions involving pyruvate carboxylase, the
+oxaloacetate transporter and malic enzyme. During purely oxidative growth the PPP alone was
+sufficient to completely supply NADPH for anabolism. During fermentation, it provided only 60 %
+of the required NADPH.
+
+**Conclusion:** We conclude that, in order to overcome the limited capacity of pyruvate
+dehydrogenase, S. cerevisiae possesses different metabolic by-passes to channel carbon into the
+mitochondrion. This involves the conversion of cytosolic pyruvate either into acetyl CoA or
+oxaloacetate followed by intercompartmental transport of these metabolites. During oxidative
+growth mainly the NAD specific isoforms of acetaldehyde dehydrogenase and isocitrate
+dehydrogenase catalyze the corresponding reactions in S. cerevisiae, whereas NADPH supply under
+fermentative conditions involves significant contribution of sources other than the PPP such as e.
+g. NADPH specific acetaldehyde dehydrogenase or isocitrate dehydrogenase.
+
+
+**NOTES**
+- No ethanol fluxes available for O2 flux estimation
+
+<p style="float: center; font-size: 9pt; text-align: center; width: 100%;"><img src = "Results/Case 13/frick_2005_fig3", width = 80%></p>
+
+
 """
 
 code = """\
