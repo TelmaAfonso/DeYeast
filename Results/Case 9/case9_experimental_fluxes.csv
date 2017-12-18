@@ -1,0 +1,33 @@
+Reaction;Reaction_name;Yeast7_ID;batch rel flux;batch exp flux;chemostat rel flux;chemostat exp flux
+D-Glucose(ex) <==> D-Glucose-6-phosphate;R01786;r_0534;100,0000;1,5000;100,0000;1,5000
+Pyruvate <==> Phosphoenolpyruvate;R00200;r_0962;-178,6000;-2,6790;-122,1000;-1,8315
+Pyruvate-mit + CoA <==> Acetyl-CoA-mit + CO2-mit;R00209;r_0961;0,1000;0,0015;39,9000;0,5985
+Isocitrate <==> 2-Oxoglutarate + CO2-mit;R00267;r_2131;2,5000;0,0375;59,9000;0,8985
+(S)-Malate-mit <==> Oxaloacetate-mit;R00342;r_0713;0,0000;0,0000;-49,1000;-0,7365
+Citrate + CoA <==> Acetyl-CoA-mit + Oxaloacetate-mit;R00351;r_0300;-2,5000;-0,0375;-59,9000;-0,8985
+Succinate-mit + CoA <==> Succinyl-CoA;R00405;r_1022;0,0000;0,0000;-49,1000;-0,7365
+Succinate-mit <==> Fumarate;R00402;r_0454;0,0000;0,0000;49,1000;0,7365
+D-Glyceraldehyde-3-phosphate <==> Glycerone-phosphate;R01015;r_1054;-91,0000;-1,3650;-60,3000;-0,9045
+D-Glyceraldehyde-3-phosphate <==> 3-Phospho-D-glyceroyl-phosphate;R01061;r_0486;179,9000;2,6985;127,1000;1,9065
+D-Fructose-1,6-bisphosphate <==> Glycerone-phosphate + D-Glyceraldehyde-3-phosphate;R01070;r_0450;91,0000;1,3650;60,3000;0,9045
+(S)-Malate-mit <==> Fumarate;R01082;r_0452;0,0000;0,0000;-49,1000;-0,7365
+Citrate <==> Isocitrate;R01324;r_0302;2,5000;0,0375;59,9000;0,8985
+3-Phospho-D-glycerate <==> 3-Phospho-D-glyceroyl-phosphate;R01512;r_0892;-179,9000;-2,6985;-127,1000;-1,9065
+2-Phospho-D-glycerate <==> 3-Phospho-D-glycerate;R01518;r_0893;-179,9000;-2,6985;-127,1000;-1,9065
+6-Phospho-D-gluconate <==> D-Ribulose-5-phosphate + CO2;R01528;r_0889;16,2000;0,2430;44,2000;0,6630
+Sedoheptulose-7-phosphate + D-Glyceraldehyde-3-phosphate <==> D-Ribose-5-phosphate + D-Xylulose-5-phosphate;R01641;r_1049;-4,7000;-0,0705;-12,1000;-0,1815
+Sedoheptulose-7-phosphate + D-Glyceraldehyde-3-phosphate <==> D-Erythrose-4-phosphate + D-Fructose-6-phosphate;R01827;r_1048;10,0000;0,1500;26,7000;0,4005
+D-Fructose-6-phosphate + D-Glyceraldehyde-3-phosphate <==> D-Erythrose-4-phosphate + D-Xylulose-5-phosphate;R01830;r_1050;-10,0000;-0,1500;-26,7000;-0,4005
+D-Glucose-6-phosphate <==> D-Glucono-1,5-lactone-6-phosphate;R02736;r_0466;16,2000;0,2430;44,2000;0,6630
+D-Glucose-6-phosphate <==> D-Fructose-6-phosphate;R02740;r_0467;81,0000;1,2150;33,6000;0,5040
+D-Fructose-6-phosphate <==> D-Fructose-1,6-bisphosphate;R04779;r_0886;91,0000;1,3650;60,3000;0,9045
+Pyruvate <==> Acetaldehyde;R00750;r_0959;169,3000;2,5395;45,1000;0,6765
+Ethanol <==> Acetaldehyde;R00746;r_0163;158,7000;2,3805;0,0000;0,0000
+Acetaldehyde <==> Acetate;R00634;r_2116;10,6000;0,1590;45,8000;0,6870
+Acetate <==> Acetyl-CoA;R00229;r_0112;7,3000;0,1095;45,7000;0,6855
+Pyruvate + CO2 <==> Oxaloacetate;R00344;r_0958;8,9000;0,1335;27,3000;0,4095
+2-Phospho-D-glycerate <==> Phosphoenolpyruvate;R00658;r_0366;179,9000;2,6985;127,1000;1,9065
+2-Oxoglutarate + CoA <==> Succinyl-CoA + CO2-mit;R08549;r_0832;0,0000;0,0000;49,1000;0,7365
+D-Glucono-1,5-lactone-6-phosphate <==> 6-Phospho-D-gluconate;R02035;r_0091;16,2000;0,2430;44,2000;0,6630
+(S)-Malate-mit <==> Pyruvate + CO2;R00214;r_0718;4,0000;0,0600;6,7000;0,1005
+Oxaloacetate <==> Oxaloacetate-mit;transport;r_1239;8,5000;0,1275;158,7000;2,3805
