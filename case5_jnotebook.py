@@ -10,8 +10,26 @@ import nbformat as nbf
 nb = nbf.v4.new_notebook()
 
 text = """\
-# Case 5 Report
+# Case 5 Report (Çakir et al, 2004)
 This report contains the results with case 5 simulations.
+
+Paper: [*Metabolic Pathway Analysis of Yeast Strengthens the Bridge Between Transcriptomics and Metabolic Networks*](http://onlinelibrary.wiley.com/doi/10.1002/bit.20020/abstract)
+
+**Abstract**
+Central carbon metabolism of the yeast Saccharomyces cerevisiae was analyzed using metabolic pathway analysis tools. Elementary flux modes for three substrates
+(glucose, galactose, and ethanol) were determined using the catabolic reactions occurring in yeast. Resultant elementary modes were used for gene deletion phenotype
+analysis and for the analysis of robustness of the central metabolism and network functionality. Control-effective fluxes, determined by calculating the efficiency of each
+mode, were used for the prediction of transcript ratios of metabolic genes in different growth media (glucose – ethanol and galactose – ethanol). A high correlation was
+obtained between the theoretical and experimental expression levels of 38 genes when ethanol and glucose media were considered. Such analysis was shown to be a
+bridge between transcriptomics and fluxomics. Control-effective flux distribution was found to be promising in *in silico* predictions by incorporating functionality and 
+regulation into the metabolic network structure. 
+
+**NOTES**
+- O2 flux estimation not possible (ethanol flux of 0 independently of O2 flux)
+- Authors did not provide specific rate values (used Sophia's rates instead)
+
+<p style="float: center; font-size: 9pt; text-align: center; width: 100%;"><img src = "Results/Case 5/Çakir_2004_fig4", width = 50%></p>
+
 """
 
 code = """\
@@ -104,7 +122,7 @@ pd.concat([reactions, e_fva_exp_sim], axis = 1, join = 'inner')
 #Generate cells with plots
 x = sum([['g' + i, 'e' + i] for i in ['_fba', '_pfba']], [])
 for name in x:
-    vars()[name + '_plot'] = '<p style="float: center; font-size: 9pt; text-align: center; width: 80%;"><img src = "Results/Case 5/'+ name +'_exp_sim_plot.png", width = 100%></p>'
+    vars()[name + '_plot'] = '<p style="float: center; font-size: 9pt; text-align: center; width: 100%;"><img src = "Results/Case 5/'+ name +'_exp_sim_plot.png", width = 80%></p>'
 
 #List with nbformat expressions
 cs = ['g', 'e']

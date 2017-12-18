@@ -13,7 +13,7 @@ text = """\
 # Case 3 Report (Fendt et al, 2010)
 This report contains the results with case 3 simulations.
 
-Paper: *Transcriptional regulation of respiration in yeast metabolizing differently repressive carbon substrates*
+Paper: [*Transcriptional regulation of respiration in yeast metabolizing differently repressive carbon substrates*](http://www.biomedcentral.com/1752-0509/4/12)
 
 **Background:** Depending on the carbon source, Saccharomyces cerevisiae displays various degrees of respiration.
 These range from complete respiration as in the case of ethanol, to almost complete fermentation, and thus very
@@ -37,7 +37,10 @@ genes. The Rtg-proteins and the Hap-complex are essential for wild-type like res
 conditions. Under fully respiratory conditions, the Hap-complex, but not the Rtg-proteins are essential for
 respiration.
 
-<p style="float: center; font-size: 9pt; text-align: center; width: 100%;"><img src = "Results/Case 3/Fendt_2010_fig1", width = 50%></p>
+**NOTES**
+- No ethanol fluxes available to estimate O2 lb
+
+<p style="float: center; font-size: 9pt; text-align: center; width: 100%;"><img src = "Results/Case 3/Fendt_2010_fig1", width = 60%></p>
 
 """
 
@@ -64,7 +67,7 @@ datasets_text = """\
 datasets_code = """\
 #General datasets
 exp_dataset, reactions = case3.loadExperimentalRes('Results/Case 3/case3_experimental_fluxes.csv')
-pd.DataFrame(reactions) #No EtOH fluxes to estimate O2 lb
+pd.DataFrame(reactions)
 """
 
 fba_text = """\
