@@ -599,7 +599,7 @@ class Case7 (PhenomenalySim):
 
         return [plt.figure(i) for i in plt.get_fignums()]
 
-    def multipleGenesPlotExpVsSimSaveFigs (self, absRelErrorDataset, xlab = 'Experimental Flux', ylab = 'Simulated Flux', title = 'Experimental vs Simulated Fluxes', folder = None):
+    def multipleGenesPlotExpVsSimSaveFigs (self, absRelErrorDataset, xlab = 'Experimental Flux', ylab = 'Simulated Flux', folder = None):
         plt.rcParams["figure.figsize"] = (10, 4)
         genes = sorted(set([name.split('_')[0] for name in list(absRelErrorDataset.columns)]))
 
@@ -618,7 +618,7 @@ class Case7 (PhenomenalySim):
                 plt.annotate(gene_ID, (x[ind], y[ind]), fontsize = 8, xytext = (x[ind] + 0.25, y[ind] + 0.5))
             plt.xlabel(xlab)
             plt.ylabel(ylab)
-            plt.title(title)
+            plt.title('Experimental vs Simulated Fluxes (' + gene + ')')
             plt.plot([], [], ' ') # To show correlation in legend
             plt.plot([], [], ' ') # To show mean relative error in legend
             plt.legend([gene, 'R2: %.4f' % r_value**2, 'Pearson correlation: %.4f' % corr, 'Mean relative error: %.4f' % meanRelErr])
@@ -694,6 +694,35 @@ class Case7 (PhenomenalySim):
             pdf.close()
 
         return [plt.figure(i) for i in plt.get_fignums()]
+
+    def multipleReactsPlotExpVsSimSaveFigs (self, simVsExpDataset, xlab = 'Experimental Flux', ylab = 'Simulated Flux', folder = None):
+        plt.rcParams["figure.figsize"] = (10, 4)
+        # Prepare dataset
+        df = simVsExpDataset.copy()
+        df_sim = df[list(df.columns[1::2])].transpose()
+        df_exp = df[list(df.columns[0::2])].transpose()
+        genes = [gene.split('_')[0] for gene in list(df_exp.index)]
+
+        for i, reaction in enumerate(list(df_exp.columns)):
+            plt.figure(i)
+            x = df_exp[reaction]
+            y = df_sim[reaction]
+            x.index = y.index = genes
+            slope, intercept, r_value, p_value, std_err = linregress(x, y)
+            line = [slope * x + intercept for x in x]
+            meanRelErr = self.relativeError(x, y).mean()
+            corr = x.corr(y)
+            plt.plot(x, y, 'o', x, line)
+
+            for ind, gene_ID in enumerate(genes):
+                plt.annotate(gene_ID, (x[ind], y[ind]), fontsize = 8, xytext = (x[ind], y[ind]))
+            plt.xlabel(xlab)
+            plt.ylabel(ylab)
+            plt.title('Experimental vs Simulated Fluxes (' + reaction + ')')
+            plt.plot([], [], ' ') # To show correlation in legend
+            plt.plot([], [], ' ') # To show mean relative error in legend
+            plt.legend([reaction, 'R2: %.4f' % r_value**2, 'Pearson correlation: %.4f' % corr, 'Mean relative error: %.4f' % meanRelErr])
+            plt.savefig(folder + '/' + reaction + '_reaction.png')
 
     def plotGeneExpVsSimFVA (self, simVsExpDataset, xlab = 'Experimental Flux', ylab = 'Simulated Flux', title = 'ADH3', gene = 'ADH3'):
         # NOT FINISHED
@@ -772,7 +801,7 @@ class Case7 (PhenomenalySim):
 
         return exp_dataset, reactions, real_EtOH_fluxes, sim_EtOH_O2_fluxes_fixed, fluxes_O2
 
-    def fbaPipeline (self, fluxes_O2, exp_dataset, plotGenes = False, plotReacts = False, saveGenesPlot = False, res_exists = False, fname = 'res_fba_case7.sav', biom_ub = False):
+    def fbaPipeline (self, fluxes_O2, exp_dataset, plotGenes = False, plotReacts = False, saveGenesPlot = False, saveReactionsPlot = False, res_exists = False, fname = 'res_fba_case7.sav', biom_ub = False):
         if res_exists:
             res_fba = self.loadObjectFromFile('Results/Case 7/' + fname)
         else:
@@ -800,10 +829,13 @@ class Case7 (PhenomenalySim):
         if saveGenesPlot:
             self.multipleGenesPlotExpVsSimSaveFigs(df_fba_exp_sim_errors, folder = 'Results/Case 7/FBA_figs')
             plt.close("all")
+        if saveReactionsPlot:
+            self.multipleReactsPlotExpVsSimSaveFigs(df_fba_exp_sim, folder = 'Results/Case 7/FBA_figs')
+            plt.close("all")
 
         return res_fba, res_fba_df, wt_fba_df, df_fba_exp_sim, df_fba_exp_sim_errors
 
-    def pfbaPipeline (self, fluxes_O2, exp_dataset, plotGenes = False, plotReacts = False, saveGenesPlot = False, res_exists = False, fname = 'res_pfba_case7.sav', biom_ub = False):
+    def pfbaPipeline (self, fluxes_O2, exp_dataset, plotGenes = False, plotReacts = False, saveGenesPlot = False, saveReactionsPlot = False, res_exists = False, fname = 'res_pfba_case7.sav', biom_ub = False):
         if res_exists:
             res_pfba = self.loadObjectFromFile('Results/Case 7/' + fname)
         else:
@@ -828,6 +860,9 @@ class Case7 (PhenomenalySim):
             plt.close("all")
         if saveGenesPlot:
             self.multipleGenesPlotExpVsSimSaveFigs(df_pfba_exp_sim_errors, folder = 'Results/Case 7/pFBA_figs')
+            plt.close("all")
+        if saveReactionsPlot:
+            self.multipleReactsPlotExpVsSimSaveFigs(df_pfba_exp_sim, folder = 'Results/Case 7/pFBA_figs')
             plt.close("all")
 
         return res_pfba, res_pfba_df, wt_pfba_df, df_pfba_exp_sim, df_pfba_exp_sim_errors
@@ -859,7 +894,7 @@ class Case7 (PhenomenalySim):
 
         return res_fva, res_fva_df, wt_fva_df, df_fva_exp_sim
 
-    def lmomaPipeline (self, fluxes_O2, exp_dataset, reference_dict = None, plotGenes = False, plotReacts = False, saveGenesPlot = False, res_exists = False, fname = 'res_lmoma_case7.sav', biom_ub = False):
+    def lmomaPipeline (self, fluxes_O2, exp_dataset, reference_dict = None, plotGenes = False, plotReacts = False, saveGenesPlot = False, saveReactionsPlot = False, res_exists = False, fname = 'res_lmoma_case7.sav', biom_ub = False):
         if res_exists:
             res_lmoma = self.loadObjectFromFile('Results/Case 7/' + fname)
         else:
@@ -884,6 +919,9 @@ class Case7 (PhenomenalySim):
         if saveGenesPlot:
             self.multipleGenesPlotExpVsSimSaveFigs(df_lmoma_exp_sim_errors, folder = 'Results/Case 7/LMOMA_figs')
             plt.close("all")
+        if saveReactionsPlot:
+            self.multipleReactsPlotExpVsSimSaveFigs(df_lmoma_exp_sim, folder = 'Results/Case 7/LMOMA_figs')
+            plt.close("all")
 
         return res_lmoma, res_lmoma_df, df_lmoma_exp_sim, df_lmoma_exp_sim_errors
 
@@ -904,16 +942,16 @@ if __name__ == '__main__':
     exp_dataset, reactions, real_EtOH_fluxes, sim_EtOH_O2_fluxes_fixed, fluxes_O2 = case7.case7Pipeline(plot = False, makeFigs = False, type = 'pfba', res_exists = True)
 
     # FBA
-    res_fba, res_fba_df, wt_fba_df, df_fba_exp_sim, df_fba_exp_sim_errors = case7.fbaPipeline(fluxes_O2 = fluxes_O2, exp_dataset = exp_dataset, plotGenes = False, plotReacts = False, saveGenesPlot = False, res_exists = True)
+    res_fba, res_fba_df, wt_fba_df, df_fba_exp_sim, df_fba_exp_sim_errors = case7.fbaPipeline(fluxes_O2 = fluxes_O2, exp_dataset = exp_dataset, plotGenes = False, plotReacts = False, saveGenesPlot = True, saveReactionsPlot = True, res_exists = True)
 
     # pFBA
-    res_pfba, res_pfba_df, wt_pfba_df, df_pfba_exp_sim, df_pfba_exp_sim_errors = case7.pfbaPipeline(fluxes_O2 = fluxes_O2, exp_dataset = exp_dataset, saveGenesPlot = False, plotReacts = False, plotGenes = False, res_exists = True)
+    res_pfba, res_pfba_df, wt_pfba_df, df_pfba_exp_sim, df_pfba_exp_sim_errors = case7.pfbaPipeline(fluxes_O2 = fluxes_O2, exp_dataset = exp_dataset, saveGenesPlot = True, plotReacts = False, plotGenes = False, saveReactionsPlot = True, res_exists = True)
 
     # FVA
     res_fva, res_fva_df, wt_fva_df, df_fva_exp_sim = case7.fvaPipeline(fluxes_O2 = fluxes_O2, exp_dataset = exp_dataset, res_exists = True)
 
     # LMOMA
-    res_lmoma, res_lmoma_df, df_lmoma_exp_sim, df_lmoma_exp_sim_errors = case7.lmomaPipeline(fluxes_O2 = fluxes_O2, exp_dataset = exp_dataset, reference_dict = res_pfba['WildType'], plotGenes = False, plotReacts = False, saveGenesPlot = False, res_exists = True)
+    res_lmoma, res_lmoma_df, df_lmoma_exp_sim, df_lmoma_exp_sim_errors = case7.lmomaPipeline(fluxes_O2 = fluxes_O2, exp_dataset = exp_dataset, reference_dict = res_pfba['WildType'], plotGenes = False, plotReacts = False, saveGenesPlot = True, saveReactionsPlot = True, res_exists = True)
 
     # Create xlsx with results
     # case7.convertPandasDFToExcel(reactions, df_fba_exp_sim_errors, filename = 'Results/Case 7/fba_results_case7_test.xlsx', imgFolder = 'Results/Case 7/FBA_figs')

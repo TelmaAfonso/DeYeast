@@ -107,19 +107,6 @@ res_lmoma, res_lmoma_df, df_lmoma_exp_sim, df_lmoma_exp_sim_errors = case7.lmoma
 df_lmoma_exp_sim_errors
 """
 
-# FBA Figures
-fba_r = ['<p style="float: left; font-size: 9pt; text-align: center; width: 50%;"><img src = "Results/Case 7/FBA_figs/' + str(i) + '_reacts.png", width = 100%></p>' for i in range(0,11)]
-fba_reactions = 'Below are the simulated vs experimental values plotted for each reaction across the different gene knockout experiments.' + ''.join(fba_r)
-
-# pFBA Figures
-pfba_r = ['<p style="float: left; font-size: 9pt; text-align: center; width: 50%;"><img src = "Results/Case 7/pFBA_figs/' + str(i) + '_reacts.png", width = 100%></p>' for i in range(0,11)]
-pfba_reactions = 'Below are the simulated vs experimental values plotted for each reaction across the different gene knockout experiments.' + ''.join(pfba_r)
-
-# LMOMA Figures
-lmoma_r = ['<p style="float: left; font-size: 9pt; text-align: center; width: 50%;"><img src = "Results/Case 7/LMOMA_figs/' + str(i) + '_reacts.png", width = 100%></p>' for i in range(0,11)]
-lmoma_reactions = 'Below are the simulated vs experimental values plotted for each reaction across the different gene knockout experiments.' + ''.join(lmoma_r)
-
-
 # Case specific results
 genes_text = """\
 # Analysis by Gene Knockout
@@ -169,6 +156,25 @@ for gene in genes:
 
 for gene in genes:
     vars()[gene + '_images'] = genes_html_figs[gene]
+
+
+#Generate cells with reactions images
+exp_dataset, reactions, real_EtOH_fluxes, sim_EtOH_O2_fluxes_fixed, fluxes_O2 = case7.case7Pipeline(plot = False, makeFigs = False, type = 'pfba', res_exists = True)
+
+reactions = list(exp_dataset.index)
+
+# FBA Figures
+fba_r = ['<p style="float: left; font-size: 9pt; text-align: center; width: 50%;"><img src = "Results/Case 7/FBA_figs/' + str(i) + '_reaction.png", width = 100%></p>' for i in reactions]
+fba_reactions = 'Below are the simulated vs experimental values plotted for each reaction across the different gene knockout experiments.' + ''.join(fba_r)
+
+# pFBA Figures
+pfba_r = ['<p style="float: left; font-size: 9pt; text-align: center; width: 50%;"><img src = "Results/Case 7/pFBA_figs/' + str(i) + '_reaction.png", width = 100%></p>' for i in reactions]
+pfba_reactions = 'Below are the simulated vs experimental values plotted for each reaction across the different gene knockout experiments.' + ''.join(pfba_r)
+
+# LMOMA Figures
+lmoma_r = ['<p style="float: left; font-size: 9pt; text-align: center; width: 50%;"><img src = "Results/Case 7/LMOMA_figs/' + str(i) + '_reaction.png", width = 100%></p>' for i in reactions]
+lmoma_reactions = 'Below are the simulated vs experimental values plotted for each reaction across the different gene knockout experiments.' + ''.join(lmoma_r)
+
 
 
 #List with nbformat expressions
