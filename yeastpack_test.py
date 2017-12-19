@@ -160,12 +160,20 @@ class PhenomenalySim (object):
         wt = pd.DataFrame()
 
         for gene, r in sorted(res_dict.items()):
-            if gene != 'WildType':
-                df = pd.concat([df, pd.DataFrame(r.fluxes)], axis = 1)
+            if hasattr(r, 'x_dict'): #if legacy solution
+                if gene != 'WildType':
+                    df = pd.concat([df, pd.DataFrame(pd.DataFrame(list(r.x_dict.items())).set_index(0))], axis = 1)
+                else:
+                    wt = pd.concat([wt, pd.DataFrame(pd.DataFrame(list(r.x_dict.items())).set_index(0))], axis = 1)
+                    wt.columns = [gene]
+                    del res_dict[gene]
             else:
-                wt = pd.concat([wt, pd.DataFrame(r.fluxes)], axis = 1)
-                wt.columns = [gene]
-                del res_dict[gene]
+                if gene != 'WildType':
+                    df = pd.concat([df, pd.DataFrame(r.fluxes)], axis = 1)
+                else:
+                    wt = pd.concat([wt, pd.DataFrame(r.fluxes)], axis = 1)
+                    wt.columns = [gene]
+                    del res_dict[gene]
 
         df.columns = sorted(res_dict.keys())
 
@@ -175,21 +183,14 @@ class PhenomenalySim (object):
         #Because it is of type LegacySolution (deprecated)
         res_dict = res_dict.copy()
         df = pd.DataFrame()
-        wt = pd.DataFrame()
 
         for gene, r in sorted(res_dict.items()):
-            if gene != 'WildType':
-                res = pd.DataFrame(list(r.x_dict.items())).set_index([0])
-                df = pd.concat([df, pd.DataFrame(res)], axis = 1)
-            else:
-                res = pd.DataFrame(list(r.x_dict.items())).set_index([0])
-                wt = pd.concat([wt, pd.DataFrame(res)], axis = 1)
-                wt.columns = [gene]
-                del res_dict[gene]
+            res = pd.DataFrame(list(r.x_dict.items())).set_index([0])
+            df = pd.concat([df, pd.DataFrame(res)], axis = 1)
 
         df.columns = sorted(res_dict.keys())
 
-        return df, wt
+        return df
 
     def createResultsDatasetFVA (self, res_dict):
         res_dict = res_dict.copy()

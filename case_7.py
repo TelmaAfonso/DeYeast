@@ -122,21 +122,12 @@ class Case7 (PhenomenalySim):
                 if biom_ub:
                     m.reactions.get_by_id('r_4041').upper_bound = float(self.exp_biomass[self.l_inv[g]]) # biomass
                 key = ''.join(self.l_inv[g] + ' (%s)' % g)
-                res_lmoma[key] = lmoma(m, reference_dict[key])
+                res_lmoma[key] = lmoma(m, reference_dict)
                 print('Objective value:', res_lmoma[key].f, '\n')
                 print('({}% Complete'.format(int(i/len(self.g_lb.keys()) * 100)))
                 # print('(' + str(i/len(self.g_lb.keys()) * 100) + '% Complete)')
                 i += 1
-        print('======= ' + 'Wild Type' + ' =======')
-        with self.model as m:
-            m.set_carbon_source('r_1714', lb = -16.7)
-            if o2_lb is not None:
-                m.reactions.get_by_id('r_1992').lower_bound = float(o2_lb['WildType'])
-            if biom_ub:
-                m.reactions.get_by_id('r_4041').upper_bound = float(0.405) #Exp biomass
-            res_lmoma['WildType'] = lmoma(m, reference_dict['WildType'])
-            print('Objective value:', res_lmoma['WildType'].f, '\n')
-            print('(100% Complete)')
+
         return res_lmoma
 
     def case7fva (self, o2_lb = None, biom_ub = False):
@@ -445,10 +436,10 @@ class Case7 (PhenomenalySim):
 
         return gene_results
 
-    def createResultsDataframeWT (self, reactions_df, wt_fba_res, wt_pfba_res, wt_lmoma_res, wt_fva_res):
+    def createResultsDataframeWT (self, reactions_df, wt_fba_res, wt_pfba_res, wt_fva_res):
         df = pd.DataFrame()
-        df = pd.concat([reactions_df, wt_fba_res, wt_pfba_res, wt_lmoma_res, wt_fva_res], axis = 1, join = 'inner')
-        df.columns = ['Reaction', 'FBA Flux', 'pFBA FLux', 'LMOMA FLux', 'FVA Max FLux', 'FVA Min FLux']
+        df = pd.concat([reactions_df, wt_fba_res, wt_pfba_res, wt_fva_res], axis = 1, join = 'inner')
+        df.columns = ['Reaction', 'FBA Flux', 'pFBA FLux', 'FVA Max FLux', 'FVA Min FLux']
 
         return df
 
@@ -875,9 +866,8 @@ class Case7 (PhenomenalySim):
             res_lmoma = self.case7lmoma(fluxes_O2, reference_dict, biom_ub = biom_ub)
             self.saveObjectToFile(res_lmoma, 'Results/Case 7/' + fname)
 
-        res_lmoma_df, wt_lmoma_df = self.createResultsDatasetLMOMA(res_lmoma)
+        res_lmoma_df = self.createResultsDatasetLMOMA(res_lmoma)
         res_lmoma_df = self.correctReversedReactions(res_lmoma_df) # Reactions fixed
-        wt_lmoma_df = self.correctReversedReactions(wt_lmoma_df)
 
         # Dataset with experimental vs simulated fluxes
         df_lmoma_exp_sim = self.createDatasetExpVsSimul(exp_dataset, res_lmoma_df)
@@ -895,7 +885,7 @@ class Case7 (PhenomenalySim):
             self.multipleGenesPlotExpVsSimSaveFigs(df_lmoma_exp_sim_errors, folder = 'Results/Case 7/LMOMA_figs')
             plt.close("all")
 
-        return res_lmoma, res_lmoma_df, wt_lmoma_df, df_lmoma_exp_sim, df_lmoma_exp_sim_errors
+        return res_lmoma, res_lmoma_df, df_lmoma_exp_sim, df_lmoma_exp_sim_errors
 
 
 
@@ -923,7 +913,7 @@ if __name__ == '__main__':
     res_fva, res_fva_df, wt_fva_df, df_fva_exp_sim = case7.fvaPipeline(fluxes_O2 = fluxes_O2, exp_dataset = exp_dataset, res_exists = True)
 
     # LMOMA
-    res_lmoma, res_lmoma_df, wt_lmoma_df, df_lmoma_exp_sim, df_lmoma_exp_sim_errors = case7.lmomaPipeline(fluxes_O2 = fluxes_O2, exp_dataset = exp_dataset, reference_dict = res_pfba, plotGenes = False, plotReacts = False, saveGenesPlot = False, res_exists = True)
+    res_lmoma, res_lmoma_df, df_lmoma_exp_sim, df_lmoma_exp_sim_errors = case7.lmomaPipeline(fluxes_O2 = fluxes_O2, exp_dataset = exp_dataset, reference_dict = res_pfba['WildType'], plotGenes = False, plotReacts = False, saveGenesPlot = False, res_exists = True)
 
     # Create xlsx with results
     # case7.convertPandasDFToExcel(reactions, df_fba_exp_sim_errors, filename = 'Results/Case 7/fba_results_case7_test.xlsx', imgFolder = 'Results/Case 7/FBA_figs')
@@ -934,7 +924,7 @@ if __name__ == '__main__':
 
     #TESTS
     genes_res = case7.createResultsDictByGene(df_fba_exp_sim_errors, df_pfba_exp_sim_errors, df_lmoma_exp_sim_errors, df_fva_exp_sim)
-    wt_res = case7.createResultsDataframeWT(reactions, wt_fba_df, wt_pfba_df, wt_lmoma_df, wt_fva_df)
+    wt_res = case7.createResultsDataframeWT(reactions, wt_fba_df, wt_pfba_df, wt_fva_df)
 
 
     #FIXING BIOMASS UB
@@ -954,19 +944,19 @@ if __name__ == '__main__':
     #
     # # LMOMA
     # res_lmoma_biomub, res_lmoma_df_biomub, wt_lmoma_df_biomub, df_lmoma_exp_sim_biomub, df_lmoma_exp_sim_errors_biomub = case7.lmomaPipeline(fluxes_O2 = fluxes_O2, exp_dataset = exp_dataset, reference_dict = res_pfba, plotGenes = False, plotReacts = False, saveGenesPlot = False, res_exists = False, fname = 'res_lmoma_biomub_case7.sav', biom_ub = True)
-
-    res = case7.singleSimulation('ADH3', fluxes_O2 = fluxes_O2, gl_lb = None, o2_lb = None, type = 'fba')
-    res.fluxes.loc['r_4041']
-    res.fluxes.loc['r_2116']
-
-    a = ['ADH3', 'MAL2', 'SUC2', 'MAE1']
-    case7.convertStdToSyst(a)
-
-    mae1 = case7.model.genes.get_by_id('YKL029C')
-    mae1.reactions
-
-    case7.checkReaction('r_0718')
-    case7.checkReaction('r_0719')
+    #
+    # res = case7.singleSimulation('ADH3', fluxes_O2 = fluxes_O2, gl_lb = None, o2_lb = None, type = 'fba')
+    # res.fluxes.loc['r_4041']
+    # res.fluxes.loc['r_2116']
+    #
+    # a = ['ADH3', 'MAL2', 'SUC2', 'MAE1']
+    # case7.convertStdToSyst(a)
+    #
+    # mae1 = case7.model.genes.get_by_id('YKL029C')
+    # mae1.reactions
+    #
+    # case7.checkReaction('r_0718')
+    # case7.checkReaction('r_0719')
 
 
     # Compare biomasses
@@ -974,11 +964,11 @@ if __name__ == '__main__':
     # case7.printDict(biom)
     # case7.printDict(case7.exp_biomass)
 
-    # Check reactions
-    case7.checkReaction('r_4041') #biomass
-    case7.checkReaction('r_2115') #EtOH
-    case7.checkReaction('r_0961')
-
+    # # Check reactions
+    # case7.checkReaction('r_4041') #biomass
+    # case7.checkReaction('r_2115') #EtOH
+    # case7.checkReaction('r_0961')
+    #
     # xlsxwriter
     # http://xlsxwriter.readthedocs.io/working_with_pandas.html
     # http://xlsxwriter.readthedocs.io/worksheet.html

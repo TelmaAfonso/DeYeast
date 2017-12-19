@@ -10,8 +10,39 @@ import nbformat as nbf
 nb = nbf.v4.new_notebook() #create a new notebook object
 
 text = """\
-# Case 7 Report
+# Case 7 Report (Blank et al, 2005)
+
 This report contains the results with case 7 simulations.
+
+Paper: [*Large-scale 13 C-flux analysis reveals mechanistic principles of metabolic network robustness to null mutations in yeast*](http://genomebiology.com/content/6/6/R49)
+
+**Background:** Quantification of intracellular metabolite fluxes by 13 C-tracer experiments is
+maturing into a routine higher-throughput analysis. The question now arises as to which mutants
+should be analyzed. Here we identify key experiments in a systems biology approach with a
+genome-scale model of Saccharomyces cerevisiae metabolism, thereby reducing the workload for
+experimental network analyses and functional genomics.
+
+**Results:** Genome-scale 13 C flux analysis revealed that about half of the 745 biochemical reactions
+were active during growth on glucose, but that alternative pathways exist for only 51 gene-encoded
+reactions with significant flux. These flexible reactions identified in silico are key targets for
+experimental flux analysis, and we present the first large-scale metabolic flux data for yeast,
+covering half of these mutants during growth on glucose. The metabolic lesions were often
+counteracted by flux rerouting, but knockout of cofactor-dependent reactions, as in the adh1, ald6,
+cox5A, fum1, mdh1, pda1, and zwf1 mutations, caused flux responses in more distant parts of the
+network. By integrating computational analyses, flux data, and physiological phenotypes of all
+mutants in active reactions, we quantified the relative importance of 'genetic buffering' through
+alternative pathways and network redundancy through duplicate genes for genetic robustness of
+the network.
+
+**Conclusions:** The apparent dispensability of knockout mutants with metabolic function is
+explained by gene inactivity under a particular condition in about half of the cases. For the remaining
+207 viable mutants of active reactions, network redundancy through duplicate genes was the major
+(75%) and alternative pathways the minor (25%) molecular mechanism of genetic network
+robustness in S. cerevisiae.
+
+<p style="float: center; font-size: 9pt; text-align: center; width: 100%;"><img src = "Results/Case 7/blank_2004_fig2.png", width = 80%></p>
+<p style="float: center; font-size: 9pt; text-align: center; width: 100%;"><img src = "Results/Case 7/blank_2004_fig2_legend.png", width = 80%></p>
+
 """
 
 code = """\
@@ -25,7 +56,7 @@ warnings.filterwarnings('ignore')
 case7 = Case7()
 case7.model = case7.loadObjectFromFile('model_yeast_76.sav')
 case7.model.solver = 'optlang-cplex'
-case7.setMedium('MINIMAL_CASE7')
+case7.setMedium('MINIMAL')
 case7.dictsForCase7();
 """
 
@@ -72,7 +103,7 @@ lmoma_text = """\
 """
 
 lmoma_datasets = """\
-res_lmoma, res_lmoma_df, wt_lmoma_df, df_lmoma_exp_sim, df_lmoma_exp_sim_errors = case7.lmomaPipeline(fluxes_O2 = fluxes_O2, exp_dataset = exp_dataset, reference_dict = res_pfba, plotGenes = False, plotReacts = False, saveGenesPlot = False, res_exists = True)
+res_lmoma, res_lmoma_df, df_lmoma_exp_sim, df_lmoma_exp_sim_errors = case7.lmomaPipeline(fluxes_O2 = fluxes_O2, exp_dataset = exp_dataset, reference_dict = res_pfba, plotGenes = False, plotReacts = False, saveGenesPlot = False, res_exists = True)
 df_lmoma_exp_sim_errors
 """
 
@@ -95,13 +126,24 @@ genes_text = """\
 """
 
 wt_dataset = """\
-wt_res = case7.createResultsDataframeWT(reactions, wt_fba_df, wt_pfba_df, wt_lmoma_df, wt_fva_df)
+wt_res = case7.createResultsDataframeWT(reactions, wt_fba_df, wt_pfba_df, wt_fva_df)
 wt_res
 """
 
 genes_dataset = """\
 genes_res = case7.createResultsDictByGene(df_fba_exp_sim_errors, df_pfba_exp_sim_errors, df_lmoma_exp_sim_errors, df_fva_exp_sim)
 """
+
+from phenomenaly.io import load_yeast_76
+from case_7 import *
+import warnings
+
+warnings.filterwarnings('ignore')
+
+#Initialization
+case7 = Case7()
+case7.model = case7.loadObjectFromFile('model_yeast_76.sav')
+case7.dictsForCase7();
 
 genes = sorted(case7.l.keys())
 
