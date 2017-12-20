@@ -61,6 +61,11 @@ class Case6 (PhenomenalySim):
 
         return res
 
+    def getDFWithoutExtremeFluxes (self, dataframe, column_index = 1, val = 900):
+        df = dataframe[(dataframe.ix[:, column_index] > -val) & (dataframe.ix[:, column_index] < val)]
+
+        return df.astype('float')
+
     def createDatasetExpVsSimul (self, exp_fluxes, sim_fluxes):
         dsim = sim_fluxes.copy()
         df = pd.concat([exp_fluxes, sim_fluxes], axis = 1, join = 'inner')
@@ -165,7 +170,8 @@ if __name__ == '__main__':
     mae1 = case6.convertStdToSyst(['MAE1'])['MAE1']
 
     #FBA
-    mae1_fba_res, mae1_fba_exp_sim, mae1_fba_exp_sim_errors = case6.simulationPipeline(exp_dataset.ix[:,0], geneko = mae1, type = 'fba', res_exists = False)
+    mae1_fba_res, mae1_fba_exp_sim, mae1_fba_exp_sim_errors = case6.simulationPipeline(exp_dataset.ix[:,0], geneko = mae1, type = 'fba', res_exists = True)
+    mae1_fba_exp_sim_errors = case6.getDFWithoutExtremeFluxes(mae1_fba_exp_sim_errors)
     case6.plotExpVsSim(mae1_fba_exp_sim_errors, save_fig_path = 'Results/Case 6/mae1_fba_exp_sim_plot.png', title = 'FBA MAE1 Del')
     plt.close('all')
 

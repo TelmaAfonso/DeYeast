@@ -132,7 +132,7 @@ if __name__ == '__main__':
     #Initialization
     case3 = Case3()
     case3.model = case3.loadObjectFromFile('model_yeast_76.sav')
-    case3.model.solver = 'optlang-cplex'
+    case3.model.solver = 'optlang-cplex' #Had to change solver in simulation.py file
     case3.setMedium('MINIMAL')
     case3.dictsForCase3()
 
@@ -143,70 +143,94 @@ if __name__ == '__main__':
     g_exp_df = case3.getColumnWithoutNAs(exp_dataset, 0)
 
     #FBA
-    g_fba_res, g_fba_exp_sim, g_fba_exp_sim_errors = case3.simulationPipeline(g_exp_df, cs = 'glucose', type = 'fba', res_exists = False, fname = 'Results/Case 3/res_fba_glucose_case3.sav')
+    g_fba_res, g_fba_exp_sim, g_fba_exp_sim_errors = case3.simulationPipeline(g_exp_df, cs = 'glucose', type = 'fba', res_exists = True, fname = 'Results/Case 3/res_fba_glucose_case3.sav')
     case3.plotExpVsSim(g_fba_exp_sim_errors, save_fig_path = 'Results/Case 3/g_fba_exp_sim_plot.png', title = 'FBA GLucose Carbon Source')
     plt.close('all')
 
     #pFBA
-    g_pfba_res, g_pfba_exp_sim, g_pfba_exp_sim_errors = case3.simulationPipeline(g_exp_df, cs = 'glucose', type = 'pfba', res_exists = False, fname = 'Results/Case 3/res_pfba_glucose_case3.sav')
+    g_pfba_res, g_pfba_exp_sim, g_pfba_exp_sim_errors = case3.simulationPipeline(g_exp_df, cs = 'glucose', type = 'pfba', res_exists = True, fname = 'Results/Case 3/res_pfba_glucose_case3.sav')
     case3.plotExpVsSim(g_pfba_exp_sim_errors, save_fig_path = 'Results/Case 3/g_pfba_exp_sim_plot.png', title = 'pFBA GLucose Carbon Source')
     plt.close('all')
 
     #FVA
-    g_fva_res, g_fva_exp_sim, _ = case3.simulationPipeline(g_exp_df, cs = 'glucose', type = 'fva', res_exists = False, fname = 'Results/Case 3/res_fva_glucose_case3.sav')
+    g_fva_res, g_fva_exp_sim, _ = case3.simulationPipeline(g_exp_df, cs = 'glucose', type = 'fva', res_exists = True, fname = 'Results/Case 3/res_fva_glucose_case3.sav')
 
 
     # ====== CS: MANNOSE ======
     m_exp_df = case3.getColumnWithoutNAs(exp_dataset, 1)
 
     #FBA
-    m_fba_res, m_fba_exp_sim, m_fba_exp_sim_errors = case3.simulationPipeline(m_exp_df, cs = 'mannose', type = 'fba', res_exists = False, fname = 'Results/Case 3/res_fba_mannose_case10.sav')
+    m_fba_res, m_fba_exp_sim, m_fba_exp_sim_errors = case3.simulationPipeline(m_exp_df, cs = 'mannose', type = 'fba', res_exists = True, fname = 'Results/Case 3/res_fba_mannose_case10.sav')
     case3.plotExpVsSim(m_fba_exp_sim_errors, save_fig_path = 'Results/Case 3/m_fba_exp_sim_plot.png', title = 'FBA Mannose Carbon Source')
     plt.close('all')
 
     #pFBA
-    m_pfba_res, m_pfba_exp_sim, m_pfba_exp_sim_errors = case3.simulationPipeline(m_exp_df, cs = 'mannose', type = 'pfba', res_exists = False, fname = 'Results/Case 3/res_pfba_mannose_case10.sav')
+    m_pfba_res, m_pfba_exp_sim, m_pfba_exp_sim_errors = case3.simulationPipeline(m_exp_df, cs = 'mannose', type = 'pfba', res_exists = True, fname = 'Results/Case 3/res_pfba_mannose_case10.sav')
     case3.plotExpVsSim(m_pfba_exp_sim_errors, save_fig_path = 'Results/Case 3/m_pfba_exp_sim_plot.png', title = 'pFBA Mannose Carbon Source')
     plt.close('all')
 
     #FVA
-    m_fva_res, m_fva_exp_sim, _ = case3.simulationPipeline(m_exp_df, cs = 'mannose', type = 'fva', res_exists = False, fname = 'Results/Case 3/res_fva_mannose_case10.sav')
+    m_fva_res, m_fva_exp_sim, _ = case3.simulationPipeline(m_exp_df, cs = 'mannose', type = 'fva', res_exists = True, fname = 'Results/Case 3/res_fva_mannose_case10.sav')
 
 
     # ====== CS: GALACTOSE ======
     gal_exp_df = case3.getColumnWithoutNAs(exp_dataset, 2)
 
     #FBA
-    gal_fba_res, gal_fba_exp_sim, gal_fba_exp_sim_errors = case3.simulationPipeline(gal_exp_df, cs = 'galactose', type = 'fba', res_exists = False, fname = 'Results/Case 3/res_fba_galactose_case3.sav')
+    gal_fba_res, gal_fba_exp_sim, gal_fba_exp_sim_errors = case3.simulationPipeline(gal_exp_df, cs = 'galactose', type = 'fba', res_exists = True, fname = 'Results/Case 3/res_fba_galactose_case3.sav')
     case3.plotExpVsSim(gal_fba_exp_sim_errors, save_fig_path = 'Results/Case 3/gal_fba_exp_sim_plot.png', title = 'FBA Galactose Carbon Source')
     plt.close('all')
 
     #pFBA
-    gal_pfba_res, gal_pfba_exp_sim, gal_pfba_exp_sim_errors = case3.simulationPipeline(gal_exp_df, cs = 'galactose', type = 'pfba', res_exists = False, fname = 'Results/Case 3/res_pfba_galactose_case3.sav')
+    gal_pfba_res, gal_pfba_exp_sim, gal_pfba_exp_sim_errors = case3.simulationPipeline(gal_exp_df, cs = 'galactose', type = 'pfba', res_exists = True, fname = 'Results/Case 3/res_pfba_galactose_case3.sav')
     case3.plotExpVsSim(gal_pfba_exp_sim_errors, save_fig_path = 'Results/Case 3/gal_pfba_exp_sim_plot.png', title = 'pFBA Galactose Carbon Source')
     plt.close('all')
 
     #FVA
-    gal_fva_res, gal_fva_exp_sim, _ = case3.simulationPipeline(gal_exp_df, cs = 'galactose', type = 'fva', res_exists = False, fname = 'Results/Case 3/res_fva_galactose_case3.sav')
+    gal_fva_res, gal_fva_exp_sim, _ = case3.simulationPipeline(gal_exp_df, cs = 'galactose', type = 'fva', res_exists = True, fname = 'Results/Case 3/res_fva_galactose_case3.sav')
 
 
     # ====== CS: PYRUVATE ======
     p_exp_df = case3.getColumnWithoutNAs(exp_dataset, 3)
 
     #FBA
-    p_fba_res, p_fba_exp_sim, p_fba_exp_sim_errors = case3.simulationPipeline(p_exp_df, cs = 'pyruvate', type = 'fba', res_exists = False, fname = 'Results/Case 3/res_fba_pyruvate_case3.sav')
+    p_fba_res, p_fba_exp_sim, p_fba_exp_sim_errors = case3.simulationPipeline(p_exp_df, cs = 'pyruvate', type = 'fba', res_exists = True, fname = 'Results/Case 3/res_fba_pyruvate_case3.sav')
     case3.plotExpVsSim(p_fba_exp_sim_errors, save_fig_path = 'Results/Case 3/p_fba_exp_sim_plot.png', title = 'FBA Pyruvate Carbon Source')
     plt.close('all')
 
     #pFBA
-    p_pfba_res, p_pfba_exp_sim, p_pfba_exp_sim_errors = case3.simulationPipeline(p_exp_df, cs = 'pyruvate', type = 'pfba', res_exists = False, fname = 'Results/Case 3/res_pfba_pyruvate_case3.sav')
+    p_pfba_res, p_pfba_exp_sim, p_pfba_exp_sim_errors = case3.simulationPipeline(p_exp_df, cs = 'pyruvate', type = 'pfba', res_exists = True, fname = 'Results/Case 3/res_pfba_pyruvate_case3.sav')
     case3.plotExpVsSim(p_pfba_exp_sim_errors, save_fig_path = 'Results/Case 3/p_pfba_exp_sim_plot.png', title = 'pFBA Pyruvate Carbon Source')
     plt.close('all')
 
     #FVA
-    p_fva_res, p_fva_exp_sim, _ = case3.simulationPipeline(p_exp_df, cs = 'pyruvate', type = 'fva', res_exists = False, fname = 'Results/Case 3/res_fva_pyruvate_case3.sav')
+    p_fva_res, p_fva_exp_sim, _ = case3.simulationPipeline(p_exp_df, cs = 'pyruvate', type = 'fva', res_exists = True, fname = 'Results/Case 3/res_fva_pyruvate_case3.sav')
 
 
 
 
     # Acetyl-CoA  <==> Acetyl-CoA-mit (transport) no correspondence
+
+    # # TESTS
+    #
+    # import cobra.flux_analysis.parsimonious as pars
+    #
+    # case3.model.set_carbon_source(case3.cs_reaction['glucose'], lb = case3.cs_lb['glucose'])
+    # res = pars.pfba(case3.model, fraction_of_optimum=0.999999)
+    # res.fluxes[['r_4041', 'r_0723']]
+    #
+    # sol = case3.singleSimulation(case3.cs_reaction['glucose'], cs_lb = case3.cs_lb['glucose'], type = 'pfba')
+    # sol.x_dict['r_0723']
+    #
+    # sol2 = pfba(case3.model)
+    # sol2.x_dict['r_0723']
+    #
+    # from cobra.flux_analysis.parsimonious import pfba as _pfba
+    # sol3 = _pfba(
+    #     case3.model,
+    #     solver="cplex",
+    #     fraction_of_optimum=0.99999,
+    #     tolerance_optimality=1e-6,
+    #     tolerance_feasibility=1e-6)
+
+

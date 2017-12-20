@@ -24,8 +24,7 @@ other high-throughput experimental techniques, which do not provide information
 about the integrated response a specific genetic modification has on the cellular
 function. In this study we have performed phenotypic characterization of several
 mutants of the yeast Saccharomyces cerevisiae through the use of experiments with
-13
-C-labelled glucose. Through GC–MS analysis of the 13 C incorporated into the amino
+13 C-labelled glucose. Through GC–MS analysis of the 13 C incorporated into the amino
 acids of cellular proteins, it was possible to obtain quantitative information on the
 function of the central carbon metabolism in the different mutants. Traditionally,
 such labelling data have been used to quantify metabolic fluxes through the use of a

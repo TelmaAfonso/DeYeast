@@ -108,6 +108,10 @@ df_lmoma_exp_sim_errors
 """
 
 # Case specific results
+wt_text = """\
+## Wild Type
+"""
+
 genes_text = """\
 # Analysis by Gene Knockout
 """
@@ -198,6 +202,7 @@ nb['cells'] = [nbf.v4.new_markdown_cell(text),
                nbf.v4.new_code_cell(lmoma_datasets),
                nbf.v4.new_markdown_cell(lmoma_reactions),
                nbf.v4.new_markdown_cell(genes_text),
+               nbf.v4.new_markdown_cell(wt_text),
                nbf.v4.new_code_cell(wt_dataset),
                nbf.v4.new_code_cell(genes_dataset)
                ] + [eval(exp) for exp in nbcells]

@@ -718,7 +718,8 @@ class Case7 (PhenomenalySim):
                 plt.annotate(gene_ID, (x[ind], y[ind]), fontsize = 8, xytext = (x[ind], y[ind]))
             plt.xlabel(xlab)
             plt.ylabel(ylab)
-            plt.title('Experimental vs Simulated Fluxes (' + reaction + ')')
+            # plt.title('Experimental vs Simulated Fluxes (' + reaction + ')')
+            plt.title(self.checkReaction(reaction) + ' (' + reaction + ')')
             plt.plot([], [], ' ') # To show correlation in legend
             plt.plot([], [], ' ') # To show mean relative error in legend
             plt.legend([reaction, 'R2: %.4f' % r_value**2, 'Pearson correlation: %.4f' % corr, 'Mean relative error: %.4f' % meanRelErr])
@@ -942,16 +943,16 @@ if __name__ == '__main__':
     exp_dataset, reactions, real_EtOH_fluxes, sim_EtOH_O2_fluxes_fixed, fluxes_O2 = case7.case7Pipeline(plot = False, makeFigs = False, type = 'pfba', res_exists = True)
 
     # FBA
-    res_fba, res_fba_df, wt_fba_df, df_fba_exp_sim, df_fba_exp_sim_errors = case7.fbaPipeline(fluxes_O2 = fluxes_O2, exp_dataset = exp_dataset, plotGenes = False, plotReacts = False, saveGenesPlot = True, saveReactionsPlot = True, res_exists = True)
+    res_fba, res_fba_df, wt_fba_df, df_fba_exp_sim, df_fba_exp_sim_errors = case7.fbaPipeline(fluxes_O2 = fluxes_O2, exp_dataset = exp_dataset, plotGenes = False, plotReacts = False, saveGenesPlot = False, saveReactionsPlot = False, res_exists = True)
 
     # pFBA
-    res_pfba, res_pfba_df, wt_pfba_df, df_pfba_exp_sim, df_pfba_exp_sim_errors = case7.pfbaPipeline(fluxes_O2 = fluxes_O2, exp_dataset = exp_dataset, saveGenesPlot = True, plotReacts = False, plotGenes = False, saveReactionsPlot = True, res_exists = True)
+    res_pfba, res_pfba_df, wt_pfba_df, df_pfba_exp_sim, df_pfba_exp_sim_errors = case7.pfbaPipeline(fluxes_O2 = fluxes_O2, exp_dataset = exp_dataset, saveGenesPlot = False, plotReacts = False, plotGenes = False, saveReactionsPlot = False, res_exists = True)
 
     # FVA
     res_fva, res_fva_df, wt_fva_df, df_fva_exp_sim = case7.fvaPipeline(fluxes_O2 = fluxes_O2, exp_dataset = exp_dataset, res_exists = True)
 
     # LMOMA
-    res_lmoma, res_lmoma_df, df_lmoma_exp_sim, df_lmoma_exp_sim_errors = case7.lmomaPipeline(fluxes_O2 = fluxes_O2, exp_dataset = exp_dataset, reference_dict = res_pfba['WildType'], plotGenes = False, plotReacts = False, saveGenesPlot = True, saveReactionsPlot = True, res_exists = True)
+    res_lmoma, res_lmoma_df, df_lmoma_exp_sim, df_lmoma_exp_sim_errors = case7.lmomaPipeline(fluxes_O2 = fluxes_O2, exp_dataset = exp_dataset, reference_dict = res_pfba['WildType'], plotGenes = False, plotReacts = False, saveGenesPlot = False, saveReactionsPlot = False, res_exists = True)
 
     # Create xlsx with results
     # case7.convertPandasDFToExcel(reactions, df_fba_exp_sim_errors, filename = 'Results/Case 7/fba_results_case7_test.xlsx', imgFolder = 'Results/Case 7/FBA_figs')
@@ -970,18 +971,18 @@ if __name__ == '__main__':
     # General datasets
 
     # # FBA
-    # res_fba_biomub, res_fba_df_biomub, wt_fba_df_biomub, df_fba_exp_sim_biomub, df_fba_exp_sim_errors_biomub = case7.fbaPipeline(fluxes_O2 = fluxes_O2, exp_dataset = exp_dataset, plotGenes = False, plotReacts = False, saveGenesPlot = False, res_exists = False, fname = 'res_fba_biomub_case7.sav', biom_ub = True)
+    # res_fba_biomub, res_fba_df_biomub, wt_fba_df_biomub, df_fba_exp_sim_biomub, df_fba_exp_sim_errors_biomub = case7.fbaPipeline(fluxes_O2 = fluxes_O2, exp_dataset = exp_dataset, plotGenes = True, plotReacts = True, saveGenesPlot = True, res_exists = True, fname = 'res_fba_biomub_case7.sav', biom_ub = True)
     #
     # case7.plotReactExpVsSim(df_pfba_exp_sim_biomub, xlab = 'Experimental Flux', ylab = 'Simulated Flux', title = 'r_2116', reaction = 'r_2116')
     #
     # # pFBA
-    # res_pfba_biomub, res_pfba_df_biomub, wt_pfba_df_biomub, df_pfba_exp_sim_biomub, df_pfba_exp_sim_errors_biomub = case7.pfbaPipeline(fluxes_O2 = fluxes_O2, exp_dataset = exp_dataset, saveGenesPlot = False, plotReacts = False, plotGenes = False, res_exists = False, fname = 'res_pfba_biomub_case7.sav', biom_ub = True)
+    # res_pfba_biomub, res_pfba_df_biomub, wt_pfba_df_biomub, df_pfba_exp_sim_biomub, df_pfba_exp_sim_errors_biomub = case7.pfbaPipeline(fluxes_O2 = fluxes_O2, exp_dataset = exp_dataset, saveGenesPlot = True, plotReacts = True, plotGenes = True, res_exists = True, fname = 'res_pfba_biomub_case7.sav', biom_ub = True)
     #
     # # FVA
-    # res_fva_biomub, res_fva_df_biomub, wt_fva_df_biomub, df_fva_exp_sim_biomub = case7.fvaPipeline(fluxes_O2 = fluxes_O2, exp_dataset = exp_dataset, res_exists = False, fname = 'res_fva_biomub_case7.sav', biom_ub = True)
+    # res_fva_biomub, res_fva_df_biomub, wt_fva_df_biomub, df_fva_exp_sim_biomub = case7.fvaPipeline(fluxes_O2 = fluxes_O2, exp_dataset = exp_dataset, res_exists = True, fname = 'res_fva_biomub_case7.sav', biom_ub = True)
     #
     # # LMOMA
-    # res_lmoma_biomub, res_lmoma_df_biomub, wt_lmoma_df_biomub, df_lmoma_exp_sim_biomub, df_lmoma_exp_sim_errors_biomub = case7.lmomaPipeline(fluxes_O2 = fluxes_O2, exp_dataset = exp_dataset, reference_dict = res_pfba, plotGenes = False, plotReacts = False, saveGenesPlot = False, res_exists = False, fname = 'res_lmoma_biomub_case7.sav', biom_ub = True)
+    # res_lmoma_biomub, res_lmoma_df_biomub, wt_lmoma_df_biomub, df_lmoma_exp_sim_biomub, df_lmoma_exp_sim_errors_biomub = case7.lmomaPipeline(fluxes_O2 = fluxes_O2, exp_dataset = exp_dataset, reference_dict = res_pfba, plotGenes = True, plotReacts = True, saveGenesPlot = True, res_exists = True, fname = 'res_lmoma_biomub_case7.sav', biom_ub = True)
     #
     # res = case7.singleSimulation('ADH3', fluxes_O2 = fluxes_O2, gl_lb = None, o2_lb = None, type = 'fba')
     # res.fluxes.loc['r_4041']

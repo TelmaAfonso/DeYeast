@@ -237,6 +237,16 @@ class PhenomenalySim (object):
         r2 = [(self.model.metabolites.get_by_id(met).name if 's' in met else (met)) for met in r]
         print('\n', ' '.join(r2))
 
+        # For plots
+        s = ' '.join(r2)
+        s = s.replace('cytoplasm', 'c')
+        s = s.replace('mitochondrion', 'm')
+        s = s.replace('nucleus', 'n')
+        s = s.replace('extracellular', 'e')
+        s = s.replace('peroxisome', 'p')
+
+        return s
+
     def setMedium (self, medium):
         self.medium = medium
         self.model.set_medium(self.translate_medium_modified(medium))
@@ -350,7 +360,7 @@ if __name__ == '__main__':
 
     writeMetReactToFile('reactions.csv', type = 'reactions')
 
-    model.set_medium(translate_medium_modified('MINIMAL_CASE7', model))
+    model.set_medium(translate_medium_modified('MINIMAL', model))
 
     l = ['r_1654', 'r_2060', 'r_2020', 'r_2005', 'r_1861', 'r_2049', 'r_2020', 'r_1671', 'r_1967', 'r_1915',  'r_1947']
     for r in model.genes.get_by_id('YMR083W').reactions:
@@ -366,7 +376,7 @@ if __name__ == '__main__':
 
 
     # USING NEW CLASS
-    ySim = YeastpackSim(loadObjectFromFile('model_yeast_76.sav'), 'MINIMAL_CASE7')
+    ySim = YeastpackSim(loadObjectFromFile('model_yeast_76.sav'), 'MINIMAL')
     ySim.checkModelInfo()
 
 
