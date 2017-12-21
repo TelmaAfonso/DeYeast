@@ -19,6 +19,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 import warnings
 warnings.filterwarnings('ignore')
 pd.set_option('display.max_colwidth', -1)
+pd.set_option('display.max_rows', 999)
 
 from yeastpack_test import PhenomenalySim
 
@@ -151,6 +152,11 @@ if __name__ == '__main__':
     g_pfba_res, g_pfba_exp_sim, g_pfba_exp_sim_errors = case3.simulationPipeline(g_exp_df, cs = 'glucose', type = 'pfba', res_exists = True, fname = 'Results/Case 3/res_pfba_glucose_case3.sav')
     case3.plotExpVsSim(g_pfba_exp_sim_errors, save_fig_path = 'Results/Case 3/g_pfba_exp_sim_plot.png', title = 'pFBA GLucose Carbon Source')
     plt.close('all')
+    #
+    # f = case3.getSimFluxesRange(g_pfba_res, min = 1, max = 30)
+    # f = case3.getSimFluxesRange(g_pfba_res, max = 0)
+    # f
+    # case3.getReactionInfo('r_0783')
 
     #FVA
     g_fva_res, g_fva_exp_sim, _ = case3.simulationPipeline(g_exp_df, cs = 'glucose', type = 'fva', res_exists = True, fname = 'Results/Case 3/res_fva_glucose_case3.sav')
@@ -231,6 +237,11 @@ if __name__ == '__main__':
     #     solver="cplex",
     #     fraction_of_optimum=0.99999,
     #     tolerance_optimality=1e-6,
-    #     tolerance_feasibility=1e-6)
-
-
+    # #     tolerance_feasibility=1e-6)
+    #
+    #
+    # t = g_pfba_res.fluxes[(g_pfba_res.fluxes > 1) & (g_pfba_res.fluxes < 30)]
+    # t = t.drop(['r_4041', 'r_2108'])
+    # r = [case3.checkReaction(r) for r in t.index]
+    # t.index = r
+    # t.sort_values()
