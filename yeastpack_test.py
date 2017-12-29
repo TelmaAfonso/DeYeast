@@ -301,7 +301,7 @@ class PhenomenalySim (object):
         for k,v in vars(r).items():
             print(k, '\t', v)
 
-    def getSimFluxesRange (self, sim_res, min = None, max = None, dropReacts = ['r_4041', 'r_2108']):
+    def getSimFluxesRange (self, sim_res, min = None, max = None, dropReacts = []):
         if min is not None:
             if max is not None:
                 df = sim_res.fluxes[(sim_res.fluxes > min) & (sim_res.fluxes < max)]
@@ -310,8 +310,8 @@ class PhenomenalySim (object):
         elif max is not None:
             df = sim_res.fluxes[(sim_res.fluxes < max)]
 
-        df = df.drop(dropReacts)
-        row_names = [self.checkReaction(r) for r in df.index]
+        df = df.drop([r for r in dropReacts if r in df.index])
+        row_names = [self.checkReaction(r) + '(' + str(r) + ')' for r in df.index]
         df.index = row_names
 
         return df.sort_values()
