@@ -178,6 +178,69 @@ p_fva_res, p_fva_exp_sim, _ = case3.simulationPipeline(p_exp_df, cs = 'pyruvate'
 pd.concat([reactions, p_fva_exp_sim], axis = 1, join = 'inner')
 """
 
+# ===== SUMMARY =====
+
+g_summary = """\
+Brief summary of results shown below:
+
+- TCA cycle more active in simulated fluxes (more pyruvate enters the cell, maybe because it is not being converted to acetate as in experimental fluxes; pyruvate FVA flux range: 0 - 4.45);
+- Glycolysis 1/4 less active (D-Glucose-6-phosphate is being converted to D-Glucose-1-phosphate with a flux of 4.34, not shown here);
+- Pentose phosphate pathway activity reduced in simulated fluxes;
+- FVA shows most reactions are fixed, except:
+    - r_0713 	(S)-Malate-mit <==> Oxaloacetate-mit
+    - r_0450 	D-Fructose-1,6-bisphosphate <==> Glycerone-phosphate + D-Glyceraldehyde-3-phosphate 	
+    - r_1048 	Sedoheptulose-7-phosphate + D-Glyceraldehyde-3-phosphate <==> D-Erythrose-4-phosphate + D-Fructose-6-phosphate
+    - r_0886 	D-Fructose-6-phosphate <==> D-Fructose-1,6-bisphosphate
+    - r_2034 	Pyruvate <==> Pyruvate-mit
+
+"""
+
+m_summary = """\
+
+Brief summary of results shown below:
+
+- TCA cycle more active in simulated fluxes (more pyruvate enters the cell, maybe because it is not being converted to acetate as in experimental fluxes; pyruvate FVA flux range: 0 - 3.50);
+- Glycolysis less active in simualted fluxes (D-Glucose-6-phosphate is being converted to D-Glucose-1-phosphate with a flux of 3.67, not shown here);
+- Pentose phosphate pathway activity reduced in simulated fluxes;
+- FVA shows most reactions are fixed, except:
+    - r_0713 	(S)-Malate-mit <==> Oxaloacetate-mit
+    - r_0450 	D-Fructose-1,6-bisphosphate <==> Glycerone-phosphate + D-Glyceraldehyde-3-phosphate 	
+    - r_1048 	Sedoheptulose-7-phosphate + D-Glyceraldehyde-3-phosphate <==> D-Erythrose-4-phosphate + D-Fructose-6-phosphate
+    - r_0886 	D-Fructose-6-phosphate <==> D-Fructose-1,6-bisphosphate
+    - r_2034 	Pyruvate <==> Pyruvate-mit
+    
+"""
+
+gal_summary = """\
+
+Brief summary of results shown below:
+
+- TCA cycle activity is similar in simulated fluxes (although more pyruvate enters the cell, maybe because it is not being converted to acetate as in experimental fluxes; pyruvate FVA flux range: 0 - 1.23);
+- Glycolysis activity is similar in simualted fluxes (a little inferior in some reactions);
+- Pentose phosphate pathway activity reduced in simulated fluxes;
+- FVA shows most reactions are fixed, except:
+    - r_0713 	(S)-Malate-mit <==> Oxaloacetate-mit
+    - r_0450 	D-Fructose-1,6-bisphosphate <==> Glycerone-phosphate + D-Glyceraldehyde-3-phosphate 	
+    - r_1048 	Sedoheptulose-7-phosphate + D-Glyceraldehyde-3-phosphate <==> D-Erythrose-4-phosphate + D-Fructose-6-phosphate
+    - r_0886 	D-Fructose-6-phosphate <==> D-Fructose-1,6-bisphosphate
+    - r_2034 	Pyruvate <==> Pyruvate-mit
+    
+"""
+
+p_summary = """\
+
+Brief summary of results shown below:
+
+- TCA cycle activity more active in simulated fluxes (No experiemntal information regarding how much pyruvate is entering the cell for comparison; once again no acetate is being produced);
+- In TCA cycle the conversion of Isocitrate <==> 2-Oxoglutarate + CO2-mit is low because isocitrate is being converted to succinate in the cytoplasm (fluxes not shown here);
+- Reaction D-Fructose-6-phosphate <==> D-Fructose-1,6-bisphosphate (r_0886) experimental values show it is an inverse reaction, therefore the correct comparison should be made with reaction id r_0449 which has a flux value of 0.34 (not shown here);
+- Pentose phosphate pathway practically inactive comparing to experimental fluxes;
+- FVA shows most reactions are fixed, except:
+    - r_0713 	(S)-Malate-mit <==> Oxaloacetate-mit
+    - r_1022 	Succinate-mit + CoA <==> Succinyl-CoA 	
+    - r_0450 	D-Fructose-1,6-bisphosphate <==> Glycerone-phosphate + D-Glyceraldehyde-3-phosphate
+    
+"""
 
 #Generate cells with plots
 x = sum([['g' + i, 'm' + i, 'gal' + i, 'p' + i] for i in ['_fba', '_pfba']], [])
@@ -187,6 +250,7 @@ for name in x:
 #List with nbformat expressions
 cs = ['g', 'm', 'gal', 'p']
 nbcells = [['nbf.v4.new_markdown_cell(' + s + '_text)',
+            'nbf.v4.new_markdown_cell(' + s + '_summary)',
             'nbf.v4.new_markdown_cell(fba_text)',
             'nbf.v4.new_code_cell(' + s + '_fba_datasets)',
             'nbf.v4.new_markdown_cell(' + s + '_fba_plot)',
