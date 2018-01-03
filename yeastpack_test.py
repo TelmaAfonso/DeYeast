@@ -15,6 +15,8 @@ from types import *
 import pickle
 import pandas as pd
 import numpy as np
+import sys, io
+import re
 
 
 class PhenomenalySim (object):
@@ -316,6 +318,53 @@ class PhenomenalySim (object):
 
         return df.sort_values()
 
+    def getMetaboliteSummary (self, metabolite_id, analysis_result):
+        stdout = sys.stdout
+        sys.stdout = io.StringIO()
+
+        self.model.metabolites.get_by_id(metabolite_id).summary(analysis_result)
+
+        # get output and restore sys.stdout
+        output = sys.stdout.getvalue()
+        sys.stdout = stdout
+
+        return output
+
+    def getMetaboliteName (self, metabolite_id):
+        metabolite_id = metabolite_id.group()
+        return self.model.metabolites.get_by_id(metabolite_id).name
+
+    def replaceMetaboliteIdsInString (self, string):
+        return re.sub(r's_\w+', self.getMetaboliteName, string)
+
+    def getMetaboliteSummaryWithNames (self, metabolite_id, analysis_result):
+        output = self.replaceMetaboliteIdsInString(self.getMetaboliteSummary(metabolite_id, analysis_result))
+        print(output)
+
+    def getListOfMetabolitesSummary (self, analysis_result, metabolite_dict = None):
+        if metabolite_dict is None:
+            metabolite_dict = {'D-Glucose-6-phosphate (c)': 's_0568',
+                               'Phosphoenolpyruvate (c)': 's_1360',
+                               'Phosphoenolpyruvate (m)': 's_1361',
+                               'Pyruvate (c)': 's_1399',
+                               'Pyruvate (m)': 's_1401',
+                               'Oxaloacetate (c)': 's_1271',
+                               'Oxaloacetate (m)': 's_1273',
+                               # 'Acetaldehyde (c)': 's_0359',
+                               'Acetaldehyde (m)': 's_0361',
+                               'Succinate (c)': 's_1458',
+                               'Succinate (m)': 's_1460',
+                               'Ethanol (c)': 's_0680',
+                               'Ethanol (m)': 's_0682',
+                               'Acetate (c)': 's_0362',
+                               'Acetate (c)': 's_0365'
+                               }
+
+        for key, value in sorted(metabolite_dict.items()):
+            print('='*20 + key.upper() + '='*20)
+            output = self.replaceMetaboliteIdsInString(self.getMetaboliteSummary(value, analysis_result))
+            print(output)
+
 
 if __name__ == '__main__':
     # dir(a) #check object attributes
@@ -393,10 +442,4 @@ if __name__ == '__main__':
     # USING NEW CLASS
     ySim = YeastpackSim(loadObjectFromFile('model_yeast_76.sav'), 'MINIMAL')
     ySim.checkModelInfo()
-
-
-
-
-
-
 
