@@ -153,6 +153,8 @@ if __name__ == '__main__':
     case3.plotExpVsSim(g_pfba_exp_sim_errors, save_fig_path = 'Results/Case 3/g_pfba_exp_sim_plot.png', title = 'pFBA GLucose Carbon Source')
     plt.close('all')
 
+    #case3.getListOfMetabolitesSummary(g_pfba_res)
+
     #Reactions with biggest fluxes
     # f_1_30 = case3.getSimFluxesRange(g_pfba_res, min = 1, max = 30, dropReacts = ['r_4041', 'r_2108'])
     # f_max0 = case3.getSimFluxesRange(g_pfba_res, max = 0, dropReacts = ['r_2214', 'r_2196'])
@@ -175,6 +177,9 @@ if __name__ == '__main__':
     case3.plotExpVsSim(m_pfba_exp_sim_errors, save_fig_path = 'Results/Case 3/m_pfba_exp_sim_plot.png', title = 'pFBA Mannose Carbon Source')
     plt.close('all')
 
+    # case3.getListOfMetabolitesSummary(m_pfba_res)
+    # case3.getMetaboliteSummaryWithNames('s_0557', m_pfba_res) #D-fructose 6-phosphate
+
     #Reactions with biggest fluxes
     # f_1_20 = case3.getSimFluxesRange(m_pfba_res, min = 1, max = 20, dropReacts = ['r_4041', 'r_2108'])
     # f_max0 = case3.getSimFluxesRange(m_pfba_res, max = 0, dropReacts = ['r_2214', 'r_2196'])
@@ -195,6 +200,10 @@ if __name__ == '__main__':
     gal_pfba_res, gal_pfba_exp_sim, gal_pfba_exp_sim_errors = case3.simulationPipeline(gal_exp_df, cs = 'galactose', type = 'pfba', res_exists = True, fname = 'Results/Case 3/res_pfba_galactose_case3.sav')
     case3.plotExpVsSim(gal_pfba_exp_sim_errors, save_fig_path = 'Results/Case 3/gal_pfba_exp_sim_plot.png', title = 'pFBA Galactose Carbon Source')
     plt.close('all')
+
+    # case3.getListOfMetabolitesSummary(gal_pfba_res)
+    # case3.getMetaboliteSummaryWithNames('s_0558', gal_pfba_res) #D-galactose
+    # case3.getMetaboliteSummaryWithNames('s_0410', gal_pfba_res) #alpha-D-galactose 1-phosphate
 
     #Reactions with biggest fluxes
     # f_1_10 = case3.getSimFluxesRange(gal_pfba_res, min = 1, max = 10, dropReacts = ['r_4041', 'r_2108'])
@@ -217,9 +226,11 @@ if __name__ == '__main__':
     case3.plotExpVsSim(p_pfba_exp_sim_errors, save_fig_path = 'Results/Case 3/p_pfba_exp_sim_plot.png', title = 'pFBA Pyruvate Carbon Source')
     plt.close('all')
 
+    case3.getListOfMetabolitesSummary(p_pfba_res)
+
     #Reactions with biggest fluxes
-    f_1_min = case3.getSimFluxesRange(p_pfba_res, min = 1, dropReacts = ['r_4041', 'r_2108'])
-    f_max0 = case3.getSimFluxesRange(p_pfba_res, max = 0, dropReacts = ['r_2214', 'r_2196'])
+    # f_1_min = case3.getSimFluxesRange(p_pfba_res, min = 1, dropReacts = ['r_4041', 'r_2108'])
+    # f_max0 = case3.getSimFluxesRange(p_pfba_res, max = 0, dropReacts = ['r_2214', 'r_2196'])
 
     #FVA
     p_fva_res, p_fva_exp_sim, _ = case3.simulationPipeline(p_exp_df, cs = 'pyruvate', type = 'fva', res_exists = True, fname = 'Results/Case 3/res_fva_pyruvate_case3.sav')

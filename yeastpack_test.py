@@ -330,8 +330,9 @@ class PhenomenalySim (object):
 
         return output
 
-    def getMetaboliteName (self, metabolite_id):
-        metabolite_id = metabolite_id.group()
+    def getMetaboliteName (self, metabolite_id, regex = True):
+        if regex:
+            metabolite_id = metabolite_id.group()
         return self.model.metabolites.get_by_id(metabolite_id).name
 
     def replaceMetaboliteIdsInString (self, string):
