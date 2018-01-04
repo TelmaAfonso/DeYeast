@@ -351,20 +351,24 @@ class PhenomenalySim (object):
                                'Pyruvate (m)': 's_1401',
                                'Oxaloacetate (c)': 's_1271',
                                'Oxaloacetate (m)': 's_1273',
-                               # 'Acetaldehyde (c)': 's_0359',
+                               'Acetaldehyde (c)': 's_0359',
                                'Acetaldehyde (m)': 's_0361',
                                'Succinate (c)': 's_1458',
                                'Succinate (m)': 's_1460',
                                'Ethanol (c)': 's_0680',
                                'Ethanol (m)': 's_0682',
                                'Acetate (c)': 's_0362',
-                               'Acetate (c)': 's_0365'
+                               'Acetate (m)': 's_0365'
                                }
 
         for key, value in sorted(metabolite_dict.items()):
             print('='*20 + key.upper() + '='*20)
-            output = self.replaceMetaboliteIdsInString(self.getMetaboliteSummary(value, analysis_result))
-            print(output)
+            try:
+                output = self.replaceMetaboliteIdsInString(self.getMetaboliteSummary(value, analysis_result))
+                print(output)
+            except:
+                output = self.getMetaboliteSummary(value, analysis_result)
+                print(output)
 
 
 if __name__ == '__main__':

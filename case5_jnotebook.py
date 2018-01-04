@@ -119,6 +119,53 @@ e_fva_res, e_fva_exp_sim, _ = case5.simulationPipeline(e_exp_df, cs = 'ethanol',
 pd.concat([reactions, e_fva_exp_sim], axis = 1, join = 'inner')
 """
 
+
+# ===== SUMMARY =====
+
+g_summary = """\
+Brief summary of results shown below:
+
+- Overall glycolysis simulated fluxes are similar to the experimental data (72% of the D-Glucose-6-phosphate is converted into D-Fructose-6-phosphate; 27% is converted into D-Glucose-1-phosphate);
+- Pentose phosphate pathway activity reduced in simulated fluxes (only 1% of D-Glucose-6-phosphate is converted into 6-phosphono-D-glucono-1,5-lactone);
+- TCA cycle overall has similar simulated and experimental fluxes, except for the fluxes of succinate and fumarate production, which are lower. This happens because malate 
+is being produced on the citoplasm and enters the mitochondrion by antiport with 2-oxoglutarate, which becomes unavailable in the mitochondrion to produce succinyl-CoA;
+- About 50% of the produced pyruvate enters the mitochondrion, with the remaining 38% being converted into oxaloacetate and 3% converted into acetaldehyde;
+- FVA shows most reactions are fixed, except:
+    - r_0713 	(S)-Malate-mit <==> Oxaloacetate-mit
+    - r_0454 	Succinate-mit <==> Fumarate 
+    - r_0302 	Citrate <==> Isocitrate 		
+    - r_0450 	D-Fructose-1,6-bisphosphate <==> Glycerone-phosphate + D-Glyceraldehyde-3-phosphate 	
+    - r_1048 	Sedoheptulose-7-phosphate + D-Glyceraldehyde-3-phosphate <==> D-Erythrose-4-phosphate + D-Fructose-6-phosphate
+    - r_0886 	D-Fructose-6-phosphate <==> D-Fructose-1,6-bisphosphate
+    - r_0163 	Ethanol <==> Acetaldehyde 
+    - r_0714 	(S)-Malate <==> Oxaloacetate    
+    - r_2034 	Pyruvate <==> Pyruvate-mit
+
+"""
+
+e_summary = """\
+
+Brief summary of results shown below:
+
+- Glycolysis flux values are very discrepant between simulated and experimental fluxes. Experimentally the cell performs glycolysis, 
+whereas simulated fluxes show the cell is performing gluconeogenesis (this could be due to excessive ethanol being given as carbon source(?) - specific rate values not provided by authors);
+- Pentose phosphate pathway activity reduced in simulated fluxes;
+- Overall experimental and simulated TCA cycle flux values are similar, with most discrepancy observed in the beginning of the cycle (most fluxes close to zero). This could be due to he fact that 
+not much pyruvate is produced (being 100% produced from malate, with a flux of 0.296) and about 64% of it being used or the production of 2-acetyllactic acid;
+- FVA shows most reactions are fixed, except:
+    - r_2131 	Isocitrate <==> 2-Oxoglutarate + CO2-mit
+    - r_0713 	(S)-Malate-mit <==> Oxaloacetate-mit
+    - r_0454 	Succinate-mit <==> Fumarate 
+    - r_0302 	Citrate <==> Isocitrate 		
+    - r_0450 	D-Fructose-1,6-bisphosphate <==> Glycerone-phosphate + D-Glyceraldehyde-3-phosphate 	
+    - r_1048 	Sedoheptulose-7-phosphate + D-Glyceraldehyde-3-phosphate <==> D-Erythrose-4-phosphate + D-Fructose-6-phosphate
+    - r_0163 	Ethanol <==> Acetaldehyde 
+    - r_0714 	(S)-Malate <==> Oxaloacetate    
+    - r_0718 	(S)-Malate-mit <==> Pyruvate + CO2
+    
+"""
+
+
 #Generate cells with plots
 x = sum([['g' + i, 'e' + i] for i in ['_fba', '_pfba']], [])
 for name in x:
@@ -127,6 +174,7 @@ for name in x:
 #List with nbformat expressions
 cs = ['g', 'e']
 nbcells = [['nbf.v4.new_markdown_cell(' + s + '_text)',
+            'nbf.v4.new_markdown_cell(' + s + '_summary)',
             'nbf.v4.new_markdown_cell(fba_text)',
             'nbf.v4.new_code_cell(' + s + '_fba_datasets)',
             'nbf.v4.new_markdown_cell(' + s + '_fba_plot)',

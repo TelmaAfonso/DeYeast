@@ -166,58 +166,69 @@ class Case5 (PhenomenalySim):
         return round(real_O2(y0), 4)
 
 
-#if __name__ == '__main__':
+if __name__ == '__main__':
 
-#Strain FY4 is derived from S288C (very similar)
+    #Strain FY4 is derived from S288C (very similar)
 
-#Initialization
-case5 = Case5()
-case5.model = case5.loadObjectFromFile('model_yeast_76.sav')
-case5.model.solver = 'optlang-cplex'
-case5.setMedium('MINIMAL')
-case5.dictsForCase5()
+    #Initialization
+    case5 = Case5()
+    case5.model = case5.loadObjectFromFile('model_yeast_76.sav')
+    case5.model.solver = 'optlang-cplex'
+    case5.setMedium('MINIMAL')
+    case5.dictsForCase5()
 
-#General datasets
-exp_dataset, reactions = case5.loadExperimentalRes('Results/Case 5/case5_experimental_fluxes.csv')
+    #General datasets
+    exp_dataset, reactions = case5.loadExperimentalRes('Results/Case 5/case5_experimental_fluxes.csv')
 
-# ====== CS: GLUCOSE ======
-g_exp_df = case5.getColumnWithoutNAs(exp_dataset, 0)
+    # ====== CS: GLUCOSE ======
+    g_exp_df = case5.getColumnWithoutNAs(exp_dataset, 0)
 
-# O2 FLUX ESTIMATION - ALL ZERO!
-# g_etOH = case5.testO2EthanolProd(range_o2 = list(np.arange(-10, 0, 1)))
-# case5.saveObjectToFile(g_etOH, 'Results/Case 5/g_dict_etOH_O2_fluxes.sav')
-# g_etOH = case5.loadObjectFromFile('Results/Case 5/g_dict_etOH_O2_fluxes.sav')
-# g_o2_lb = case5.plotO2vsEtOH(g_etOH, real_EtOH_flux = -0.2478, fname = 'Results/Case 5/g_etOH_plot.png')
-# plt.close('all')
+    # O2 FLUX ESTIMATION - ALL ZERO!
+    # g_etOH = case5.testO2EthanolProd(range_o2 = list(np.arange(-10, 0, 1)))
+    # case5.saveObjectToFile(g_etOH, 'Results/Case 5/g_dict_etOH_O2_fluxes.sav')
+    # g_etOH = case5.loadObjectFromFile('Results/Case 5/g_dict_etOH_O2_fluxes.sav')
+    # g_o2_lb = case5.plotO2vsEtOH(g_etOH, real_EtOH_flux = -0.2478, fname = 'Results/Case 5/g_etOH_plot.png')
+    # plt.close('all')
 
-#FBA
-g_fba_res, g_fba_exp_sim, g_fba_exp_sim_errors = case5.simulationPipeline(g_exp_df, cs = 'glucose', type = 'fba', res_exists = True, fname = 'Results/Case 5/res_fba_glucose_case5.sav')
-g_fba_exp_sim_errors = case5.getDFWithoutExtremeFluxes(g_fba_exp_sim_errors) #without r_0302, for plotting
-case5.plotExpVsSim(g_fba_exp_sim_errors, save_fig_path = 'Results/Case 5/g_fba_exp_sim_plot.png', title = 'FBA Glucose Carbon Source')
-plt.close('all')
+    #FBA
+    g_fba_res, g_fba_exp_sim, g_fba_exp_sim_errors = case5.simulationPipeline(g_exp_df, cs = 'glucose', type = 'fba', res_exists = True, fname = 'Results/Case 5/res_fba_glucose_case5.sav')
+    g_fba_exp_sim_errors = case5.getDFWithoutExtremeFluxes(g_fba_exp_sim_errors) #without r_0302, for plotting
+    case5.plotExpVsSim(g_fba_exp_sim_errors, save_fig_path = 'Results/Case 5/g_fba_exp_sim_plot.png', title = 'FBA Glucose Carbon Source')
+    plt.close('all')
 
-#pFBA
-g_pfba_res, g_pfba_exp_sim, g_pfba_exp_sim_errors = case5.simulationPipeline(g_exp_df, cs = 'glucose', type = 'pfba', res_exists = True, fname = 'Results/Case 5/res_pfba_glucose_case5.sav')
-case5.plotExpVsSim(g_pfba_exp_sim_errors, save_fig_path = 'Results/Case 5/g_pfba_exp_sim_plot.png', title = 'pFBA Glucose Carbon Source')
-plt.close('all')
+    #pFBA
+    g_pfba_res, g_pfba_exp_sim, g_pfba_exp_sim_errors = case5.simulationPipeline(g_exp_df, cs = 'glucose', type = 'pfba', res_exists = True, fname = 'Results/Case 5/res_pfba_glucose_case5.sav')
+    case5.plotExpVsSim(g_pfba_exp_sim_errors, save_fig_path = 'Results/Case 5/g_pfba_exp_sim_plot.png', title = 'pFBA Glucose Carbon Source')
+    plt.close('all')
 
-#FVA
-g_fva_res, g_fva_exp_sim, _ = case5.simulationPipeline(g_exp_df, cs = 'glucose', type = 'fva', res_exists = True, fname = 'Results/Case 5/res_fva_glucose_case5.sav')
+    # case5.getListOfMetabolitesSummary(g_pfba_res)
+    # case5.getMetaboliteSummaryWithNames('s_0066', g_pfba_res)
+
+    #Reactions with biggest fluxes
+    # f_1_10 = case5.getSimFluxesRange(gal_pfba_res, min = 1, dropReacts = ['r_4041', 'r_2108'])
+    # f_max0 = case5.getSimFluxesRange(gal_pfba_res, max = 0, dropReacts = ['r_2214', 'r_2196'])
+
+    #FVA
+    g_fva_res, g_fva_exp_sim, _ = case5.simulationPipeline(g_exp_df, cs = 'glucose', type = 'fva', res_exists = True, fname = 'Results/Case 5/res_fva_glucose_case5.sav')
 
 
-# ====== CS: ETHANOL ======
-e_exp_df = case5.getColumnWithoutNAs(exp_dataset, 1)
+    # ====== CS: ETHANOL ======
+    e_exp_df = case5.getColumnWithoutNAs(exp_dataset, 1)
 
-#FBA
-e_fba_res, e_fba_exp_sim, e_fba_exp_sim_errors = case5.simulationPipeline(e_exp_df, cs = 'ethanol', type = 'fba', res_exists = True, fname = 'Results/Case 5/res_fba_ethanol_case5.sav')
-e_fba_exp_sim_errors = case5.getDFWithoutExtremeFluxes(e_fba_exp_sim_errors) #without r_0302, for plotting
-case5.plotExpVsSim(e_fba_exp_sim_errors, save_fig_path = 'Results/Case 5/e_fba_exp_sim_plot.png', title = 'FBA Ethanol Carbon Source')
-plt.close('all')
+    #FBA
+    e_fba_res, e_fba_exp_sim, e_fba_exp_sim_errors = case5.simulationPipeline(e_exp_df, cs = 'ethanol', type = 'fba', res_exists = True, fname = 'Results/Case 5/res_fba_ethanol_case5.sav')
+    e_fba_exp_sim_errors = case5.getDFWithoutExtremeFluxes(e_fba_exp_sim_errors) #without r_0302, for plotting
+    case5.plotExpVsSim(e_fba_exp_sim_errors, save_fig_path = 'Results/Case 5/e_fba_exp_sim_plot.png', title = 'FBA Ethanol Carbon Source')
+    plt.close('all')
 
-#pFBA
-e_pfba_res, e_pfba_exp_sim, e_pfba_exp_sim_errors = case5.simulationPipeline(e_exp_df, cs = 'ethanol', type = 'pfba', res_exists = True, fname = 'Results/Case 5/res_pfba_ethanol_case5.sav')
-case5.plotExpVsSim(e_pfba_exp_sim_errors, save_fig_path = 'Results/Case 5/e_pfba_exp_sim_plot.png', title = 'pFBA Ethanol Carbon Source')
-plt.close('all')
+    #pFBA
+    e_pfba_res, e_pfba_exp_sim, e_pfba_exp_sim_errors = case5.simulationPipeline(e_exp_df, cs = 'ethanol', type = 'pfba', res_exists = True, fname = 'Results/Case 5/res_pfba_ethanol_case5.sav')
+    case5.plotExpVsSim(e_pfba_exp_sim_errors, save_fig_path = 'Results/Case 5/e_pfba_exp_sim_plot.png', title = 'pFBA Ethanol Carbon Source')
+    plt.close('all')
 
-#FVA
-e_fva_res, e_fva_exp_sim, _ = case5.simulationPipeline(e_exp_df, cs = 'ethanol', type = 'fva', res_exists = True, fname = 'Results/Case 5/res_fva_ethanol_case5.sav')
+    case5.getListOfMetabolitesSummary(e_pfba_res)
+    case5.getMetaboliteSummaryWithNames('s_0373', e_pfba_res)
+
+    #FVA
+    e_fva_res, e_fva_exp_sim, _ = case5.simulationPipeline(e_exp_df, cs = 'ethanol', type = 'fva', res_exists = True, fname = 'Results/Case 5/res_fva_ethanol_case5.sav')
+
