@@ -161,6 +161,9 @@ if __name__ == '__main__':
     case6.plotExpVsSim(wt_pfba_exp_sim_errors, save_fig_path = 'Results/Case 6/wt_pfba_exp_sim_plot.png', title = 'pFBA Wild Type')
     plt.close('all')
 
+    # case6.getListOfMetabolitesSummary(wt_pfba_res)
+    # case6.getMetaboliteSummaryWithNames('s_0373', wt_pfba_res)
+
     #FVA
     wt_fva_res, wt_fva_exp_sim, _ = case6.simulationPipeline(exp_dataset.ix[:,1], type = 'fva', res_exists = True)
 
@@ -184,6 +187,9 @@ if __name__ == '__main__':
     mae1_lmoma_res, mae1_lmoma_exp_sim, mae1_lmoma_exp_sim_errors = case6.simulationPipeline(exp_dataset.ix[:,0], geneko = mae1, type = 'lmoma', res_exists = True)
     case6.plotExpVsSim(mae1_lmoma_exp_sim_errors, save_fig_path = 'Results/Case 6/mae1_lmoma_exp_sim_plot.png', title = 'LMOMA MAE1 Del')
     plt.close('all')
+
+    case6.getListOfMetabolitesSummary(mae1_pfba_res)
+    # case6.getMetaboliteSummaryWithNames('s_0373', wt_pfba_res)
 
     #FVA
     mae1_fva_res, mae1_fva_exp_sim, _ = case6.simulationPipeline(exp_dataset.ix[:,0], geneko = mae1, type = 'fva', res_exists = True)

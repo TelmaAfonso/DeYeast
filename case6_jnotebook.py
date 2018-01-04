@@ -132,6 +132,45 @@ pd.concat([reactions, mae1_lmoma_exp_sim_errors], axis = 1, join = 'inner')
 """
 
 
+# ===== SUMMARY =====
+
+wt_summary = """\
+
+Brief summary of the results shown below:
+
+- Overall glycolysis simulated fluxes are similar to the experimental data (72% of the D-Glucose-6-phosphate is converted into D-Fructose-6-phosphate; 27% is converted into D-Glucose-1-phosphate);
+- Pentose phosphate pathway activity reduced in simulated fluxes (only 1% of D-Glucose-6-phosphate is converted into 6-phosphono-D-glucono-1,5-lactone);
+- TCA cycle activity is lower in simulated fluxes. This could be due to the fact that only about 57% of the pyruvate that enters the mitochondrion is converted into Acetyl-CoA 
+(37% is converted into 2-acetyllactic acid);
+- FVA shows most reactions are fixed, except:
+    - r_0713 	(S)-Malate-mit <==> Oxaloacetate-mit
+    - r_0454 	Succinate-mit <==> Fumarate 
+    - r_0302 	Citrate <==> Isocitrate 		
+    - r_0450 	D-Fructose-1,6-bisphosphate <==> Glycerone-phosphate + D-Glyceraldehyde-3-phosphate 	
+    - r_1048 	Sedoheptulose-7-phosphate + D-Glyceraldehyde-3-phosphate <==> D-Erythrose-4-phosphate + D-Fructose-6-phosphate
+    - r_0886 	D-Fructose-6-phosphate <==> D-Fructose-1,6-bisphosphate
+
+"""
+
+mae1_summary = """\
+
+Brief summary of the results shown below:
+
+- Overall glycolysis simulated fluxes are similar to the experimental data (71% of the D-Glucose-6-phosphate is converted into D-Fructose-6-phosphate; 26% is converted into D-Glucose-1-phosphate);
+- Pentose phosphate pathway activity reduced in simulated fluxes (only 3% of D-Glucose-6-phosphate is converted into 6-phosphono-D-glucono-1,5-lactone);
+- TCA cycle activity is lower in simulated fluxes. This could be due to the fact that only about 54% of the produced pyruvate enters the mitochondrion and from this only 57% is converted into Acetyl-CoA 
+(37% is converted into 2-acetyllactic acid);
+- FVA shows most reactions are fixed, except:
+    - r_0713 	(S)-Malate-mit <==> Oxaloacetate-mit
+    - r_0454 	Succinate-mit <==> Fumarate 
+    - r_0302 	Citrate <==> Isocitrate 		
+    - r_0450 	D-Fructose-1,6-bisphosphate <==> Glycerone-phosphate + D-Glyceraldehyde-3-phosphate 	
+    - r_1048 	Sedoheptulose-7-phosphate + D-Glyceraldehyde-3-phosphate <==> D-Erythrose-4-phosphate + D-Fructose-6-phosphate
+    - r_0886 	D-Fructose-6-phosphate <==> D-Fructose-1,6-bisphosphate
+
+"""
+
+
 #Generate cells with plots
 x = sum([['wt' + i, 'mae1' + i] for i in ['_fba', '_pfba', '_lmoma']], [])
 x.remove('wt_lmoma')
@@ -142,6 +181,7 @@ for name in x:
 #List with nbformat expressions
 cases = ['wt', 'mae1']
 nbcells = [['nbf.v4.new_markdown_cell(' + c + '_text)',
+            'nbf.v4.new_markdown_cell(' + c + '_summary)',
             'nbf.v4.new_markdown_cell(fba_text)',
             'nbf.v4.new_code_cell(' + c + '_fba_datasets)',
             'nbf.v4.new_markdown_cell(' + c + '_fba_plot)',

@@ -226,8 +226,8 @@ if __name__ == '__main__':
     case5.plotExpVsSim(e_pfba_exp_sim_errors, save_fig_path = 'Results/Case 5/e_pfba_exp_sim_plot.png', title = 'pFBA Ethanol Carbon Source')
     plt.close('all')
 
-    case5.getListOfMetabolitesSummary(e_pfba_res)
-    case5.getMetaboliteSummaryWithNames('s_0373', e_pfba_res)
+    # case5.getListOfMetabolitesSummary(e_pfba_res)
+    # case5.getMetaboliteSummaryWithNames('s_0373', e_pfba_res)
 
     #FVA
     e_fva_res, e_fva_exp_sim, _ = case5.simulationPipeline(e_exp_df, cs = 'ethanol', type = 'fva', res_exists = True, fname = 'Results/Case 5/res_fva_ethanol_case5.sav')
