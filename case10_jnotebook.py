@@ -24,10 +24,10 @@ chemostat cultures. Genome-wide transcript levels and in vivo fluxes were compar
 glucose and maltose, and for two C2-compounds, ethanol and acetate. In contrast to previous reports on batch
 cultures, few genes (180 genes) responded to changes of the carbon source by a changed transcript level. Very
 few transcript levels were changed when glucose as the growth-limiting nutrient was compared with maltose
-(33 transcripts), or when acetate was compared with ethanol (16 transcripts). Although metabolic flux analy-
-sis using a stoichiometric model revealed major changes in the central carbon metabolism, only 117 genes exhib-
-ited a significantly different transcript level when sugars and C2-compounds were provided as the growth-
-limiting nutrient. Despite the extensive knowledge on carbon source regulation in yeast, many of the carbon
+(33 transcripts), or when acetate was compared with ethanol (16 transcripts). Although metabolic flux analysis
+ using a stoichiometric model revealed major changes in the central carbon metabolism, only 117 genes exhibited
+  a significantly different transcript level when sugars and C2-compounds were provided as the growth-limiting
+  nutrient. Despite the extensive knowledge on carbon source regulation in yeast, many of the carbon
 source-responsive genes encoded proteins with unknown or incompletely characterized biological functions. 
 In silico promoter analysis of carbon source-responsive genes confirmed the involvement of several
 known transcriptional regulators and suggested the involvement of additional regulators. Transcripts 
