@@ -199,6 +199,9 @@ if __name__ == '__main__':
     case9.plotExpVsSim(b_pfba_exp_sim_errors, save_fig_path = 'Results/Case 9/b_pfba_exp_sim_plot.png', title = 'pFBA Batch')
     plt.close('all')
 
+    # case9.getListOfMetabolitesSummary(b_pfba_res)
+    # case9.getMetaboliteSummaryWithNames('s_0727', b_pfba_res)
+
     #FVA
     b_fva_res, b_fva_exp_sim, _ = case9.simulationPipeline(b_exp_df, cs = 'batch', type = 'fva', res_exists = True, fname = 'Results/Case 9/res_fva_batch_case9.sav')
 
@@ -223,6 +226,9 @@ if __name__ == '__main__':
     c_pfba_res, c_pfba_exp_sim, c_pfba_exp_sim_errors = case9.simulationPipeline(c_exp_df, cs = 'chemostat',type = 'pfba', res_exists = True, fname = 'Results/Case 9/res_pfba_chemostat_case9.sav')
     case9.plotExpVsSim(c_pfba_exp_sim_errors, save_fig_path = 'Results/Case 9/c_pfba_exp_sim_plot.png', title = 'pFBA Chemostat')
     plt.close('all')
+
+    case9.getListOfMetabolitesSummary(c_pfba_res)
+    # case9.getMetaboliteSummaryWithNames('s_0727', c_pfba_res)
 
     #FVA
     c_fva_res, c_fva_exp_sim, _ = case9.simulationPipeline(c_exp_df, cs = 'chemostat', type = 'fva', res_exists = True, fname = 'Results/Case 9/res_fva_chemostat_case9.sav')

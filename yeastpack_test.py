@@ -358,7 +358,9 @@ class PhenomenalySim (object):
                                'Ethanol (c)': 's_0680',
                                'Ethanol (m)': 's_0682',
                                'Acetate (c)': 's_0362',
-                               'Acetate (m)': 's_0365'
+                               'Acetate (m)': 's_0365',
+                               'D-fructose-6-Phosphate (c)': 's_0557',
+                               'Glyceraldehyde-3-Phosphate (c)': 's_0764'
                                }
 
         for key, value in sorted(metabolite_dict.items()):

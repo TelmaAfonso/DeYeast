@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 
 '''
 Jupyter Notebook for Case 9
@@ -129,6 +130,48 @@ pd.concat([reactions, c_fva_exp_sim], axis = 1, join = 'inner')
 """
 
 
+# ===== SUMMARY =====
+
+b_summary = """\
+
+Brief summary of the results shown below:
+
+- Glycolysis simulated fluxes are lower than those in experimental data (72% of the D-Glucose-6-phosphate is converted into D-Fructose-6-phosphate; 27% is converted into D-Glucose-1-phosphate);
+- Pentose phosphate pathway activity reduced in simulated fluxes (only 1% of D-Glucose-6-phosphate is converted into 6-phosphono-D-glucono-1,5-lactone);
+- TCA cycle activity is higher in simulated fluxes. This could be due to the fact that experimentally there is a considerable production of ethanol, whereas simulated fluxes show that
+only 3% of produced piruvate is used for fermentative purposes;
+- FVA shows most reactions are fixed, except:
+    - r_0713 	(S)-Malate-mit <==> Oxaloacetate-mit
+    - r_0454 	Succinate-mit <==> Fumarate
+    - r_0302 	Citrate <==> Isocitrate
+    - r_0450 	D-Fructose-1,6-bisphosphate <==> Glycerone-phosphate + D-Glyceraldehyde-3-phosphate
+    - r_1048 	Sedoheptulose-7-phosphate + D-Glyceraldehyde-3-phosphate <==> D-Erythrose-4-phosphate + D-Fructose-6-phosphate
+    - r_0886 	D-Fructose-6-phosphate <==> D-Fructose-1,6-bisphosphate
+    - r_0163 	Ethanol <==> Acetaldehyde
+
+"""
+
+c_summary = """\
+
+Brief summary of the results shown below:
+
+- Overall, glycolysis simulated fluxes are similar to those in experimental data (72% of the D-Glucose-6-phosphate is converted into D-Fructose-6-phosphate; 27% is converted into D-Glucose-1-phosphate);
+- Pentose phosphate pathway activity reduced in simulated fluxes (only 1% of D-Glucose-6-phosphate is converted into 6-phosphono-D-glucono-1,5-lactone);
+- TCA cycle activity is lower in simulated fluxes. This could be due to the fact that only about 51% of the produced pyruvate enters the mitochondrion and from this only 57% is converted into Acetyl-CoA
+(37% is converted into 2-acetyllactic acid);
+- Although produced in low amounts, simulated fluxes show that acetate is being produced as observed experimentally;
+- FVA shows most reactions are fixed, except:
+    - r_0713 	(S)-Malate-mit <==> Oxaloacetate-mit
+    - r_0454 	Succinate-mit <==> Fumarate
+    - r_0302 	Citrate <==> Isocitrate
+    - r_0450 	D-Fructose-1,6-bisphosphate <==> Glycerone-phosphate + D-Glyceraldehyde-3-phosphate
+    - r_1048 	Sedoheptulose-7-phosphate + D-Glyceraldehyde-3-phosphate <==> D-Erythrose-4-phosphate + D-Fructose-6-phosphate
+    - r_0886 	D-Fructose-6-phosphate <==> D-Fructose-1,6-bisphosphate
+    - r_0163 	Ethanol <==> Acetaldehyde
+
+"""
+
+
 #Generate cells with plots
 x = sum([['b' + i, 'c' + i] for i in ['_fba', '_pfba']], [])
 for name in x:
@@ -137,6 +180,7 @@ for name in x:
 #List with nbformat expressions
 cultures = ['b', 'c']
 nbcells = [['nbf.v4.new_markdown_cell(' + cult + '_text)',
+            'nbf.v4.new_markdown_cell(' + cult + '_summary)',
             'nbf.v4.new_markdown_cell(fba_text)',
             'nbf.v4.new_code_cell(' + cult + '_fba_datasets)',
             'nbf.v4.new_markdown_cell(' + cult + '_fba_plot)',
@@ -156,7 +200,7 @@ nb['cells'] = [nbf.v4.new_markdown_cell(text),
 
 
 
-with open('case9.ipynb', 'w') as f:
+with open('case9.ipynb', 'w', encoding = "utf-8") as f:
     nbf.write(nb, f)
 
 
