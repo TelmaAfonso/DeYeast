@@ -77,7 +77,8 @@ fba_text = """\
 
 fba_datasets = """\
 res_fba, res_fba_df, wt_fba_df, df_fba_exp_sim, df_fba_exp_sim_errors = case7.fbaPipeline(fluxes_O2 = fluxes_O2, exp_dataset = exp_dataset, res_exists = True)
-df_fba_exp_sim_errors
+pd.concat([reactions, df_fba_exp_sim_errors], axis = 1, join = "inner")
+
 """
 
 pfba_text = """\
@@ -86,7 +87,7 @@ pfba_text = """\
 
 pfba_datasets = """\
 res_pfba, res_pfba_df, wt_pfba_df, df_pfba_exp_sim, df_pfba_exp_sim_errors = case7.pfbaPipeline(fluxes_O2 = fluxes_O2, exp_dataset = exp_dataset, saveGenesPlot = False, plotReacts = False, plotGenes = False, res_exists = True)
-df_pfba_exp_sim_errors
+pd.concat([reactions, df_pfba_exp_sim_errors], axis = 1, join = "inner")
 """
 
 fva_text = """\
@@ -95,7 +96,7 @@ fva_text = """\
 
 fva_datasets = """\
 res_fva, res_fva_df, wt_fva_df, df_fva_exp_sim = case7.fvaPipeline(fluxes_O2 = fluxes_O2, exp_dataset = exp_dataset, res_exists = True)
-df_fva_exp_sim
+pd.concat([reactions, df_fva_exp_sim], axis = 1, join = "inner")
 """
 
 lmoma_text = """\
@@ -104,7 +105,7 @@ lmoma_text = """\
 
 lmoma_datasets = """\
 res_lmoma, res_lmoma_df, df_lmoma_exp_sim, df_lmoma_exp_sim_errors = case7.lmomaPipeline(fluxes_O2 = fluxes_O2, exp_dataset = exp_dataset, reference_dict = res_pfba, plotGenes = False, plotReacts = False, saveGenesPlot = False, res_exists = True)
-df_lmoma_exp_sim_errors
+pd.concat([reactions, df_lmoma_exp_sim_errors], axis = 1, join = "inner")
 """
 
 # Case specific results
@@ -145,7 +146,7 @@ for gene in genes:
 
 #Generate cells with gene datasets
 for gene in genes:
-    vars()[gene + '_dataset'] = 'genes_res["' + gene + '"]'
+    vars()[gene + '_dataset'] = 'pd.concat([reactions, genes_res["' + gene + '"]], axis = 1, join = "inner")'
 
 
 #Generate cells with gene images
