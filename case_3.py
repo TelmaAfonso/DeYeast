@@ -125,6 +125,49 @@ class Case3 (PhenomenalySim):
         if save_fig_path is not None:
             plt.savefig(save_fig_path)
 
+    def testO2EthanolProd (self, g_knockout = None, react_id = 'r_2115', cs = 'glucose', range_o2 = list(np.arange(-20, 0, 2))):
+        res = {}
+        for i in range_o2:
+            with self.model as m:
+                m.set_carbon_source(self.cs_reaction[cs], lb = self.cs_lb[cs])
+                m.reactions.get_by_id('r_1992').lower_bound = float(i)
+                if g_knockout is not None:
+                    m.set_environmental_conditions(gene_knockout = g_knockout)
+                r = pfba(m)
+                if hasattr(r, 'x_dict'): #if legacy solution
+                    fluxes = pd.DataFrame(list(r.x_dict.items())).set_index(0)
+                else:
+                    fluxes = r.fluxes
+                res[str(i)] = fluxes.loc[react_id]
+        for key, val in sorted(res.items()): print(key, '\t', val)
+        return res
+
+    def plotO2vsEtOH (self, dict_EtOH_res, real_EtOH_flux = 0, xlab = 'O2 Flux', ylab = 'EtOH Flux', title = 'Ethanol production with O2 flux', legend = 'Wild Type', fname = None):
+        plt.figure(figsize = (10, 5))
+        try:
+            x = sorted([float(x) for x in dict_EtOH_res.keys()])
+            y = [float(dict_EtOH_res[str(key)]) for key in x]
+        except:
+            x = sorted([int(x) for x in dict_EtOH_res.keys()])
+            y = [int(dict_EtOH_res[str(key)]) for key in x]
+        slope, intercept, r_value, p_value, std_err = linregress(x, y)
+        line = [slope * x + intercept for x in x]
+        real_O2 = lambda x0: (y0 - intercept) / slope
+        y0 = real_EtOH_flux
+        plt.plot(x, y, 'o', x, line)
+        plt.axhline(y = real_EtOH_flux, ls = 'dashed')
+        plt.xlabel(xlab)
+        plt.ylabel(ylab)
+        plt.title(title)
+        plt.legend([legend, 'R2: %.4f' % r_value**2, 'Real EtOH flux: %.2f (O2 flux of %.2f)' % (real_EtOH_flux, real_O2(y0))])
+        plt.show()
+
+        if fname is not None:
+            plt.savefig(fname)
+
+        return round(real_O2(y0), 4)
+
+
 
 if __name__ == '__main__':
 
@@ -142,6 +185,13 @@ if __name__ == '__main__':
 
     # ====== CS: GLUCOSE ======
     g_exp_df = case3.getColumnWithoutNAs(exp_dataset, 0)
+
+    # O2 FLUX ESTIMATION - max acetate flux of 0.008476 (FVA) -> O2 lb of -1000 (e.g.)
+    # g_Acetate = case3.testO2EthanolProd(react_id = 'r_2116', cs = 'glucose', range_o2 = list(np.arange(-1000, 0, 100)))
+    # case3.saveObjectToFile(g_Acetate, 'Results/Case 3/g_dict_etOH_O2_fluxes.sav')
+    # g_Acetate = case3.loadObjectFromFile('Results/Case 3/g_dict_etOH_O2_fluxes.sav')
+    # g_o2_lb = case3.plotO2vsEtOH(g_Acetate, real_EtOH_flux = 1.47, fname = 'Results/Case 3/g_etOH_plot.png')
+    # plt.close('all')
 
     #FBA
     g_fba_res, g_fba_exp_sim, g_fba_exp_sim_errors = case3.simulationPipeline(g_exp_df, cs = 'glucose', type = 'fba', res_exists = True, fname = 'Results/Case 3/res_fba_glucose_case3.sav')
@@ -167,6 +217,13 @@ if __name__ == '__main__':
     # ====== CS: MANNOSE ======
     m_exp_df = case3.getColumnWithoutNAs(exp_dataset, 1)
 
+    # O2 FLUX ESTIMATION - max acetate flux of 0.006656 (FVA) -> O2 lb of -1000 (e.g.)
+    # m_Acetate = case3.testO2EthanolProd(react_id = 'r_2116', cs = 'mannose', range_o2 = list(np.arange(-1, 0, 0.1)))
+    # case3.saveObjectToFile(m_Acetate, 'Results/Case 3/m_dict_etOH_O2_fluxes.sav')
+    # m_Acetate = case3.loadObjectFromFile('Results/Case 3/m_dict_etOH_O2_fluxes.sav')
+    # g_o2_lb = case3.plotO2vsEtOH(m_Acetate, real_EtOH_flux = 1.80, fname = 'Results/Case 3/m_etOH_plot.png')
+    # plt.close('all')
+
     #FBA
     m_fba_res, m_fba_exp_sim, m_fba_exp_sim_errors = case3.simulationPipeline(m_exp_df, cs = 'mannose', type = 'fba', res_exists = True, fname = 'Results/Case 3/res_fba_mannose_case10.sav')
     case3.plotExpVsSim(m_fba_exp_sim_errors, save_fig_path = 'Results/Case 3/m_fba_exp_sim_plot.png', title = 'FBA Mannose Carbon Source')
@@ -190,6 +247,13 @@ if __name__ == '__main__':
 
     # ====== CS: GALACTOSE ======
     gal_exp_df = case3.getColumnWithoutNAs(exp_dataset, 2)
+
+    # O2 FLUX ESTIMATION - max acetate flux of 0.002340 (FVA) -> O2 lb of -1000 (e.g.)
+    # gal_Acetate = case3.testO2EthanolProd(react_id = 'r_2116', cs = 'galactose', range_o2 = list(np.arange(-10, 0, 1)))
+    # case3.saveObjectToFile(gal_Acetate, 'Results/Case 3/gal_dict_etOH_O2_fluxes.sav')
+    # gal_Acetate = case3.loadObjectFromFile('Results/Case 3/gal_dict_etOH_O2_fluxes.sav')
+    # g_o2_lb = case3.plotO2vsEtOH(gal_Acetate, real_EtOH_flux = 1.80, fname = 'Results/Case 3/gal_etOH_plot.png')
+    # plt.close('all')
 
     #FBA
     gal_fba_res, gal_fba_exp_sim, gal_fba_exp_sim_errors = case3.simulationPipeline(gal_exp_df, cs = 'galactose', type = 'fba', res_exists = True, fname = 'Results/Case 3/res_fba_galactose_case3.sav')
@@ -216,6 +280,13 @@ if __name__ == '__main__':
     # ====== CS: PYRUVATE ======
     p_exp_df = case3.getColumnWithoutNAs(exp_dataset, 3)
 
+    # O2 FLUX ESTIMATION - max acetate flux of 0.000850 (FVA) -> O2 lb of -1000 (e.g.)
+    # p_Acetate = case3.testO2EthanolProd(react_id = 'r_2116', cs = 'pyruvate', range_o2 = list(np.arange(-1, 0, 0.1)))
+    # case3.saveObjectToFile(p_Acetate, 'Results/Case 3/p_dict_etOH_O2_fluxes.sav')
+    # p_Acetate = case3.loadObjectFromFile('Results/Case 3/p_dict_etOH_O2_fluxes.sav')
+    # g_o2_lb = case3.plotO2vsEtOH(p_Acetate, real_EtOH_flux = 1.80, fname = 'Results/Case 3/p_etOH_plot.png')
+    # plt.close('all')
+
     #FBA
     p_fba_res, p_fba_exp_sim, p_fba_exp_sim_errors = case3.simulationPipeline(p_exp_df, cs = 'pyruvate', type = 'fba', res_exists = True, fname = 'Results/Case 3/res_fba_pyruvate_case3.sav')
     case3.plotExpVsSim(p_fba_exp_sim_errors, save_fig_path = 'Results/Case 3/p_fba_exp_sim_plot.png', title = 'FBA Pyruvate Carbon Source')
@@ -226,7 +297,7 @@ if __name__ == '__main__':
     case3.plotExpVsSim(p_pfba_exp_sim_errors, save_fig_path = 'Results/Case 3/p_pfba_exp_sim_plot.png', title = 'pFBA Pyruvate Carbon Source')
     plt.close('all')
 
-    case3.getListOfMetabolitesSummary(p_pfba_res)
+    # case3.getListOfMetabolitesSummary(p_pfba_res)
 
     #Reactions with biggest fluxes
     # f_1_min = case3.getSimFluxesRange(p_pfba_res, min = 1, dropReacts = ['r_4041', 'r_2108'])
