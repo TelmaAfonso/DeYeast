@@ -965,8 +965,8 @@ if __name__ == '__main__':
     genes_res = case7.createResultsDictByGene(df_fba_exp_sim_errors, df_pfba_exp_sim_errors, df_lmoma_exp_sim_errors, df_fva_exp_sim)
     wt_res = case7.createResultsDataframeWT(reactions, wt_fba_df, wt_pfba_df, wt_fva_df)
 
-    case7.getListOfMetabolitesSummary(res_pfba['WildType'])
-    case7.getMetaboliteSummaryWithNames('s_0629', res_pfba['WildType'])
+    case7.getListOfMetabolitesSummary(res_pfba['ALD6 (YPL061W)'])
+    case7.getMetaboliteSummaryWithNames('s_0764', res_pfba['ALD6 (YPL061W)'])
 
 
 
