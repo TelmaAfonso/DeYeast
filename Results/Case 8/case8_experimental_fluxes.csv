@@ -10,7 +10,7 @@ Citrate + CoA <==> Acetyl-CoA-mit + Oxaloacetate-mit;R00351;r_0300;-6,0000;-0,09
 Succinate-mit + CoA <==> Succinyl-CoA;R00405;r_1022;-3,0000;-0,0450;-3,0000;-0,0450;-23,0000;-0,5750;-2,0000;-0,1000
 Succinate-mit <==> Fumarate;R00402;r_0454;X;X;3,0000;0,0450;23,0000;0,5750;43,0000;2,1500
 D-Glyceraldehyde-3-phosphate <==> Glycerone-phosphate;R01015;r_1054;-91,0000;-1,3650;-84,0000;-1,2600;-21,0000;-0,5250;-11,0000;-0,5500
-D-Glyceraldehyde-3-phosphate <==> 3-Phospho-D-glyceroyl-phosphate;R01061;r_0486;-172,0000;-2,5800;-160,0000;-2,4000;-61,0000;-1,5250;-25,0000;-1,2500
+D-Glyceraldehyde-3-phosphate <==> 3-Phospho-D-glyceroyl-phosphate;R01061;r_0486;172,0000;2,5800;160,0000;2,4000;61,0000;1,5250;25,0000;1,2500
 D-Fructose-1,6-bisphosphate <==> Glycerone-phosphate + D-Glyceraldehyde-3-phosphate;R01070;r_0450;91,0000;1,3650;84,0000;1,2600;21,0000;0,5250;11,0000;0,5500
 (S)-Malate-mit <==> Fumarate;R01082;r_0452;X;X;-3,0000;-0,0450;-23,0000;-0,5750;-43,0000;-2,1500
 Citrate <==> Isocitrate;R01324;r_0302;6,0000;0,0900;8,0000;0,1200;29,0000;0,7250;48,0000;2,4000

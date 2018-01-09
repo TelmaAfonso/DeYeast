@@ -22,8 +22,8 @@ preservation, however, is currently lacking. In a systems biology approach, we c
 gene dosage functions for the 105 duplicate gene families of Saccharomyces cerevisiae metabolism. The key tool was the
 reconciled genome-scale metabolic model iLL672, which was based on the older iFF708. Computational predictions of
 all metabolic gene knockouts were validated with the experimentally determined phenotypes of the entire singleton
-yeast library of 4658 mutants under five environmental conditions. iLL672 correctly identified 96%–98% and
-73%–80% of the viable and lethal singleton phenotypes, respectively. Functional roles for each duplicate family
+yeast library of 4658 mutants under five environmental conditions. iLL672 correctly identified 96% - 98% and
+73% - 80% of the viable and lethal singleton phenotypes, respectively. Functional roles for each duplicate family
 were identified by integrating the iLL672-predicted in silico duplicate knockout phenotypes, genome-scale
 carbon-flux distributions, singleton mutant phenotypes, and network topology analysis. The results provide no
 evidence for a particular dominant function that maintains duplicate genes in the genome. In particular, the back-up
@@ -34,7 +34,6 @@ array of different, often overlapping functional roles.
 
 **NOTES**
 - Strain BY4741  (MATa his3 delta1 leu2 delta0 met15 delta0 ura3 delta0) used in this study is derived from that used to build the model (S288C)
-- O2 flux estimation not possible (ethanol flux of 0 independently of O2 flux)
 - Authors did not provide specific rate values (used Sophia's rates instead)
 
 <p style="float: center; font-size: 9pt; text-align: center; width: 100%;"><img src = "Results/Case 8/kuepfer_2005_fig4", width = 80%></p>
@@ -79,9 +78,9 @@ pfba_text = """\
 ## Parsimonious Flux Balance Analysis (pFBA) Simulation
 """
 
-lmoma_text = """\
-## Linear Minimization of Metabolic Adjustment (LMOMA) Simulation
-"""
+# lmoma_text = """\
+# ## Linear Minimization of Metabolic Adjustment (LMOMA) Simulation
+# """
 
 fva_text = """\
 ## Flux Variability Analysis (FVA) Simulation
@@ -106,10 +105,10 @@ g_pfba_res, g_pfba_exp_sim, g_pfba_exp_sim_errors = case8.simulationPipeline(g_e
 pd.concat([reactions, g_pfba_exp_sim_errors], axis = 1, join = 'inner')
 """
 
-g_lmoma_datasets = """\
-g_lmoma_res, g_lmoma_exp_sim, g_lmoma_exp_sim_errors = case8.simulationPipeline(g_exp_df, cs = 'glucose', geneko = genes, type = 'lmoma', res_exists = True, fname = 'Results/Case 8/res_lmoma_glucose_case5.sav')
-pd.concat([reactions, g_lmoma_exp_sim_errors], axis = 1, join = 'inner')
-"""
+# g_lmoma_datasets = """\
+# g_lmoma_res, g_lmoma_exp_sim, g_lmoma_exp_sim_errors = case8.simulationPipeline(g_exp_df, cs = 'glucose', geneko = genes, type = 'lmoma', res_exists = True, fname = 'Results/Case 8/res_lmoma_glucose_case5.sav')
+# pd.concat([reactions, g_lmoma_exp_sim_errors], axis = 1, join = 'inner')
+# """
 
 g_fva_datasets = """\
 g_fva_res, g_fva_exp_sim, _ = case8.simulationPipeline(g_exp_df, cs = 'glucose', geneko = genes, type = 'fva', res_exists = True, fname = 'Results/Case 8/res_fva_glucose_case5.sav')
@@ -135,10 +134,10 @@ gal_pfba_res, gal_pfba_exp_sim, gal_pfba_exp_sim_errors = case8.simulationPipeli
 pd.concat([reactions, gal_pfba_exp_sim_errors], axis = 1, join = 'inner')
 """
 
-gal_lmoma_datasets = """\
-gal_lmoma_res, gal_lmoma_exp_sim, gal_lmoma_exp_sim_errors = case8.simulationPipeline(gal_exp_df, cs = 'galactose', geneko = genes, type = 'lmoma', res_exists = True, fname = 'Results/Case 8/res_lmoma_galactose_case5.sav')
-pd.concat([reactions, gal_lmoma_exp_sim_errors], axis = 1, join = 'inner')
-"""
+# gal_lmoma_datasets = """\
+# gal_lmoma_res, gal_lmoma_exp_sim, gal_lmoma_exp_sim_errors = case8.simulationPipeline(gal_exp_df, cs = 'galactose', geneko = genes, type = 'lmoma', res_exists = True, fname = 'Results/Case 8/res_lmoma_galactose_case5.sav')
+# pd.concat([reactions, gal_lmoma_exp_sim_errors], axis = 1, join = 'inner')
+# """
 
 gal_fva_datasets = """\
 gal_fva_res, gal_fva_exp_sim, _ = case8.simulationPipeline(gal_exp_df, cs = 'galactose', geneko = genes, type = 'fva', res_exists = True, fname = 'Results/Case 8/res_fva_galactose_case5.sav')
@@ -164,10 +163,10 @@ gly_pfba_res, gly_pfba_exp_sim, gly_pfba_exp_sim_errors = case8.simulationPipeli
 pd.DataFrame(reactions).join(gly_pfba_exp_sim_errors, how = 'inner')
 """
 
-gly_lmoma_datasets = """\
-gly_lmoma_res, gly_lmoma_exp_sim, gly_lmoma_exp_sim_errors = case8.simulationPipeline(gly_exp_df, cs = 'glycerol', geneko = genes, type = 'lmoma', res_exists = True, fname = 'Results/Case 8/res_lmoma_glycerol_case5.sav')
-pd.DataFrame(reactions).join(gly_lmoma_exp_sim_errors, how = 'inner')
-"""
+# gly_lmoma_datasets = """\
+# gly_lmoma_res, gly_lmoma_exp_sim, gly_lmoma_exp_sim_errors = case8.simulationPipeline(gly_exp_df, cs = 'glycerol', geneko = genes, type = 'lmoma', res_exists = True, fname = 'Results/Case 8/res_lmoma_glycerol_case5.sav')
+# pd.DataFrame(reactions).join(gly_lmoma_exp_sim_errors, how = 'inner')
+# """
 
 gly_fva_datasets = """\
 gly_fva_res, gly_fva_exp_sim, _ = case8.simulationPipeline(gly_exp_df, cs = 'glycerol', geneko = genes, type = 'fva', res_exists = True, fname = 'Results/Case 8/res_fva_glycerol_case5.sav')
@@ -193,10 +192,10 @@ e_pfba_res, e_pfba_exp_sim, e_pfba_exp_sim_errors = case8.simulationPipeline(e_e
 pd.DataFrame(reactions).join(e_pfba_exp_sim_errors, how = 'inner')
 """
 
-e_lmoma_datasets = """\
-e_lmoma_res, e_lmoma_exp_sim, e_lmoma_exp_sim_errors = case8.simulationPipeline(e_exp_df, cs = 'ethanol', geneko = genes, type = 'lmoma', res_exists = True, fname = 'Results/Case 8/res_lmoma_ethanol_case5.sav')
-pd.DataFrame(reactions).join(e_lmoma_exp_sim_errors, how = 'inner')
-"""
+# e_lmoma_datasets = """\
+# e_lmoma_res, e_lmoma_exp_sim, e_lmoma_exp_sim_errors = case8.simulationPipeline(e_exp_df, cs = 'ethanol', geneko = genes, type = 'lmoma', res_exists = True, fname = 'Results/Case 8/res_lmoma_ethanol_case5.sav')
+# pd.DataFrame(reactions).join(e_lmoma_exp_sim_errors, how = 'inner')
+# """
 
 e_fva_datasets = """\
 e_fva_res, e_fva_exp_sim, _ = case8.simulationPipeline(e_exp_df, cs = 'ethanol', geneko = genes, type = 'fva', res_exists = True, fname = 'Results/Case 8/res_fva_ethanol_case5.sav')
@@ -206,7 +205,7 @@ pd.DataFrame(reactions).join(e_fva_exp_sim, how = 'inner')
 
 
 #Generate cells with plots
-x = sum([['g' + i, 'gal' + i, 'gly' + i, 'e' + i] for i in ['_fba', '_pfba', '_lmoma']], [])
+x = sum([['g' + i, 'gal' + i, 'gly' + i, 'e' + i] for i in ['_fba', '_pfba']], [])
 for name in x:
     vars()[name + '_plot'] = '<p style="float: center; font-size: 9pt; text-align: center; width: 80%;"><img src = "Results/Case 8/'+ name +'_exp_sim_plot.png", width = 100%></p>'
 
@@ -219,9 +218,9 @@ nbcells = [['nbf.v4.new_markdown_cell(' + s + '_text)',
             'nbf.v4.new_markdown_cell(pfba_text)',
             'nbf.v4.new_code_cell(' + s + '_pfba_datasets)',
             'nbf.v4.new_markdown_cell(' + s + '_pfba_plot)',
-            'nbf.v4.new_markdown_cell(lmoma_text)',
-            'nbf.v4.new_code_cell(' + s + '_lmoma_datasets)',
-            'nbf.v4.new_markdown_cell(' + s + '_lmoma_plot)',
+            # 'nbf.v4.new_markdown_cell(lmoma_text)',
+            # 'nbf.v4.new_code_cell(' + s + '_lmoma_datasets)',
+            # 'nbf.v4.new_markdown_cell(' + s + '_lmoma_plot)',
             'nbf.v4.new_markdown_cell(fva_text)',
             'nbf.v4.new_code_cell(' + s + '_fva_datasets)'] for s in cs]
 
