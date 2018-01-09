@@ -25,7 +25,6 @@ bridge between transcriptomics and fluxomics. Control-effective flux distributio
 regulation into the metabolic network structure. 
 
 **NOTES**
-- O2 flux estimation not possible (ethanol flux of 0 independently of O2 flux)
 - Authors did not provide specific rate values (used Sophia's rates instead)
 
 <p style="float: center; font-size: 9pt; text-align: center; width: 100%;"><img src = "Results/Case 5/Çakir_2004_fig4", width = 50%></p>

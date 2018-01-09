@@ -126,7 +126,7 @@ class Case5 (PhenomenalySim):
         if save_fig_path is not None:
             plt.savefig(save_fig_path)
 
-    def testO2EthanolProd (self, g_knockout = None, cs = 'r_1714', cs_lb = -1.5, range_o2 = list(np.arange(-20, 0, 2))):
+    def testO2EthanolProd (self, g_knockout = None, react_id = 'r_0163', cs = 'r_1714', cs_lb = -1.5, range_o2 = list(np.arange(-20, 0, 2))):
         loading_bars = 40*'='
         res = {}
         for i in range_o2:
@@ -140,7 +140,7 @@ class Case5 (PhenomenalySim):
                     fluxes = pd.DataFrame(list(r.x_dict.items())).set_index(0)
                 else:
                     fluxes = r.fluxes
-                res[str(i)] = fluxes.loc['r_0163']
+                res[str(i)] = fluxes.loc[react_id]
         for key, val in sorted(res.items()): print(key, '\t', val)
         return res
 
@@ -183,21 +183,21 @@ if __name__ == '__main__':
     # ====== CS: GLUCOSE ======
     g_exp_df = case5.getColumnWithoutNAs(exp_dataset, 0)
 
-    # O2 FLUX ESTIMATION - ALL ZERO!
-    # g_etOH = case5.testO2EthanolProd(range_o2 = list(np.arange(-10, 0, 1)))
+    # O2 FLUX ESTIMATION - O2 flux of -2.16
+    # g_etOH = case5.testO2EthanolProd(react_id = 'r_2115', range_o2 = list(np.arange(-2, 0, 0.2)))
     # case5.saveObjectToFile(g_etOH, 'Results/Case 5/g_dict_etOH_O2_fluxes.sav')
     # g_etOH = case5.loadObjectFromFile('Results/Case 5/g_dict_etOH_O2_fluxes.sav')
-    # g_o2_lb = case5.plotO2vsEtOH(g_etOH, real_EtOH_flux = -0.2478, fname = 'Results/Case 5/g_etOH_plot.png')
+    # g_o2_lb = case5.plotO2vsEtOH(g_etOH, real_EtOH_flux = 0.2478, fname = 'Results/Case 5/g_etOH_plot.png')
     # plt.close('all')
 
     #FBA
-    g_fba_res, g_fba_exp_sim, g_fba_exp_sim_errors = case5.simulationPipeline(g_exp_df, cs = 'glucose', type = 'fba', res_exists = True, fname = 'Results/Case 5/res_fba_glucose_case5.sav')
+    g_fba_res, g_fba_exp_sim, g_fba_exp_sim_errors = case5.simulationPipeline(g_exp_df, cs = 'glucose', o2_lb = -2.16, type = 'fba', res_exists = True, fname = 'Results/Case 5/res_fba_glucose_case5.sav')
     g_fba_exp_sim_errors = case5.getDFWithoutExtremeFluxes(g_fba_exp_sim_errors) #without r_0302, for plotting
     case5.plotExpVsSim(g_fba_exp_sim_errors, save_fig_path = 'Results/Case 5/g_fba_exp_sim_plot.png', title = 'FBA Glucose Carbon Source')
     plt.close('all')
 
     #pFBA
-    g_pfba_res, g_pfba_exp_sim, g_pfba_exp_sim_errors = case5.simulationPipeline(g_exp_df, cs = 'glucose', type = 'pfba', res_exists = True, fname = 'Results/Case 5/res_pfba_glucose_case5.sav')
+    g_pfba_res, g_pfba_exp_sim, g_pfba_exp_sim_errors = case5.simulationPipeline(g_exp_df, cs = 'glucose', o2_lb = -2.16, type = 'pfba', res_exists = True, fname = 'Results/Case 5/res_pfba_glucose_case5.sav')
     case5.plotExpVsSim(g_pfba_exp_sim_errors, save_fig_path = 'Results/Case 5/g_pfba_exp_sim_plot.png', title = 'pFBA Glucose Carbon Source')
     plt.close('all')
 
@@ -209,7 +209,7 @@ if __name__ == '__main__':
     # f_max0 = case5.getSimFluxesRange(gal_pfba_res, max = 0, dropReacts = ['r_2214', 'r_2196'])
 
     #FVA
-    g_fva_res, g_fva_exp_sim, _ = case5.simulationPipeline(g_exp_df, cs = 'glucose', type = 'fva', res_exists = True, fname = 'Results/Case 5/res_fva_glucose_case5.sav')
+    g_fva_res, g_fva_exp_sim, _ = case5.simulationPipeline(g_exp_df, cs = 'glucose', o2_lb = -2.16, type = 'fva', res_exists = True, fname = 'Results/Case 5/res_fva_glucose_case5.sav')
 
 
     # ====== CS: ETHANOL ======
