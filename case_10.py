@@ -145,7 +145,7 @@ if __name__ == '__main__':
     case10.plotExpVsSim(g_fba_exp_sim_errors, save_fig_path = 'Results/Case 10/g_fba_exp_sim_plot.png', title = 'FBA GLucose Carbon Source')
     plt.close('all')
 
-    #pFBA
+    #pFBA r2 = 0.0095
     g_pfba_res, g_pfba_exp_sim, g_pfba_exp_sim_errors = case10.simulationPipeline(exp_dataset.ix[:,0], cs = 'glucose', type = 'pfba', res_exists = False, fname = 'Results/Case 10/res_pfba_glucose_case10.sav')
     case10.plotExpVsSim(g_pfba_exp_sim_errors, save_fig_path = 'Results/Case 10/g_pfba_exp_sim_plot.png', title = 'pFBA GLucose Carbon Source')
     plt.close('all')

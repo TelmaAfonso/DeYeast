@@ -108,24 +108,24 @@ pd.concat([reactions, g_fva_exp_sim], axis = 1, join = 'inner')
 
 # ===== MALTOSE =====
 
-m_text = """\
-# Maltose carbon source
-"""
-
-m_fba_datasets = """\
-m_fba_res, m_fba_exp_sim, m_fba_exp_sim_errors = case10.simulationPipeline(exp_dataset.ix[:,1], cs = 'maltose', type = 'fba', res_exists = True, fname = 'Results/Case 10/res_fba_maltose_case10.sav')
-pd.concat([reactions, m_fba_exp_sim_errors], axis = 1, join = 'inner')
-"""
-
-m_pfba_datasets = """\
-m_pfba_res, m_pfba_exp_sim, m_pfba_exp_sim_errors = case10.simulationPipeline(exp_dataset.ix[:,1], cs = 'maltose', type = 'pfba', res_exists = True, fname = 'Results/Case 10/res_pfba_maltose_case10.sav')
-pd.concat([reactions, m_pfba_exp_sim_errors], axis = 1, join = 'inner')
-"""
-
-m_fva_datasets = """\
-m_fva_res, m_fva_exp_sim, _ = case10.simulationPipeline(exp_dataset.ix[:,1], cs = 'maltose', type = 'fva', res_exists = True, fname = 'Results/Case 10/res_fva_maltose_case10.sav')
-pd.concat([reactions, m_fva_exp_sim], axis = 1, join = 'inner')
-"""
+# m_text = """\
+# # Maltose carbon source
+# """
+#
+# m_fba_datasets = """\
+# m_fba_res, m_fba_exp_sim, m_fba_exp_sim_errors = case10.simulationPipeline(exp_dataset.ix[:,1], cs = 'maltose', type = 'fba', res_exists = True, fname = 'Results/Case 10/res_fba_maltose_case10.sav')
+# pd.concat([reactions, m_fba_exp_sim_errors], axis = 1, join = 'inner')
+# """
+#
+# m_pfba_datasets = """\
+# m_pfba_res, m_pfba_exp_sim, m_pfba_exp_sim_errors = case10.simulationPipeline(exp_dataset.ix[:,1], cs = 'maltose', type = 'pfba', res_exists = True, fname = 'Results/Case 10/res_pfba_maltose_case10.sav')
+# pd.concat([reactions, m_pfba_exp_sim_errors], axis = 1, join = 'inner')
+# """
+#
+# m_fva_datasets = """\
+# m_fva_res, m_fva_exp_sim, _ = case10.simulationPipeline(exp_dataset.ix[:,1], cs = 'maltose', type = 'fva', res_exists = True, fname = 'Results/Case 10/res_fva_maltose_case10.sav')
+# pd.concat([reactions, m_fva_exp_sim], axis = 1, join = 'inner')
+# """
 
 
 # ===== ETHANOL =====
@@ -173,12 +173,14 @@ pd.concat([reactions, a_fva_exp_sim], axis = 1, join = 'inner')
 
 
 #Generate cells with plots
-x = sum([['g' + i, 'm' + i, 'e' + i, 'a' + i] for i in ['_fba', '_pfba']], [])
+# x = sum([['g' + i, 'm' + i, 'e' + i, 'a' + i] for i in ['_fba', '_pfba']], [])
+x = sum([['g' + i, 'e' + i, 'a' + i] for i in ['_fba', '_pfba']], [])
 for name in x:
     vars()[name + '_plot'] = '<p style="float: center; font-size: 9pt; text-align: center; width: 80%;"><img src = "Results/Case 10/'+ name +'_exp_sim_plot.png", width = 100%></p>'
 
 #List with nbformat expressions
-cs = ['g', 'm', 'e', 'a']
+# cs = ['g', 'm', 'e', 'a']
+cs = ['g', 'e', 'a']
 nbcells = [['nbf.v4.new_markdown_cell(' + s + '_text)',
             'nbf.v4.new_markdown_cell(fba_text)',
             'nbf.v4.new_code_cell(' + s + '_fba_datasets)',

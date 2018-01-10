@@ -234,7 +234,7 @@ class PhenomenalySim (object):
             yield l[i:i + n]
 
     def checkReaction (self, reaction_id):
-        print('Reation (' + reaction_id + '): ' + self.model.reactions.get_by_id(reaction_id).name)
+        print('Reaction (' + reaction_id + '): ' + self.model.reactions.get_by_id(reaction_id).name)
         r = self.model.reactions.get_by_id(reaction_id).reaction.split()
         r2 = [(self.model.metabolites.get_by_id(met).name if 's' in met else (met)) for met in r]
         print('\n', ' '.join(r2))
@@ -267,12 +267,12 @@ class PhenomenalySim (object):
         return dat
 
     def checkReactionLB (self, reaction_id):
-        print('Reation (' + reaction_id + '): ' + self.model.reactions.get_by_id(reaction_id).name)
+        print('Reaction (' + reaction_id + '): ' + self.model.reactions.get_by_id(reaction_id).name)
         lb = self.model.reactions.get_by_id(reaction_id).lower_bound
         print('Lower bound: {}'.format(lb))
 
     def checkReactionUB (self, reaction_id):
-        print('Reation (' + reaction_id + '): ' + self.model.reactions.get_by_id(reaction_id).name)
+        print('Reaction (' + reaction_id + '): ' + self.model.reactions.get_by_id(reaction_id).name)
         ub = self.model.reactions.get_by_id(reaction_id).upper_bound
         print('Upper bound: {}'.format(ub))
 
