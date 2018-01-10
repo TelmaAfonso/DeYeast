@@ -20,8 +20,8 @@ Paper: [*Network Identification and Flux Quantification in the Central Metabolis
 **Abstract**
 The network structure and the metabolic fluxes in central carbon metabolism were characterized in aerobically 
 grown cells of Saccharomyces cerevisiae. The cells were grown under both high and low glucose concentrations, 
-i.e., either in a chemostat at steady state with a specific growth rate of 0.1 h ⴚ1 or in a batch culture with
-a specific growth rate of 0.37 h ⴚ1 . Experiments were carried out using [1- 13 C]glucose as the limiting substrate,
+i.e., either in a chemostat at steady state with a specific growth rate of 0.1 h-1 or in a batch culture with
+a specific growth rate of 0.37 h-1 . Experiments were carried out using [1- 13 C]glucose as the limiting substrate,
 and the resulting summed fractional labelings of intracellular metabolites were measured by gas chromatography 
 coupled to mass spectrometry. The data were used as inputs to a flux estimation routine that involved
 appropriate mathematical modelling of the central carbon metabolism of S. cerevisiae. The results showed that
@@ -35,7 +35,6 @@ structure or in the flux pattern.
 
 **NOTES**
 - Wild-Type S.Cerevisiae CEN.PK 113-7D (MATa MAL2-8c SUC2) used in this study is very similar to that used to build the model (S288C)
-- O2 flux estimation not possible (ethanol flux of 0 independently of O2 flux)
 
 <p style="float: center; font-size: 9pt; text-align: center; width: 100%;"><img src = "Results/Case 9/gombert_2001_fig2", width = 80%></p>
 

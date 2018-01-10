@@ -22,7 +22,7 @@ D-Glucose-6-phosphate <==> D-Glucono-1,5-lactone-6-phosphate;R02736;r_0466;16,20
 D-Glucose-6-phosphate <==> D-Fructose-6-phosphate;R02740;r_0467;81,0000;12,8790;33,6000;0,3931
 D-Fructose-6-phosphate <==> D-Fructose-1,6-bisphosphate;R04779;r_0886;91,0000;14,4690;60,3000;0,7055
 Pyruvate <==> Acetaldehyde;R00750;r_0959;169,3000;26,9187;45,1000;0,5277
-Ethanol <==> Acetaldehyde;R00746;r_0163;158,7000;25,2333;0,0000;0,0000
+Acetaldehyde <==> Ethanol;R00746;r_2115;158,7000;25,2333;0,0000;0,0000
 Acetaldehyde <==> Acetate;R00634;r_2116;10,6000;1,6854;45,8000;0,5359
 Acetate <==> Acetyl-CoA;R00229;r_0112;7,3000;1,1607;45,7000;0,5347
 Pyruvate + CO2 <==> Oxaloacetate;R00344;r_0958;8,9000;1,4151;27,3000;0,3194
