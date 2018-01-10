@@ -204,23 +204,23 @@ if __name__ == '__main__':
     # plt.close('all')
 
     #FBA
-    g_fba_res, g_fba_exp_sim, g_fba_exp_sim_errors = case8.simulationPipeline(g_exp_df, o2_lb = -0.43, cs = 'glucose', geneko = None, type = 'fba', res_exists = False, fname = 'Results/Case 8/res_fba_glucose_case5.sav')
+    g_fba_res, g_fba_exp_sim, g_fba_exp_sim_errors = case8.simulationPipeline(g_exp_df, o2_lb = -0.43, cs = 'glucose', geneko = None, type = 'fba', res_exists = True, fname = 'Results/Case 8/res_fba_glucose_case5.sav')
     g_fba_exp_sim_errors = case8.getDFWithoutExtremeFluxes(g_fba_exp_sim_errors) #without extreme fluxes (for plotting)
     case8.plotExpVsSim(g_fba_exp_sim_errors, save_fig_path = 'Results/Case 8/g_fba_exp_sim_plot.png', title = 'FBA Glucose Carbon Source')
     plt.close('all')
 
     #pFBA
-    g_pfba_res, g_pfba_exp_sim, g_pfba_exp_sim_errors = case8.simulationPipeline(g_exp_df, o2_lb = -0.43, cs = 'glucose', geneko = None, type = 'pfba', res_exists = False, fname = 'Results/Case 8/res_pfba_glucose_case5.sav')
+    g_pfba_res, g_pfba_exp_sim, g_pfba_exp_sim_errors = case8.simulationPipeline(g_exp_df, o2_lb = -0.43, cs = 'glucose', geneko = None, type = 'pfba', res_exists = True, fname = 'Results/Case 8/res_pfba_glucose_case5.sav')
     case8.plotExpVsSim(g_pfba_exp_sim_errors, save_fig_path = 'Results/Case 8/g_pfba_exp_sim_plot.png', title = 'pFBA Glucose Carbon Source')
     plt.close('all')
 
     # #LMOMA
-    # g_lmoma_res, g_lmoma_exp_sim, g_lmoma_exp_sim_errors = case8.simulationPipeline(g_exp_df, cs = 'glucose', geneko = None, type = 'lmoma', res_exists = False, fname = 'Results/Case 8/res_lmoma_glucose_case5.sav')
+    # g_lmoma_res, g_lmoma_exp_sim, g_lmoma_exp_sim_errors = case8.simulationPipeline(g_exp_df, cs = 'glucose', geneko = None, type = 'lmoma', res_exists = True, fname = 'Results/Case 8/res_lmoma_glucose_case5.sav')
     # case8.plotExpVsSim(g_lmoma_exp_sim_errors, save_fig_path = 'Results/Case 8/g_lmoma_exp_sim_plot.png', title = 'LMOMA Glucose Carbon Source')
     # plt.close('all')
 
     #FVA
-    g_fva_res, g_fva_exp_sim, _ = case8.simulationPipeline(g_exp_df, cs = 'glucose', o2_lb = -0.43, geneko = None, type = 'fva', res_exists = False, fname = 'Results/Case 8/res_fva_glucose_case5.sav')
+    g_fva_res, g_fva_exp_sim, _ = case8.simulationPipeline(g_exp_df, cs = 'glucose', o2_lb = -0.43, geneko = None, type = 'fva', res_exists = True, fname = 'Results/Case 8/res_fva_glucose_case5.sav')
 
 
 
@@ -235,13 +235,13 @@ if __name__ == '__main__':
     # plt.close('all')
 
     #FBA
-    gal_fba_res, gal_fba_exp_sim, gal_fba_exp_sim_errors = case8.simulationPipeline(gal_exp_df, cs = 'galactose', o2_lb = -0.96, geneko = None, type = 'fba', res_exists = False, fname = 'Results/Case 8/res_fba_galactose_case5.sav')
+    gal_fba_res, gal_fba_exp_sim, gal_fba_exp_sim_errors = case8.simulationPipeline(gal_exp_df, cs = 'galactose', o2_lb = -0.96, geneko = None, type = 'fba', res_exists = True, fname = 'Results/Case 8/res_fba_galactose_case5.sav')
     gal_fba_exp_sim_errors = case8.getDFWithoutExtremeFluxes(gal_fba_exp_sim_errors)
     case8.plotExpVsSim(gal_fba_exp_sim_errors, save_fig_path = 'Results/Case 8/gal_fba_exp_sim_plot.png', title = 'FBA Galactose Carbon Source')
     plt.close('all')
 
-    #pFBA - ALL ZERO???????
-    gal_pfba_res, gal_pfba_exp_sim, gal_pfba_exp_sim_errors = case8.simulationPipeline(gal_exp_df, cs = 'galactose', o2_lb = -0.96, geneko = None, type = 'pfba', res_exists = False, fname = 'Results/Case 8/res_pfba_galactose_case5.sav')
+    #pFBA
+    gal_pfba_res, gal_pfba_exp_sim, gal_pfba_exp_sim_errors = case8.simulationPipeline(gal_exp_df, cs = 'galactose', o2_lb = -0.96, geneko = None, type = 'pfba', res_exists = True, fname = 'Results/Case 8/res_pfba_galactose_case5.sav')
     case8.plotExpVsSim(gal_pfba_exp_sim_errors, save_fig_path = 'Results/Case 8/gal_pfba_exp_sim_plot.png', title = 'pFBA Galactose Carbon Source')
     plt.close('all')
 
@@ -251,7 +251,7 @@ if __name__ == '__main__':
     # plt.close('all')
 
     #FVA
-    gal_fva_res, gal_fva_exp_sim, _ = case8.simulationPipeline(gal_exp_df, cs = 'galactose', o2_lb = -0.96, geneko = None, type = 'fva', res_exists = False, fname = 'Results/Case 8/res_fva_galactose_case5.sav')
+    gal_fva_res, gal_fva_exp_sim, _ = case8.simulationPipeline(gal_exp_df, cs = 'galactose', o2_lb = -0.96, geneko = None, type = 'fva', res_exists = True, fname = 'Results/Case 8/res_fva_galactose_case5.sav')
 
 
     # ====== CS: GLYCEROL ======
@@ -265,13 +265,13 @@ if __name__ == '__main__':
     # plt.close('all')
 
     #FBA
-    gly_fba_res, gly_fba_exp_sim, gly_fba_exp_sim_errors = case8.simulationPipeline(gly_exp_df, cs = 'glycerol', o2_lb = -0.75, geneko = None, type = 'fba', res_exists = False, fname = 'Results/Case 8/res_fba_glycerol_case5.sav')
+    gly_fba_res, gly_fba_exp_sim, gly_fba_exp_sim_errors = case8.simulationPipeline(gly_exp_df, cs = 'glycerol', o2_lb = -0.75, geneko = None, type = 'fba', res_exists = True, fname = 'Results/Case 8/res_fba_glycerol_case5.sav')
     gly_fba_exp_sim_errors = case8.getDFWithoutExtremeFluxes(gly_fba_exp_sim_errors)
     case8.plotExpVsSim(gly_fba_exp_sim_errors, save_fig_path = 'Results/Case 8/gly_fba_exp_sim_plot.png', title = 'FBA Glycerol Carbon Source')
     plt.close('all')
 
     #pFBA
-    gly_pfba_res, gly_pfba_exp_sim, gly_pfba_exp_sim_errors = case8.simulationPipeline(gly_exp_df, cs = 'glycerol', o2_lb = -0.75, geneko = None, type = 'pfba', res_exists = False, fname = 'Results/Case 8/res_pfba_glycerol_case5.sav')
+    gly_pfba_res, gly_pfba_exp_sim, gly_pfba_exp_sim_errors = case8.simulationPipeline(gly_exp_df, cs = 'glycerol', o2_lb = -0.75, geneko = None, type = 'pfba', res_exists = True, fname = 'Results/Case 8/res_pfba_glycerol_case5.sav')
     case8.plotExpVsSim(gly_pfba_exp_sim_errors, save_fig_path = 'Results/Case 8/gly_pfba_exp_sim_plot.png', title = 'pFBA Glycerol Carbon Source')
     plt.close('all')
 
@@ -284,7 +284,7 @@ if __name__ == '__main__':
     # plt.close('all')
 
     #FVA
-    gly_fva_res, gly_fva_exp_sim, _ = case8.simulationPipeline(gly_exp_df, cs = 'glycerol', o2_lb = -0.75, geneko = None, type = 'fva', res_exists = False, fname = 'Results/Case 8/res_fva_glycerol_case5.sav')
+    gly_fva_res, gly_fva_exp_sim, _ = case8.simulationPipeline(gly_exp_df, cs = 'glycerol', o2_lb = -0.75, geneko = None, type = 'fva', res_exists = True, fname = 'Results/Case 8/res_fva_glycerol_case5.sav')
 
 
     # ====== CS: ETHANOL ======

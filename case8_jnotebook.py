@@ -63,10 +63,6 @@ datasets_text = """\
 """
 
 datasets_code = """\
-#S. Cerevisiae BY4741 deltas
-genes = ['HIS3', 'LEU2', 'MET17', 'URA3']
-genes = list(case8.convertStdToSyst(genes).values())
-
 exp_dataset, reactions = case8.loadExperimentalRes('Results/Case 8/case8_experimental_fluxes.csv')
 """
 
@@ -96,12 +92,12 @@ g_text = """\
 g_fba_datasets = """\
 g_exp_df = case8.getColumnWithoutNAs(exp_dataset, 0, 'X')
 
-g_fba_res, g_fba_exp_sim, g_fba_exp_sim_errors = case8.simulationPipeline(g_exp_df, cs = 'glucose', geneko = genes, type = 'fba', res_exists = True, fname = 'Results/Case 8/res_fba_glucose_case5.sav')
+g_fba_res, g_fba_exp_sim, g_fba_exp_sim_errors = case8.simulationPipeline(g_exp_df, o2_lb = -0.43, cs = 'glucose', geneko = None, type = 'fba', res_exists = True, fname = 'Results/Case 8/res_fba_glucose_case5.sav')
 pd.concat([reactions, g_fba_exp_sim_errors], axis = 1, join = 'inner')
 """
 
 g_pfba_datasets = """\
-g_pfba_res, g_pfba_exp_sim, g_pfba_exp_sim_errors = case8.simulationPipeline(g_exp_df, cs = 'glucose', geneko = genes, type = 'pfba', res_exists = True, fname = 'Results/Case 8/res_pfba_glucose_case5.sav')
+g_pfba_res, g_pfba_exp_sim, g_pfba_exp_sim_errors = case8.simulationPipeline(g_exp_df, o2_lb = -0.43, cs = 'glucose', geneko = None, type = 'pfba', res_exists = True, fname = 'Results/Case 8/res_pfba_glucose_case5.sav')
 pd.concat([reactions, g_pfba_exp_sim_errors], axis = 1, join = 'inner')
 """
 
@@ -111,7 +107,7 @@ pd.concat([reactions, g_pfba_exp_sim_errors], axis = 1, join = 'inner')
 # """
 
 g_fva_datasets = """\
-g_fva_res, g_fva_exp_sim, _ = case8.simulationPipeline(g_exp_df, cs = 'glucose', geneko = genes, type = 'fva', res_exists = True, fname = 'Results/Case 8/res_fva_glucose_case5.sav')
+g_fva_res, g_fva_exp_sim, _ = case8.simulationPipeline(g_exp_df, cs = 'glucose', o2_lb = -0.43, geneko = None, type = 'fva', res_exists = True, fname = 'Results/Case 8/res_fva_glucose_case5.sav')
 pd.concat([reactions, g_fva_exp_sim], axis = 1, join = 'inner')
 """
 
@@ -125,12 +121,12 @@ gal_text = """\
 gal_fba_datasets = """\
 gal_exp_df = case8.getColumnWithoutNAs(exp_dataset, 1, 'X')
 
-gal_fba_res, gal_fba_exp_sim, gal_fba_exp_sim_errors = case8.simulationPipeline(gal_exp_df, cs = 'galactose', geneko = genes, type = 'fba', res_exists = True, fname = 'Results/Case 8/res_fba_galactose_case5.sav')
+gal_fba_res, gal_fba_exp_sim, gal_fba_exp_sim_errors = case8.simulationPipeline(gal_exp_df, cs = 'galactose', o2_lb = -0.96, geneko = None, type = 'fba', res_exists = True, fname = 'Results/Case 8/res_fba_galactose_case5.sav')
 pd.concat([reactions, gal_fba_exp_sim_errors], axis = 1, join = 'inner')
 """
 
 gal_pfba_datasets = """\
-gal_pfba_res, gal_pfba_exp_sim, gal_pfba_exp_sim_errors = case8.simulationPipeline(gal_exp_df, cs = 'galactose', geneko = genes, type = 'pfba', res_exists = True, fname = 'Results/Case 8/res_pfba_galactose_case5.sav')
+gal_pfba_res, gal_pfba_exp_sim, gal_pfba_exp_sim_errors = case8.simulationPipeline(gal_exp_df, cs = 'galactose', o2_lb = -0.96, geneko = None, type = 'pfba', res_exists = True, fname = 'Results/Case 8/res_pfba_galactose_case5.sav')
 pd.concat([reactions, gal_pfba_exp_sim_errors], axis = 1, join = 'inner')
 """
 
@@ -140,7 +136,7 @@ pd.concat([reactions, gal_pfba_exp_sim_errors], axis = 1, join = 'inner')
 # """
 
 gal_fva_datasets = """\
-gal_fva_res, gal_fva_exp_sim, _ = case8.simulationPipeline(gal_exp_df, cs = 'galactose', geneko = genes, type = 'fva', res_exists = True, fname = 'Results/Case 8/res_fva_galactose_case5.sav')
+gal_fva_res, gal_fva_exp_sim, _ = case8.simulationPipeline(gal_exp_df, cs = 'galactose', o2_lb = -0.96, geneko = None, type = 'fva', res_exists = True, fname = 'Results/Case 8/res_fva_galactose_case5.sav')
 pd.concat([reactions, gal_fva_exp_sim], axis = 1, join = 'inner')
 """
 
@@ -154,12 +150,12 @@ gly_text = """\
 gly_fba_datasets = """\
 gly_exp_df = case8.getColumnWithoutNAs(exp_dataset, 2, 'X')
 
-gly_fba_res, gly_fba_exp_sim, gly_fba_exp_sim_errors = case8.simulationPipeline(gly_exp_df, cs = 'glycerol', geneko = genes, type = 'fba', res_exists = True, fname = 'Results/Case 8/res_fba_glycerol_case5.sav')
+gly_fba_res, gly_fba_exp_sim, gly_fba_exp_sim_errors = case8.simulationPipeline(gly_exp_df, cs = 'glycerol', o2_lb = -0.75, geneko = None, type = 'fba', res_exists = True, fname = 'Results/Case 8/res_fba_glycerol_case5.sav')
 pd.DataFrame(reactions).join(gly_fba_exp_sim_errors, how = 'inner')
 """
 
 gly_pfba_datasets = """\
-gly_pfba_res, gly_pfba_exp_sim, gly_pfba_exp_sim_errors = case8.simulationPipeline(gly_exp_df, cs = 'glycerol', geneko = genes, type = 'pfba', res_exists = True, fname = 'Results/Case 8/res_pfba_glycerol_case5.sav')
+gly_pfba_res, gly_pfba_exp_sim, gly_pfba_exp_sim_errors = case8.simulationPipeline(gly_exp_df, cs = 'glycerol', o2_lb = -0.75, geneko = None, type = 'pfba', res_exists = True, fname = 'Results/Case 8/res_pfba_glycerol_case5.sav')
 pd.DataFrame(reactions).join(gly_pfba_exp_sim_errors, how = 'inner')
 """
 
@@ -169,7 +165,7 @@ pd.DataFrame(reactions).join(gly_pfba_exp_sim_errors, how = 'inner')
 # """
 
 gly_fva_datasets = """\
-gly_fva_res, gly_fva_exp_sim, _ = case8.simulationPipeline(gly_exp_df, cs = 'glycerol', geneko = genes, type = 'fva', res_exists = True, fname = 'Results/Case 8/res_fva_glycerol_case5.sav')
+gly_fva_res, gly_fva_exp_sim, _ = case8.simulationPipeline(gly_exp_df, cs = 'glycerol', o2_lb = -0.75, geneko = None, type = 'fva', res_exists = True, fname = 'Results/Case 8/res_fva_glycerol_case5.sav')
 pd.DataFrame(reactions).join(gly_fva_exp_sim, how = 'inner')
 """
 
@@ -183,12 +179,12 @@ e_text = """\
 e_fba_datasets = """\
 e_exp_df = case8.getColumnWithoutNAs(exp_dataset, 3, 'X')
 
-e_fba_res, e_fba_exp_sim, e_fba_exp_sim_errors = case8.simulationPipeline(e_exp_df, cs = 'ethanol', geneko = genes, type = 'fba', res_exists = True, fname = 'Results/Case 8/res_fba_ethanol_case5.sav')
+e_fba_res, e_fba_exp_sim, e_fba_exp_sim_errors = case8.simulationPipeline(e_exp_df, cs = 'ethanol', geneko = None, type = 'fba', res_exists = True, fname = 'Results/Case 8/res_fba_ethanol_case5.sav')
 pd.DataFrame(reactions).join(e_fba_exp_sim_errors, how = 'inner')
 """
 
 e_pfba_datasets = """\
-e_pfba_res, e_pfba_exp_sim, e_pfba_exp_sim_errors = case8.simulationPipeline(e_exp_df, cs = 'ethanol', geneko = genes, type = 'pfba', res_exists = True, fname = 'Results/Case 8/res_pfba_ethanol_case5.sav')
+e_pfba_res, e_pfba_exp_sim, e_pfba_exp_sim_errors = case8.simulationPipeline(e_exp_df, cs = 'ethanol', geneko = None, type = 'pfba', res_exists = True, fname = 'Results/Case 8/res_pfba_ethanol_case5.sav')
 pd.DataFrame(reactions).join(e_pfba_exp_sim_errors, how = 'inner')
 """
 
@@ -198,7 +194,7 @@ pd.DataFrame(reactions).join(e_pfba_exp_sim_errors, how = 'inner')
 # """
 
 e_fva_datasets = """\
-e_fva_res, e_fva_exp_sim, _ = case8.simulationPipeline(e_exp_df, cs = 'ethanol', geneko = genes, type = 'fva', res_exists = True, fname = 'Results/Case 8/res_fva_ethanol_case5.sav')
+e_fva_res, e_fva_exp_sim, _ = case8.simulationPipeline(e_exp_df, cs = 'ethanol', geneko = None, type = 'fva', res_exists = True, fname = 'Results/Case 8/res_fva_ethanol_case5.sav')
 pd.DataFrame(reactions).join(e_fva_exp_sim, how = 'inner')
 """
 
