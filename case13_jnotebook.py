@@ -47,7 +47,7 @@ g. NADPH specific acetaldehyde dehydrogenase or isocitrate dehydrogenase.
 
 
 **NOTES**
-- No ethanol fluxes available for O2 flux estimation
+- CeCaFDB dataset does not have ethanol fluxes. The paper, however, shows the fluxes of secreted ethanol.
 
 <p style="float: center; font-size: 9pt; text-align: center; width: 100%;"><img src = "Results/Case 13/frick_2005_fig3", width = 80%></p>
 
@@ -101,7 +101,6 @@ o_text = """\
 
 o_fba_datasets = """\
 o_exp_df = case13.getColumnWithoutNAs(exp_dataset, 0, 'X')
-# NO EtOH fluxes available for O2 flux estimation
 
 o_fba_res, o_fba_exp_sim, o_fba_exp_sim_errors = case13.simulationPipeline(o_exp_df, cs = 'g_oxidative', type = 'fba', res_exists = True, fname = 'Results/Case 13/res_fba_oxidative_case13.sav')
 pd.DataFrame(reactions).join(o_fba_exp_sim_errors, how = 'inner')
@@ -126,7 +125,6 @@ rf_text = """\
 
 rf_fba_datasets = """\
 rf_exp_df = case13.getColumnWithoutNAs(exp_dataset, 1, 'X')
-# NO EtOH fluxes available for O2 flux estimation
 
 rf_fba_res, rf_fba_exp_sim, rf_fba_exp_sim_errors = case13.simulationPipeline(rf_exp_df, cs = 'g_resp_fermentative', type = 'fba', res_exists = True, fname = 'Results/Case 13/res_fba_resp_fermentative_case13.sav')
 pd.DataFrame(reactions).join(rf_fba_exp_sim_errors, how = 'inner')
@@ -151,7 +149,6 @@ f_text = """\
 
 f_fba_datasets = """\
 f_exp_df = case13.getColumnWithoutNAs(exp_dataset, 2, 'X')
-# NO EtOH fluxes available for O2 flux estimation
 
 f_fba_res, f_fba_exp_sim, f_fba_exp_sim_errors = case13.simulationPipeline(f_exp_df, cs = 'g_fermentative', type = 'fba', res_exists = True, fname = 'Results/Case 13/res_fba_fermentative_case13.sav')
 pd.DataFrame(reactions).join(f_fba_exp_sim_errors, how = 'inner')
@@ -172,7 +169,7 @@ pd.DataFrame(reactions).join(f_fva_exp_sim, how = 'inner')
 #Generate cells with plots
 x = sum([['o' + i, 'rf' + i, 'f' + i] for i in ['_fba', '_pfba']], [])
 for name in x:
-    vars()[name + '_plot'] = '<p style="float: center; font-size: 9pt; text-align: center; width: 80%;"><img src = "Results/Case 13/'+ name +'_exp_sim_plot.png", width = 100%></p>'
+    vars()[name + '_plot'] = '<p style="float: center; font-size: 9pt; text-align: center; width: 100%;"><img src = "Results/Case 13/'+ name +'_exp_sim_plot.png", width = 80%></p>'
 
 #List with nbformat expressions
 growth = ['o', 'rf', 'f']
