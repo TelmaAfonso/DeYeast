@@ -88,31 +88,6 @@ class Case14 (PhenomenalySim):
 
         return res, df_exp_sim, df_exp_sim_errors
 
-    def plotExpVsSim (self, absRelErrorDataset, xlab = 'Experimental Flux', ylab = 'Simulated Flux', title = 'Wild Type', label_adjust = 0.05, save_fig_path = None):
-        plt.rcParams["figure.figsize"] = (10,5)
-
-        x = absRelErrorDataset.ix[:,0]
-        y = absRelErrorDataset.ix[:,1]
-        react_IDs = list(absRelErrorDataset.index)
-        slope, intercept, r_value, p_value, std_err = linregress(x, y)
-        line = [slope * x + intercept for x in x]
-        meanRelErr = absRelErrorDataset.ix[:,3].mean()
-        corr = x.corr(y)
-
-        plt.plot(x, y, 'o', x, line)
-        for ind, react_ID in enumerate(react_IDs):
-            plt.annotate(react_ID, (x[ind], y[ind]), fontsize = 8, xytext = (x[ind] + label_adjust, y[ind] + label_adjust))
-
-        plt.ylabel(ylab)
-        plt.xlabel(xlab)
-        plt.title(title)
-        plt.plot([], [], ' ') # To show correlation in legend
-        plt.plot([], [], ' ') # To show mean relative error in legend
-        plt.legend(['Reactions', 'R2: %.4f' % r_value**2, 'Pearson correlation: %.4f' % corr, 'Mean relative error: %.4f' % meanRelErr])
-
-        if save_fig_path is not None:
-            plt.savefig(save_fig_path)
-
     def testO2EthanolProd (self, g_knockout = None, cs = 'r_1714', cs_lb = -1.5, range_o2 = list(np.arange(-20, 0, 2))):
         loading_bars = 40*'='
         res = {}
@@ -153,80 +128,83 @@ class Case14 (PhenomenalySim):
         return round(real_O2(y0), 4)
 
 
-# if __name__ == '__main__':
+if __name__ == '__main__':
 
-#Initialization
-case14 = Case14()
-case14.model = case14.loadObjectFromFile('model_yeast_76.sav')
-case14.model.solver = 'optlang-cplex'
-case14.setMedium('MINIMAL')
+    #Initialization
+    case14 = Case14()
+    case14.model = case14.loadObjectFromFile('model_yeast_76.sav')
+    case14.model.solver = 'optlang-cplex'
+    case14.setMedium('MINIMAL')
 
-genes = ['REG1', 'MIG1', 'MIG2', 'GRR1', 'HXK2'] #Knockouts in this study
-HXK2 = case14.convertStdToSyst(genes)['HXK2'] # Gene match only for HXK2 gene
-# no reaction in the model for Acetyl-CoA <==> Acetyl-CoA-mit (transport) and Pyruvate-mit + CO2-mit <==> Oxaloacetate-mit (R00217-M)
+    genes = ['REG1', 'MIG1', 'MIG2', 'GRR1', 'HXK2'] #Knockouts in this study
+    HXK2 = case14.convertStdToSyst(genes)['HXK2'] # Gene match only for HXK2 gene
+    # no reaction in the model for Acetyl-CoA <==> Acetyl-CoA-mit (transport) and Pyruvate-mit + CO2-mit <==> Oxaloacetate-mit (R00217-M)
 
-#General datasets
-exp_dataset, reactions = case14.loadExperimentalRes('Results/Case 14/case14_experimental_fluxes.csv')
-
-
-# ====== WILD TYPE ======
-
-# O2 FLUX ESTIMATION
-# wt_etOH = case14.testO2EthanolProd(range_o2 = list(np.arange(-2, 0, 0.2)))
-# case14.saveObjectToFile(wt_etOH2, 'Results/Case 14/wt_dict_etOH_O2_fluxes.sav')
-wt_etOH = case14.loadObjectFromFile('Results/Case 14/wt_dict_etOH_O2_fluxes.sav')
-wt_o2_lb = case14.plotO2vsEtOH(wt_etOH, real_EtOH_flux = 2.1080, fname = 'Results/Case 14/wt_etOH_plot.png')
-plt.close('all')
+    #General datasets
+    exp_dataset, reactions = case14.loadExperimentalRes('Results/Case 14/case14_experimental_fluxes.csv')
 
 
-#FBA
-wt_fba_res, wt_fba_exp_sim, wt_fba_exp_sim_errors = case14.simulationPipeline(exp_dataset.ix[:,0], o2_lb = wt_o2_lb, type = 'fba', res_exists = True, fname = 'Results/Case 14/res_fba_wt_case14.sav')
-wt_fba_exp_sim_errors = case14.getDFWithoutExtremeFluxes(wt_fba_exp_sim_errors) #without extreme fluxes (for plotting)
-case14.plotExpVsSim(wt_fba_exp_sim_errors, save_fig_path = 'Results/Case 14/wt_fba_exp_sim_plot.png', title = 'FBA Wild Type')
-plt.close('all')
+    # ====== WILD TYPE ======
 
-#pFBA
-wt_pfba_res, wt_pfba_exp_sim, wt_pfba_exp_sim_errors = case14.simulationPipeline(exp_dataset.ix[:,0], o2_lb = wt_o2_lb, type = 'pfba', res_exists = True, fname = 'Results/Case 14/res_pfba_wt_case14.sav')
-case14.plotExpVsSim(wt_pfba_exp_sim_errors, save_fig_path = 'Results/Case 14/wt_pfba_exp_sim_plot.png', title = 'pFBA Wild Type')
-
-plt.close('all')
-
-#FVA
-wt_fva_res, wt_fva_exp_sim, _ = case14.simulationPipeline(exp_dataset.ix[:,0], o2_lb = wt_o2_lb, type = 'fva', res_exists = True, fname = 'Results/Case 14/res_fva_wt_case14.sav')
+    # O2 FLUX ESTIMATION
+    # wt_etOH = case14.testO2EthanolProd(range_o2 = list(np.arange(-2, 0, 0.2)))
+    # case14.saveObjectToFile(wt_etOH2, 'Results/Case 14/wt_dict_etOH_O2_fluxes.sav')
+    wt_etOH = case14.loadObjectFromFile('Results/Case 14/wt_dict_etOH_O2_fluxes.sav')
+    wt_o2_lb = case14.plotO2vsEtOH(wt_etOH, real_EtOH_flux = 2.1080, fname = 'Results/Case 14/wt_etOH_plot.png')
+    plt.close('all')
 
 
+    #FBA
+    wt_fba_res, wt_fba_exp_sim, wt_fba_exp_sim_errors = case14.simulationPipeline(exp_dataset.ix[:,0], o2_lb = wt_o2_lb, type = 'fba', res_exists = True, fname = 'Results/Case 14/res_fba_wt_case14.sav')
+    wt_fba_exp_sim_errors = case14.getDFWithoutExtremeFluxes(wt_fba_exp_sim_errors) #without extreme fluxes (for plotting)
+    case14.plotExpVsSim(wt_fba_exp_sim_errors, save_fig_path = 'Results/Case 14/wt_fba_exp_sim_plot.png', title = 'FBA Wild Type')
+    plt.close('all')
 
-# ====== HXK2 DELETION ======
+    #pFBA
+    wt_pfba_res, wt_pfba_exp_sim, wt_pfba_exp_sim_errors = case14.simulationPipeline(exp_dataset.ix[:,0], o2_lb = wt_o2_lb, type = 'pfba', res_exists = True, fname = 'Results/Case 14/res_pfba_wt_case14.sav')
+    case14.plotExpVsSim(wt_pfba_exp_sim_errors, save_fig_path = 'Results/Case 14/wt_pfba_exp_sim_plot.png', title = 'pFBA Wild Type')
 
-# O2 FLUX ESTIMATION
-# hxk2_etOH = case14.testO2EthanolProd(g_knockout = HXK2,range_o2 = list(np.arange(-2, 0, 0.2)))
-# case14.saveObjectToFile(hxk2_etOH, 'Results/Case 14/hxk2_dict_etOH_O2_fluxes.sav')
-hxk2_etOH = case14.loadObjectFromFile('Results/Case 14/hxk2_dict_etOH_O2_fluxes.sav')
-hxk2_02_lb = case14.plotO2vsEtOH(hxk2_etOH, real_EtOH_flux = 1.4221, fname = 'Results/Case 14/hxk2_etOH_plot.png')
-plt.close('all')
+    plt.close('all')
 
-
-#FBA
-hxk2_fba_res, hxk2_fba_exp_sim, hxk2_fba_exp_sim_errors = case14.simulationPipeline(exp_dataset.ix[:,5], o2_lb = hxk2_02_lb, type = 'fba', res_exists = True, fname = 'Results/Case 14/res_fba_hxk2_case14.sav')
-hxk2_fba_exp_sim_errors = case14.getDFWithoutExtremeFluxes(hxk2_fba_exp_sim_errors) #without extreme fluxes (for plotting)
-case14.plotExpVsSim(hxk2_fba_exp_sim_errors, save_fig_path = 'Results/Case 14/hxk2_fba_exp_sim_plot.png', title = 'FBA HXK2 Del')
-plt.close('all')
-
-#pFBA
-hxk2_pfba_res, hxk2_pfba_exp_sim, hxk2_pfba_exp_sim_errors = case14.simulationPipeline(exp_dataset.ix[:,5], o2_lb = hxk2_02_lb, type = 'pfba', res_exists = True, fname = 'Results/Case 14/res_pfba_hxk2_case14.sav')
-case14.plotExpVsSim(hxk2_pfba_exp_sim_errors, save_fig_path = 'Results/Case 14/hxk2_pfba_exp_sim_plot.png', title = 'pFBA HXK2 Del')
-plt.close('all')
-
-#FVA
-hxk2_fva_res, hxk2_fva_exp_sim, _ = case14.simulationPipeline(exp_dataset.ix[:,5], o2_lb = hxk2_02_lb, type = 'fva', res_exists = True, fname = 'Results/Case 14/res_fva_hxk2_case14.sav')
+    #FVA
+    wt_fva_res, wt_fva_exp_sim, _ = case14.simulationPipeline(exp_dataset.ix[:,0], o2_lb = wt_o2_lb, type = 'fva', res_exists = True, fname = 'Results/Case 14/res_fva_wt_case14.sav')
 
 
 
-# SEE r_0962 signal in exp dataset
+    # ====== HXK2 DELETION ======
+
+    # O2 FLUX ESTIMATION
+    # hxk2_etOH = case14.testO2EthanolProd(g_knockout = HXK2,range_o2 = list(np.arange(-2, 0, 0.2)))
+    # case14.saveObjectToFile(hxk2_etOH, 'Results/Case 14/hxk2_dict_etOH_O2_fluxes.sav')
+    hxk2_etOH = case14.loadObjectFromFile('Results/Case 14/hxk2_dict_etOH_O2_fluxes.sav')
+    hxk2_02_lb = case14.plotO2vsEtOH(hxk2_etOH, real_EtOH_flux = 1.4221, fname = 'Results/Case 14/hxk2_etOH_plot.png')
+    plt.close('all')
+
+
+    #FBA
+    hxk2_fba_res, hxk2_fba_exp_sim, hxk2_fba_exp_sim_errors = case14.simulationPipeline(exp_dataset.ix[:,5], o2_lb = hxk2_02_lb, type = 'fba', res_exists = True, fname = 'Results/Case 14/res_fba_hxk2_case14.sav')
+    hxk2_fba_exp_sim_errors = case14.getDFWithoutExtremeFluxes(hxk2_fba_exp_sim_errors) #without extreme fluxes (for plotting)
+    case14.plotExpVsSim(hxk2_fba_exp_sim_errors, save_fig_path = 'Results/Case 14/hxk2_fba_exp_sim_plot.png', title = 'FBA HXK2 Del')
+    plt.close('all')
+
+    #pFBA
+    hxk2_pfba_res, hxk2_pfba_exp_sim, hxk2_pfba_exp_sim_errors = case14.simulationPipeline(exp_dataset.ix[:,5], o2_lb = hxk2_02_lb, type = 'pfba', res_exists = True, fname = 'Results/Case 14/res_pfba_hxk2_case14.sav')
+    case14.plotExpVsSim(hxk2_pfba_exp_sim_errors, save_fig_path = 'Results/Case 14/hxk2_pfba_exp_sim_plot.png', title = 'pFBA HXK2 Del')
+    plt.close('all')
+
+    #FVA
+    hxk2_fva_res, hxk2_fva_exp_sim, _ = case14.simulationPipeline(exp_dataset.ix[:,5], o2_lb = hxk2_02_lb, type = 'fva', res_exists = True, fname = 'Results/Case 14/res_fva_hxk2_case14.sav')
 
 
 
-# # TESTS
+    # SEE r_0962 signal in exp dataset
+
+
+    error = case14.rmse(wt_pfba_exp_sim)
+    r_sqrd = case14.r_squared(wt_pfba_exp_sim)
+
+
+# TESTS
 # import time
 # import sys
 #

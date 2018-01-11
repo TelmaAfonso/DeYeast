@@ -1,6 +1,6 @@
 Reaction;Reaction_name;Yeast7_ID;wild type rel flux;wild type exp flux;REG1 rel flux;REG1 exp flux;MIG1/MIG2 rel flux;MIG1/MIG2 exp flux;MIG1 rel flux;MIG1 exp flux;GRR1 rel flux;GRR1 exp flux;HXK2 rel flux;HXK2 exp flux
 D-Glucose(ex) <==> D-Glucose-6-phosphate;R01786;r_0534;100,0000;1,5000;100,0000;1,5000;100,0000;1,5000;100,0000;1,5000;100,0000;1,5000;100,0000;1,5000
-Pyruvate <==> Phosphoenolpyruvate;R00200;r_0962;164,8214;2,4723;171,1712;2,5676;158,4211;2,3763;171,1382;2,5671;169,2308;2,5385;167,6923;2,5154
+Pyruvate <==> Phosphoenolpyruvate;R00200;r_0962;-164,8214;-2,4723;-171,1712;-2,5676;-158,4211;-2,3763;-171,1382;-2,5671;-169,2308;-2,5385;-167,6923;-2,5154
 Pyruvate-mit + CoA <==> Acetyl-CoA-mit + CO2-mit;R00209;r_0961;2,2321;0,0335;3,8739;0,0581;0,6579;0,0099;0,0000;0,0000;44,8077;0,6721;47,6923;0,7154
 Isocitrate <==> 2-Oxoglutarate + CO2-mit;R00267;r_2131;3,8393;0,0576;4,8649;0,0730;2,7632;0,0414;2,6829;0,0402;43,8462;0,6577;46,7308;0,7010
 Citrate + CoA <==> Acetyl-CoA-mit + Oxaloacetate-mit;R00351;r_0300;3,8393;0,0576;0,0000;0,0000;0,0000;0,0000;0,0000;0,0000;0,0000;0,0000;0,0000;0,0000

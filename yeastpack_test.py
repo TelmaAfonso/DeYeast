@@ -12,9 +12,11 @@ from phenomenaly.io import load_yeast_76
 from phenomenaly.simulation import fba, fva, pfba, lmoma, simulate_auxotrophy, simulate_essentiality
 from phenomenaly.variables import Media
 from types import *
+from scipy.stats import linregress
 import pickle
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 import sys, io
 import re
 
@@ -386,6 +388,53 @@ class PhenomenalySim (object):
                 output = self.getMetaboliteSummary(value, analysis_result)
                 print(output)
 
+    def rmse (self, df):
+        # df wit two columns (exp vs sim)s
+        rmse = ((df[df.columns[0]] - df[df.columns[1]]) ** 2).mean() ** .5
+        return round(rmse, 4)
+
+    def r_squared (self, df):
+        # df wit two columns (exp vs sim)
+        slope, intercept, r_value, p_value, std_err = linregress(df[df.columns[0]], df[df.columns[1]])
+        return round(r_value**2, 4)
+
+    def plotExpVsSim (self, absRelErrorDataset, xlab = 'Experimental Flux', ylab = 'Simulated Flux', title = 'Wild Type', label_adjust = 0.05, save_fig_path = None):
+        # Plots Exp vs. Sim fluxes for a single analysis (FBA, pFBA, LMOMA)
+        plt.rcParams["figure.figsize"] = (10,5)
+
+        x = absRelErrorDataset.ix[:,0]
+        y = absRelErrorDataset.ix[:,1]
+        react_IDs = list(absRelErrorDataset.index)
+        slope, intercept, r_value, p_value, std_err = linregress(x, y)
+        line = [slope * x + intercept for x in x]
+        meanRelErr = absRelErrorDataset.ix[:,3].mean()
+        corr = x.corr(y)
+
+        fig, ax = plt.subplots()
+        ax.plot(x, y, 'o', x, line)
+
+        lims = [np.min([ax.get_xlim(), ax.get_ylim()]),  # min of both axes
+                np.max([ax.get_xlim(), ax.get_ylim()]),]  # max of both axes
+
+        ax.plot(lims, lims, '--', alpha = 0.75, zorder = 0) # x = y line
+        # ax.set_aspect('equal') #squared plot
+        ax.set_xlim(lims)
+        ax.set_ylim(lims)
+
+        for ind, react_ID in enumerate(react_IDs):
+            ax.annotate(react_ID, (x[ind], y[ind]), fontsize = 8, xytext = (x[ind] + label_adjust, y[ind] + label_adjust))
+
+        plt.ylabel(ylab)
+        plt.xlabel(xlab)
+        plt.title(title)
+        l1, = plt.plot([], [], ' ') # To show rmse in legend
+        l2, = plt.plot([], [], ' ') # To show mean relative error in legend
+        l3, = plt.plot([], [], ' ') # To show correlation in legend
+        plt.legend(['Reactions', 'R2: %.4f' % r_value**2, 'X = Y', 'RMSE: %.4f' % self.rmse(absRelErrorDataset),
+                    'Pearson correlation: %.4f' % corr, 'Mean relative error: %.2f %%' % meanRelErr])
+
+        if save_fig_path is not None:
+            plt.savefig(save_fig_path)
 
 if __name__ == '__main__':
     # dir(a) #check object attributes
