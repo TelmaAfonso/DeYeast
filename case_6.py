@@ -111,30 +111,30 @@ class Case6 (PhenomenalySim):
 
         return res, df_exp_sim, df_exp_sim_errors
 
-    def plotExpVsSim (self, absRelErrorDataset, xlab = 'Experimental Flux', ylab = 'Simulated Flux', title = 'Wild Type', label_adjust = 0.05, save_fig_path = None):
-        plt.rcParams["figure.figsize"] = (10,5)
-
-        x = absRelErrorDataset.ix[:,0]
-        y = absRelErrorDataset.ix[:,1]
-        react_IDs = list(absRelErrorDataset.index)
-        slope, intercept, r_value, p_value, std_err = linregress(x, y)
-        line = [slope * x + intercept for x in x]
-        meanRelErr = absRelErrorDataset.ix[:,3].mean()
-        corr = x.corr(y)
-
-        plt.plot(x, y, 'o', x, line)
-        for ind, react_ID in enumerate(react_IDs):
-            plt.annotate(react_ID, (x[ind], y[ind]), fontsize = 8, xytext = (x[ind] + label_adjust, y[ind] + label_adjust))
-
-        plt.ylabel(ylab)
-        plt.xlabel(xlab)
-        plt.title(title)
-        plt.plot([], [], ' ') # To show correlation in legend
-        plt.plot([], [], ' ') # To show mean relative error in legend
-        plt.legend(['Reactions', 'R2: %.4f' % r_value**2, 'Pearson correlation: %.4f' % corr, 'Mean relative error: %.4f' % meanRelErr])
-
-        if save_fig_path is not None:
-            plt.savefig(save_fig_path)
+    # def plotExpVsSim (self, absRelErrorDataset, xlab = 'Experimental Flux', ylab = 'Simulated Flux', title = 'Wild Type', label_adjust = 0.05, save_fig_path = None):
+    #     plt.rcParams["figure.figsize"] = (10,5)
+    #
+    #     x = absRelErrorDataset.ix[:,0]
+    #     y = absRelErrorDataset.ix[:,1]
+    #     react_IDs = list(absRelErrorDataset.index)
+    #     slope, intercept, r_value, p_value, std_err = linregress(x, y)
+    #     line = [slope * x + intercept for x in x]
+    #     meanRelErr = absRelErrorDataset.ix[:,3].mean()
+    #     corr = x.corr(y)
+    #
+    #     plt.plot(x, y, 'o', x, line)
+    #     for ind, react_ID in enumerate(react_IDs):
+    #         plt.annotate(react_ID, (x[ind], y[ind]), fontsize = 8, xytext = (x[ind] + label_adjust, y[ind] + label_adjust))
+    #
+    #     plt.ylabel(ylab)
+    #     plt.xlabel(xlab)
+    #     plt.title(title)
+    #     plt.plot([], [], ' ') # To show correlation in legend
+    #     plt.plot([], [], ' ') # To show mean relative error in legend
+    #     plt.legend(['Reactions', 'R2: %.4f' % r_value**2, 'Pearson correlation: %.4f' % corr, 'Mean relative error: %.4f' % meanRelErr])
+    #
+    #     if save_fig_path is not None:
+    #         plt.savefig(save_fig_path)
 
 
 
@@ -188,7 +188,7 @@ if __name__ == '__main__':
     case6.plotExpVsSim(mae1_lmoma_exp_sim_errors, save_fig_path = 'Results/Case 6/mae1_lmoma_exp_sim_plot.png', title = 'LMOMA MAE1 Del')
     plt.close('all')
 
-    case6.getListOfMetabolitesSummary(mae1_pfba_res)
+    # case6.getListOfMetabolitesSummary(mae1_pfba_res)
     # case6.getMetaboliteSummaryWithNames('s_0373', wt_pfba_res)
 
     #FVA
@@ -199,7 +199,7 @@ if __name__ == '__main__':
     # case6.checkReaction('r_0302')
     # case6.checkReactionLB('r_1992')
 
-    print('DONE!')
+
 
 
 
