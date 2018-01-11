@@ -87,7 +87,6 @@ b_text = """\
 
 b_fba_datasets = """\
 b_exp_df = case9.getColumnWithoutNAs(exp_dataset, 0, 'X')
-# O2 flux estimation not possible (ethanol flux of 0 independently of O2 flux)
 
 b_fba_res, b_fba_exp_sim, b_fba_exp_sim_errors = case9.simulationPipeline(b_exp_df, cs = 'glucose', type = 'fba', res_exists = True, fname = 'Results/Case 9/res_fba_batch_case9.sav')
 pd.concat([reactions, b_fba_exp_sim_errors], axis = 1, join = 'inner')
@@ -112,7 +111,6 @@ c_text = """\
 
 c_fba_datasets = """\
 c_exp_df = case9.getColumnWithoutNAs(exp_dataset, 1, 'X')
-# O2 flux estimation not possible (ethanol flux of 0 independently of O2 flux)
 
 c_fba_res, c_fba_exp_sim, c_fba_exp_sim_errors = case9.simulationPipeline(c_exp_df, cs = 'glucose', type = 'fba', res_exists = True, fname = 'Results/Case 9/res_fba_chemostat_case9.sav')
 pd.concat([reactions, c_fba_exp_sim_errors], axis = 1, join = 'inner') #Plot not showing r_0302

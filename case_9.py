@@ -102,30 +102,30 @@ class Case9 (PhenomenalySim):
 
         return res, df_exp_sim, df_exp_sim_errors
 
-    def plotExpVsSim (self, absRelErrorDataset, xlab = 'Experimental Flux', ylab = 'Simulated Flux', title = 'Wild Type', label_adjust = 0.05, save_fig_path = None):
-        plt.rcParams["figure.figsize"] = (10,5)
-
-        x = absRelErrorDataset.ix[:,0]
-        y = absRelErrorDataset.ix[:,1]
-        react_IDs = list(absRelErrorDataset.index)
-        slope, intercept, r_value, p_value, std_err = linregress(x, y)
-        line = [slope * x + intercept for x in x]
-        meanRelErr = absRelErrorDataset.ix[:,3].mean()
-        corr = x.corr(y)
-
-        plt.plot(x, y, 'o', x, line)
-        for ind, react_ID in enumerate(react_IDs):
-            plt.annotate(react_ID, (x[ind], y[ind]), fontsize = 8, xytext = (x[ind] + label_adjust, y[ind] + label_adjust))
-
-        plt.ylabel(ylab)
-        plt.xlabel(xlab)
-        plt.title(title)
-        plt.plot([], [], ' ') # To show correlation in legend
-        plt.plot([], [], ' ') # To show mean relative error in legend
-        plt.legend(['Reactions', 'R2: %.4f' % r_value**2, 'Pearson correlation: %.4f' % corr, 'Mean relative error: %.4f' % meanRelErr])
-
-        if save_fig_path is not None:
-            plt.savefig(save_fig_path)
+    # def plotExpVsSim (self, absRelErrorDataset, xlab = 'Experimental Flux', ylab = 'Simulated Flux', title = 'Wild Type', label_adjust = 0.05, save_fig_path = None):
+    #     plt.rcParams["figure.figsize"] = (10,5)
+    #
+    #     x = absRelErrorDataset.ix[:,0]
+    #     y = absRelErrorDataset.ix[:,1]
+    #     react_IDs = list(absRelErrorDataset.index)
+    #     slope, intercept, r_value, p_value, std_err = linregress(x, y)
+    #     line = [slope * x + intercept for x in x]
+    #     meanRelErr = absRelErrorDataset.ix[:,3].mean()
+    #     corr = x.corr(y)
+    #
+    #     plt.plot(x, y, 'o', x, line)
+    #     for ind, react_ID in enumerate(react_IDs):
+    #         plt.annotate(react_ID, (x[ind], y[ind]), fontsize = 8, xytext = (x[ind] + label_adjust, y[ind] + label_adjust))
+    #
+    #     plt.ylabel(ylab)
+    #     plt.xlabel(xlab)
+    #     plt.title(title)
+    #     plt.plot([], [], ' ') # To show correlation in legend
+    #     plt.plot([], [], ' ') # To show mean relative error in legend
+    #     plt.legend(['Reactions', 'R2: %.4f' % r_value**2, 'Pearson correlation: %.4f' % corr, 'Mean relative error: %.4f' % meanRelErr])
+    #
+    #     if save_fig_path is not None:
+    #         plt.savefig(save_fig_path)
 
     def testO2EthanolProd (self, g_knockout = None, react_id = 'r_2115', cs = 'glucose', range_o2 = list(np.arange(-20, 0, 2))):
         res = {}
@@ -221,13 +221,13 @@ if __name__ == '__main__':
     # plt.close('all')
 
     #FBA
-    c_fba_res, c_fba_exp_sim, c_fba_exp_sim_errors = case9.simulationPipeline(c_exp_df, cs = 'chemostat', type = 'fba', res_exists = False, fname = 'Results/Case 9/res_fba_chemostat_case9.sav')
+    c_fba_res, c_fba_exp_sim, c_fba_exp_sim_errors = case9.simulationPipeline(c_exp_df, cs = 'chemostat', type = 'fba', res_exists = True, fname = 'Results/Case 9/res_fba_chemostat_case9.sav')
     c_fba_exp_sim_errors = case9.getDFWithoutExtremeFluxes(c_fba_exp_sim_errors) #without extreme fluxes (for plotting)
     case9.plotExpVsSim(c_fba_exp_sim_errors, save_fig_path = 'Results/Case 9/c_fba_exp_sim_plot.png', title = 'FBA Chemostat')
     plt.close('all')
 
     #pFBA 0.73 r2 com o2_lb = 0.52
-    c_pfba_res, c_pfba_exp_sim, c_pfba_exp_sim_errors = case9.simulationPipeline(c_exp_df, cs = 'chemostat', type = 'pfba', res_exists = False, fname = 'Results/Case 9/res_pfba_chemostat_case9.sav')
+    c_pfba_res, c_pfba_exp_sim, c_pfba_exp_sim_errors = case9.simulationPipeline(c_exp_df, cs = 'chemostat', type = 'pfba', res_exists = True, fname = 'Results/Case 9/res_pfba_chemostat_case9.sav')
     case9.plotExpVsSim(c_pfba_exp_sim_errors, save_fig_path = 'Results/Case 9/c_pfba_exp_sim_plot.png', title = 'pFBA Chemostat')
     plt.close('all')
 
@@ -235,4 +235,4 @@ if __name__ == '__main__':
     # case9.getMetaboliteSummaryWithNames('s_0727', c_pfba_res)
 
     #FVA
-    c_fva_res, c_fva_exp_sim, _ = case9.simulationPipeline(c_exp_df, cs = 'chemostat', type = 'fva', res_exists = False, fname = 'Results/Case 9/res_fva_chemostat_case9.sav')
+    c_fva_res, c_fva_exp_sim, _ = case9.simulationPipeline(c_exp_df, cs = 'chemostat', type = 'fva', res_exists = True, fname = 'Results/Case 9/res_fva_chemostat_case9.sav')
