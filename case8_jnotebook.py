@@ -203,7 +203,7 @@ pd.DataFrame(reactions).join(e_fva_exp_sim, how = 'inner')
 #Generate cells with plots
 x = sum([['g' + i, 'gal' + i, 'gly' + i, 'e' + i] for i in ['_fba', '_pfba']], [])
 for name in x:
-    vars()[name + '_plot'] = '<p style="float: center; font-size: 9pt; text-align: center; width: 80%;"><img src = "Results/Case 8/'+ name +'_exp_sim_plot.png", width = 100%></p>'
+    vars()[name + '_plot'] = '<p style="float: center; font-size: 9pt; text-align: center; width: 100%;"><img src = "Results/Case 8/'+ name +'_exp_sim_plot.png", width = 80%></p>'
 
 #List with nbformat expressions
 cs = ['g', 'gal', 'gly', 'e']
