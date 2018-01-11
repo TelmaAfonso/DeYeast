@@ -38,7 +38,7 @@ conditions. Under fully respiratory conditions, the Hap-complex, but not the Rtg
 respiration.
 
 **NOTES**
-- No ethanol fluxes available to estimate O2 lb
+- CeCaFDB did not provide ethanol fluxes to estimate O2 lb (author's paper however did);
 
 <p style="float: center; font-size: 9pt; text-align: center; width: 100%;"><img src = "Results/Case 3/Fendt_2010_fig1", width = 60%></p>
 

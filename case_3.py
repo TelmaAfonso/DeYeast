@@ -76,11 +76,11 @@ class Case3 (PhenomenalySim):
 
         return df
 
-    def simulationPipeline (self, exp_dataset, cs = 'glucose', geneko = None, type = 'fba', res_exists = False, fname = None):
+    def simulationPipeline (self, exp_dataset, cs = 'glucose', o2_lb = None, geneko = None, type = 'fba', res_exists = False, fname = None):
         if res_exists:
             res = self.loadObjectFromFile(fname)
         else:
-            res = self.singleSimulation(carbon_source = self.cs_reaction[cs], cs_lb = self.cs_lb[cs], geneko = geneko, type = type)
+            res = self.singleSimulation(carbon_source = self.cs_reaction[cs], cs_lb = self.cs_lb[cs], geneko = geneko, o2_lb = o2_lb, type = type)
             self.saveObjectToFile(res, fname)
 
         if type == 'fva':
@@ -99,31 +99,6 @@ class Case3 (PhenomenalySim):
         df_exp_sim_errors = self.createDatasetWithAbsRelError(df_exp_sim)
 
         return res, df_exp_sim, df_exp_sim_errors
-
-    def plotExpVsSim (self, absRelErrorDataset, xlab = 'Experimental Flux', ylab = 'Simulated Flux', title = 'Wild Type', label_adjust = 0.05, save_fig_path = None):
-        plt.rcParams["figure.figsize"] = (10,5)
-
-        x = absRelErrorDataset.ix[:,0]
-        y = absRelErrorDataset.ix[:,1]
-        react_IDs = list(absRelErrorDataset.index)
-        slope, intercept, r_value, p_value, std_err = linregress(x, y)
-        line = [slope * x + intercept for x in x]
-        meanRelErr = absRelErrorDataset.ix[:,3].mean()
-        corr = x.corr(y)
-
-        plt.plot(x, y, 'o', x, line)
-        for ind, react_ID in enumerate(react_IDs):
-            plt.annotate(react_ID, (x[ind], y[ind]), fontsize = 8, xytext = (x[ind] + label_adjust, y[ind] + label_adjust))
-
-        plt.ylabel(ylab)
-        plt.xlabel(xlab)
-        plt.title(title)
-        plt.plot([], [], ' ') # To show correlation in legend
-        plt.plot([], [], ' ') # To show mean relative error in legend
-        plt.legend(['Reactions', 'R2: %.4f' % r_value**2, 'Pearson correlation: %.4f' % corr, 'Mean relative error: %.4f' % meanRelErr])
-
-        if save_fig_path is not None:
-            plt.savefig(save_fig_path)
 
     def testO2EthanolProd (self, g_knockout = None, react_id = 'r_2115', cs = 'glucose', range_o2 = list(np.arange(-20, 0, 2))):
         res = {}
@@ -186,20 +161,20 @@ if __name__ == '__main__':
     # ====== CS: GLUCOSE ======
     g_exp_df = case3.getColumnWithoutNAs(exp_dataset, 0)
 
-    # O2 FLUX ESTIMATION - max acetate flux of 0.008476 (FVA) -> O2 lb of -1000 (e.g.)
-    # g_Acetate = case3.testO2EthanolProd(react_id = 'r_2116', cs = 'glucose', range_o2 = list(np.arange(-1000, 0, 100)))
-    # case3.saveObjectToFile(g_Acetate, 'Results/Case 3/g_dict_etOH_O2_fluxes.sav')
-    # g_Acetate = case3.loadObjectFromFile('Results/Case 3/g_dict_etOH_O2_fluxes.sav')
-    # g_o2_lb = case3.plotO2vsEtOH(g_Acetate, real_EtOH_flux = 1.47, fname = 'Results/Case 3/g_etOH_plot.png')
+    # O2 FLUX ESTIMATION - O2 flux of -3.24
+    # g_etoh = case3.testO2EthanolProd(react_id = 'r_2115', cs = 'glucose', range_o2 = list(np.arange(-4, -1, 0.2)))
+    # case3.saveObjectToFile(g_etoh, 'Results/Case 3/g_dict_etOH_O2_fluxes.sav')
+    # g_etoh = case3.loadObjectFromFile('Results/Case 3/g_dict_etOH_O2_fluxes.sav')
+    # g_o2_lb = case3.plotO2vsEtOH(g_etoh, real_EtOH_flux = 24.61, fname = 'Results/Case 3/g_etOH_plot.png')
     # plt.close('all')
 
     #FBA
-    g_fba_res, g_fba_exp_sim, g_fba_exp_sim_errors = case3.simulationPipeline(g_exp_df, cs = 'glucose', type = 'fba', res_exists = True, fname = 'Results/Case 3/res_fba_glucose_case3.sav')
+    g_fba_res, g_fba_exp_sim, g_fba_exp_sim_errors = case3.simulationPipeline(g_exp_df, cs = 'glucose', o2_lb = -3.24, type = 'fba', res_exists = True, fname = 'Results/Case 3/res_fba_glucose_case3.sav')
     case3.plotExpVsSim(g_fba_exp_sim_errors, save_fig_path = 'Results/Case 3/g_fba_exp_sim_plot.png', title = 'FBA GLucose Carbon Source')
     plt.close('all')
 
     #pFBA
-    g_pfba_res, g_pfba_exp_sim, g_pfba_exp_sim_errors = case3.simulationPipeline(g_exp_df, cs = 'glucose', type = 'pfba', res_exists = True, fname = 'Results/Case 3/res_pfba_glucose_case3.sav')
+    g_pfba_res, g_pfba_exp_sim, g_pfba_exp_sim_errors = case3.simulationPipeline(g_exp_df, cs = 'glucose', o2_lb = -3.24, type = 'pfba', res_exists = True, fname = 'Results/Case 3/res_pfba_glucose_case3.sav')
     case3.plotExpVsSim(g_pfba_exp_sim_errors, save_fig_path = 'Results/Case 3/g_pfba_exp_sim_plot.png', title = 'pFBA GLucose Carbon Source')
     plt.close('all')
 
@@ -211,26 +186,26 @@ if __name__ == '__main__':
     # case3.getReactionInfo('r_0783')
 
     #FVA
-    g_fva_res, g_fva_exp_sim, _ = case3.simulationPipeline(g_exp_df, cs = 'glucose', type = 'fva', res_exists = True, fname = 'Results/Case 3/res_fva_glucose_case3.sav')
+    g_fva_res, g_fva_exp_sim, _ = case3.simulationPipeline(g_exp_df, cs = 'glucose', o2_lb = -3.24, type = 'fva', res_exists = True, fname = 'Results/Case 3/res_fva_glucose_case3.sav')
 
 
     # ====== CS: MANNOSE ======
     m_exp_df = case3.getColumnWithoutNAs(exp_dataset, 1)
 
-    # O2 FLUX ESTIMATION - max acetate flux of 0.006656 (FVA) -> O2 lb of -1000 (e.g.)
-    # m_Acetate = case3.testO2EthanolProd(react_id = 'r_2116', cs = 'mannose', range_o2 = list(np.arange(-1, 0, 0.1)))
-    # case3.saveObjectToFile(m_Acetate, 'Results/Case 3/m_dict_etOH_O2_fluxes.sav')
-    # m_Acetate = case3.loadObjectFromFile('Results/Case 3/m_dict_etOH_O2_fluxes.sav')
-    # g_o2_lb = case3.plotO2vsEtOH(m_Acetate, real_EtOH_flux = 1.80, fname = 'Results/Case 3/m_etOH_plot.png')
+    # O2 FLUX ESTIMATION - O2 flux of -3.71
+    # m_etOH = case3.testO2EthanolProd(react_id = 'r_2115', cs = 'mannose', range_o2 = list(np.arange(-4, -1, 0.2)))
+    # case3.saveObjectToFile(m_etOH, 'Results/Case 3/m_dict_etOH_O2_fluxes.sav')
+    # m_etOH = case3.loadObjectFromFile('Results/Case 3/m_dict_etOH_O2_fluxes.sav')
+    # g_o2_lb = case3.plotO2vsEtOH(m_etOH, real_EtOH_flux = 18.05, fname = 'Results/Case 3/m_etOH_plot.png')
     # plt.close('all')
 
     #FBA
-    m_fba_res, m_fba_exp_sim, m_fba_exp_sim_errors = case3.simulationPipeline(m_exp_df, cs = 'mannose', type = 'fba', res_exists = True, fname = 'Results/Case 3/res_fba_mannose_case10.sav')
+    m_fba_res, m_fba_exp_sim, m_fba_exp_sim_errors = case3.simulationPipeline(m_exp_df, cs = 'mannose', o2_lb = -3.71, type = 'fba', res_exists = True, fname = 'Results/Case 3/res_fba_mannose_case10.sav')
     case3.plotExpVsSim(m_fba_exp_sim_errors, save_fig_path = 'Results/Case 3/m_fba_exp_sim_plot.png', title = 'FBA Mannose Carbon Source')
     plt.close('all')
 
     #pFBA
-    m_pfba_res, m_pfba_exp_sim, m_pfba_exp_sim_errors = case3.simulationPipeline(m_exp_df, cs = 'mannose', type = 'pfba', res_exists = True, fname = 'Results/Case 3/res_pfba_mannose_case10.sav')
+    m_pfba_res, m_pfba_exp_sim, m_pfba_exp_sim_errors = case3.simulationPipeline(m_exp_df, cs = 'mannose', o2_lb = -3.71, type = 'pfba', res_exists = True, fname = 'Results/Case 3/res_pfba_mannose_case10.sav')
     case3.plotExpVsSim(m_pfba_exp_sim_errors, save_fig_path = 'Results/Case 3/m_pfba_exp_sim_plot.png', title = 'pFBA Mannose Carbon Source')
     plt.close('all')
 
@@ -242,26 +217,26 @@ if __name__ == '__main__':
     # f_max0 = case3.getSimFluxesRange(m_pfba_res, max = 0, dropReacts = ['r_2214', 'r_2196'])
 
     #FVA
-    m_fva_res, m_fva_exp_sim, _ = case3.simulationPipeline(m_exp_df, cs = 'mannose', type = 'fva', res_exists = True, fname = 'Results/Case 3/res_fva_mannose_case10.sav')
+    m_fva_res, m_fva_exp_sim, _ = case3.simulationPipeline(m_exp_df, cs = 'mannose', o2_lb = -3.71, type = 'fva', res_exists = True, fname = 'Results/Case 3/res_fva_mannose_case10.sav')
 
 
     # ====== CS: GALACTOSE ======
     gal_exp_df = case3.getColumnWithoutNAs(exp_dataset, 2)
 
-    # O2 FLUX ESTIMATION - max acetate flux of 0.002340 (FVA) -> O2 lb of -1000 (e.g.)
-    # gal_Acetate = case3.testO2EthanolProd(react_id = 'r_2116', cs = 'galactose', range_o2 = list(np.arange(-10, 0, 1)))
-    # case3.saveObjectToFile(gal_Acetate, 'Results/Case 3/gal_dict_etOH_O2_fluxes.sav')
-    # gal_Acetate = case3.loadObjectFromFile('Results/Case 3/gal_dict_etOH_O2_fluxes.sav')
-    # g_o2_lb = case3.plotO2vsEtOH(gal_Acetate, real_EtOH_flux = 1.80, fname = 'Results/Case 3/gal_etOH_plot.png')
+    # O2 FLUX ESTIMATION - O2 flux of -2.58
+    # gal_etoh = case3.testO2EthanolProd(react_id = 'r_2115', cs = 'galactose', range_o2 = list(np.arange(-3, 0, 0.2)))
+    # case3.saveObjectToFile(gal_etoh, 'Results/Case 3/gal_dict_etOH_O2_fluxes.sav')
+    # gal_etoh = case3.loadObjectFromFile('Results/Case 3/gal_dict_etOH_O2_fluxes.sav')
+    # g_o2_lb = case3.plotO2vsEtOH(gal_etoh, real_EtOH_flux = 4.95, fname = 'Results/Case 3/gal_etOH_plot.png')
     # plt.close('all')
 
     #FBA
-    gal_fba_res, gal_fba_exp_sim, gal_fba_exp_sim_errors = case3.simulationPipeline(gal_exp_df, cs = 'galactose', type = 'fba', res_exists = True, fname = 'Results/Case 3/res_fba_galactose_case3.sav')
+    gal_fba_res, gal_fba_exp_sim, gal_fba_exp_sim_errors = case3.simulationPipeline(gal_exp_df, cs = 'galactose', o2_lb = -2.58, type = 'fba', res_exists = True, fname = 'Results/Case 3/res_fba_galactose_case3.sav')
     case3.plotExpVsSim(gal_fba_exp_sim_errors, save_fig_path = 'Results/Case 3/gal_fba_exp_sim_plot.png', title = 'FBA Galactose Carbon Source')
     plt.close('all')
 
     #pFBA
-    gal_pfba_res, gal_pfba_exp_sim, gal_pfba_exp_sim_errors = case3.simulationPipeline(gal_exp_df, cs = 'galactose', type = 'pfba', res_exists = True, fname = 'Results/Case 3/res_pfba_galactose_case3.sav')
+    gal_pfba_res, gal_pfba_exp_sim, gal_pfba_exp_sim_errors = case3.simulationPipeline(gal_exp_df, cs = 'galactose', o2_lb = -2.58, type = 'pfba', res_exists = True, fname = 'Results/Case 3/res_pfba_galactose_case3.sav')
     case3.plotExpVsSim(gal_pfba_exp_sim_errors, save_fig_path = 'Results/Case 3/gal_pfba_exp_sim_plot.png', title = 'pFBA Galactose Carbon Source')
     plt.close('all')
 
@@ -274,18 +249,13 @@ if __name__ == '__main__':
     # f_max0 = case3.getSimFluxesRange(gal_pfba_res, max = 0, dropReacts = ['r_2214', 'r_2196'])
 
     #FVA
-    gal_fva_res, gal_fva_exp_sim, _ = case3.simulationPipeline(gal_exp_df, cs = 'galactose', type = 'fva', res_exists = True, fname = 'Results/Case 3/res_fva_galactose_case3.sav')
+    gal_fva_res, gal_fva_exp_sim, _ = case3.simulationPipeline(gal_exp_df, cs = 'galactose', type = 'fva', o2_lb = -2.58, res_exists = True, fname = 'Results/Case 3/res_fva_galactose_case3.sav')
 
 
     # ====== CS: PYRUVATE ======
     p_exp_df = case3.getColumnWithoutNAs(exp_dataset, 3)
 
-    # O2 FLUX ESTIMATION - max acetate flux of 0.000850 (FVA) -> O2 lb of -1000 (e.g.)
-    # p_Acetate = case3.testO2EthanolProd(react_id = 'r_2116', cs = 'pyruvate', range_o2 = list(np.arange(-1, 0, 0.1)))
-    # case3.saveObjectToFile(p_Acetate, 'Results/Case 3/p_dict_etOH_O2_fluxes.sav')
-    # p_Acetate = case3.loadObjectFromFile('Results/Case 3/p_dict_etOH_O2_fluxes.sav')
-    # g_o2_lb = case3.plotO2vsEtOH(p_Acetate, real_EtOH_flux = 1.80, fname = 'Results/Case 3/p_etOH_plot.png')
-    # plt.close('all')
+    # O2 FLUX ESTIMATION - Experimentally no ethanol is produced
 
     #FBA
     p_fba_res, p_fba_exp_sim, p_fba_exp_sim_errors = case3.simulationPipeline(p_exp_df, cs = 'pyruvate', type = 'fba', res_exists = True, fname = 'Results/Case 3/res_fba_pyruvate_case3.sav')
