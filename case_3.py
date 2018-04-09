@@ -277,6 +277,16 @@ if __name__ == '__main__':
     p_fva_res, p_fva_exp_sim, _ = case3.simulationPipeline(p_exp_df, cs = 'pyruvate', type = 'fva', res_exists = True, fname = 'Results/Case 3/res_fva_pyruvate_case3.sav')
 
 
+    # =========================================
+    #    Save all results into a binary file
+    # =========================================
+
+    all_res = {'d3_glu_fba': g_fba_exp_sim, 'd3_glu_pfba': g_pfba_exp_sim, 'd3_glu_fva': g_fva_exp_sim,
+               'd3_man_fba': m_fba_exp_sim, 'd3_man_pfba': m_pfba_exp_sim, 'd3_man_fva': m_fva_exp_sim,
+               'd3_gal_fba': gal_fba_exp_sim, 'd3_gal_pfba': gal_pfba_exp_sim, 'd3_gal_fva': gal_fva_exp_sim,
+               'd3_pyr_fba': p_fba_exp_sim, 'd3_pyr_pfba': p_pfba_exp_sim, 'd3_pyr_fva': p_fva_exp_sim, 'd3_reactions': reactions}
+
+    case3.saveObjectToFile(all_res, 'Results/case3_all_res.sav')
 
 
     # Acetyl-CoA  <==> Acetyl-CoA-mit (transport) no correspondence

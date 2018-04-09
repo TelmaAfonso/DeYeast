@@ -207,3 +207,11 @@ if __name__ == '__main__':
     #FVA
     e_fva_res, e_fva_exp_sim, _ = case5.simulationPipeline(e_exp_df, cs = 'ethanol', type = 'fva', res_exists = True, fname = 'Results/Case 5/res_fva_ethanol_case5.sav')
 
+    # =========================================
+    #    Save all results into a binary file
+    # =========================================
+
+    all_res = {'d5_glu_fba': g_fba_exp_sim, 'd5_glu_pfba': g_pfba_exp_sim, 'd5_glu_fva': g_fva_exp_sim,
+               'd5_etoh_fba': e_fba_exp_sim, 'd5_etoh_pfba': e_pfba_exp_sim, 'd5_etoh_fva': e_fva_exp_sim, 'd5_reactions': reactions}
+
+    case5.saveObjectToFile(all_res, 'Results/case5_all_res.sav')

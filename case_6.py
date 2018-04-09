@@ -174,6 +174,15 @@ if __name__ == '__main__':
     # case6.checkReactionLB('r_1992')
 
 
+    # =========================================
+    #    Save all results into a binary file
+    # =========================================
+
+    all_res = {'d6_wt_fba': wt_fba_exp_sim, 'd6_wt_pfba': wt_pfba_exp_sim, 'd6_wt_fva': wt_fva_exp_sim, 'd6_reactions': reactions,
+               'd6_mae1_fba': mae1_fba_exp_sim, 'd6_mae1_pfba': mae1_pfba_exp_sim, 'd6_mae1_fva': mae1_fva_exp_sim, 'd6_mae1_lmoma': mae1_lmoma_exp_sim}
+
+    case6.saveObjectToFile(all_res, 'Results/case6_all_res.sav')
+
 
 
 

@@ -195,14 +195,29 @@ if __name__ == '__main__':
     #FVA
     hxk2_fva_res, hxk2_fva_exp_sim, _ = case14.simulationPipeline(exp_dataset.ix[:,5], o2_lb = hxk2_02_lb, type = 'fva', res_exists = True, fname = 'Results/Case 14/res_fva_hxk2_case14.sav')
 
+    #LMOMA
+    hxk2 = case14.convertStdToSyst(['HXK2'])['HXK2']
+    hxk2_lmoma_res, hxk2_lmoma_exp_sim, hxk2_lmoma_exp_sim_errors = case14.simulationPipeline(exp_dataset.ix[:,5], o2_lb = hxk2_02_lb, geneko = hxk2, type = 'lmoma', res_exists = True, fname = 'Results/Case 14/res_lmoma_hxk2_case14.sav')
+    case14.plotExpVsSim(hxk2_lmoma_exp_sim_errors, save_fig_path = 'Results/Case 14/hxk2_lmoma_exp_sim_plot.png', title = 'LMOMA hxk2 Del')
+    plt.close('all')
 
 
     # SEE r_0962 signal in exp dataset
 
+    # error = case14.rmse(wt_pfba_exp_sim)
+    # r_sqrd = case14.r_squared(wt_pfba_exp_sim)
 
-    error = case14.rmse(wt_pfba_exp_sim)
-    r_sqrd = case14.r_squared(wt_pfba_exp_sim)
 
+    # =========================================
+    #    Save all results into a binary file
+    # =========================================
+
+    all_res = {'d14_wt_fba': wt_fba_exp_sim, 'd14_wt_pfba': wt_pfba_exp_sim, 'd14_wt_fva': wt_fva_exp_sim, 'd14_reactions': reactions,
+               'd14_hxk2_fba': hxk2_fba_exp_sim, 'd14_hxk2_pfba': hxk2_pfba_exp_sim, 'd14_hxk2_fva': hxk2_fva_exp_sim, 'd14_hxk2_lmoma': hxk2_lmoma_exp_sim}
+
+    case14.saveObjectToFile(all_res, 'Results/case14_all_res.sav')
+    
+    
 
 # TESTS
 # import time

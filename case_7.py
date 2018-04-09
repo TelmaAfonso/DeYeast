@@ -968,7 +968,14 @@ if __name__ == '__main__':
     case7.getListOfMetabolitesSummary(res_pfba['ALD6 (YPL061W)'])
     case7.getMetaboliteSummaryWithNames('s_0764', res_pfba['ALD6 (YPL061W)'])
 
+    # =========================================
+    #    Save all results into a binary file
+    # =========================================
 
+    all_res = {'d7_fba': df_fba_exp_sim, 'd7_pfba': df_pfba_exp_sim, 'd7_fva': df_fva_exp_sim, 'd7_lmoma': df_lmoma_exp_sim,
+               'd7_wt': wt_res, 'd7_genes': case7.l, 'd7_reactions': reactions}
+
+    case7.saveObjectToFile(all_res, 'Results/case7_all_res.sav')
 
 
     #FIXING BIOMASS UB
@@ -1017,3 +1024,9 @@ if __name__ == '__main__':
     # http://xlsxwriter.readthedocs.io/working_with_pandas.html
     # http://xlsxwriter.readthedocs.io/worksheet.html
 
+
+
+    # genes = sorted(case7.l.keys())
+    # ids = ['D7_' + g.lower() for g in genes]
+    #
+    # ', '.join(sorted(ids))

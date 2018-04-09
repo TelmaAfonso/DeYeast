@@ -235,3 +235,12 @@ plt.close('all')
 f_fva_res, f_fva_exp_sim, _ = case13.simulationPipeline(f_exp_df, cs = 'g_fermentative', o2_lb = -4.91, type = 'fva', res_exists = True, fname = 'Results/Case 13/res_fva_fermentative_case13.sav')
 
 
+# =========================================
+#    Save all results into a binary file
+# =========================================
+
+all_res = {'d13_oxi_fba': o_fba_exp_sim, 'd13_oxi_pfba': o_pfba_exp_sim, 'd13_oxi_fva': o_fva_exp_sim,
+           'd13_rferm_fba': rf_fba_exp_sim, 'd13_rferm_pfba': rf_pfba_exp_sim, 'd13_rferm_fva': rf_fva_exp_sim,
+           'd13_ferm_fba': f_fba_exp_sim, 'd13_ferm_pfba': f_pfba_exp_sim, 'd13_ferm_fva': f_fva_exp_sim, 'd13_reactions': reactions}
+
+case13.saveObjectToFile(all_res, 'Results/case13_all_res.sav')

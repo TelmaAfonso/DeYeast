@@ -285,6 +285,16 @@ if __name__ == '__main__':
     e_fva_res, e_fva_exp_sim, _ = case8.simulationPipeline(e_exp_df, cs = 'ethanol', geneko = None, type = 'fva', res_exists = True, fname = 'Results/Case 8/res_fva_ethanol_case5.sav')
 
 
+    # =========================================
+    #    Save all results into a binary file
+    # =========================================
+
+    all_res = {'d8_glu_fba': g_fba_exp_sim, 'd8_glu_pfba': g_pfba_exp_sim, 'd8_glu_fva': g_fva_exp_sim,
+               'd8_gly_fba': gly_fba_exp_sim, 'd8_gly_pfba': gly_pfba_exp_sim, 'd8_gly_fva': gly_fva_exp_sim,
+               'd8_gal_fba': gal_fba_exp_sim, 'd8_gal_pfba': gal_pfba_exp_sim, 'd8_gal_fva': gal_fva_exp_sim,
+               'd8_etoh_fba': e_fba_exp_sim, 'd8_etoh_pfba': e_pfba_exp_sim, 'd8_etoh_fva': e_fva_exp_sim, 'd8_reactions': reactions}
+
+    case8.saveObjectToFile(all_res, 'Results/case8_all_res.sav')
 
 
     #TESTS

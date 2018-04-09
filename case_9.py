@@ -211,3 +211,13 @@ if __name__ == '__main__':
 
     #FVA
     c_fva_res, c_fva_exp_sim, _ = case9.simulationPipeline(c_exp_df, cs = 'chemostat', type = 'fva', res_exists = True, fname = 'Results/Case 9/res_fva_chemostat_case9.sav')
+
+
+    # =========================================
+    #    Save all results into a binary file
+    # =========================================
+
+    all_res = {'d9_batch_fba': b_fba_exp_sim, 'd9_batch_pfba': b_pfba_exp_sim, 'd9_batch_fva': b_fva_exp_sim,
+               'd9_chem_fba': c_fba_exp_sim, 'd9_chem_pfba': c_pfba_exp_sim, 'd9_chem_fva': c_fva_exp_sim, 'd9_reactions': reactions}
+
+    case9.saveObjectToFile(all_res, 'Results/case9_all_res.sav')
