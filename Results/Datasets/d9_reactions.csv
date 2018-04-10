@@ -1,0 +1,33 @@
+r_0534,D-Glucose(ex) <==> D-Glucose-6-phosphate
+r_0962,Pyruvate <==> Phosphoenolpyruvate
+r_0961,Pyruvate-mit + CoA <==> Acetyl-CoA-mit + CO2-mit
+r_2131,Isocitrate <==> 2-Oxoglutarate + CO2-mit
+r_0713,(S)-Malate-mit <==> Oxaloacetate-mit
+r_0300,Citrate + CoA <==> Acetyl-CoA-mit + Oxaloacetate-mit
+r_1022,Succinate-mit + CoA <==> Succinyl-CoA
+r_0454,Succinate-mit <==> Fumarate
+r_1054,D-Glyceraldehyde-3-phosphate <==> Glycerone-phosphate
+r_0486,D-Glyceraldehyde-3-phosphate <==> 3-Phospho-D-glyceroyl-phosphate
+r_0450,"D-Fructose-1,6-bisphosphate <==> Glycerone-phosphate + D-Glyceraldehyde-3-phosphate"
+r_0452,(S)-Malate-mit <==> Fumarate
+r_0302,Citrate <==> Isocitrate
+r_0892,3-Phospho-D-glycerate <==> 3-Phospho-D-glyceroyl-phosphate
+r_0893,2-Phospho-D-glycerate <==> 3-Phospho-D-glycerate
+r_0889,6-Phospho-D-gluconate <==> D-Ribulose-5-phosphate + CO2
+r_1049,Sedoheptulose-7-phosphate + D-Glyceraldehyde-3-phosphate <==> D-Ribose-5-phosphate + D-Xylulose-5-phosphate
+r_1048,Sedoheptulose-7-phosphate + D-Glyceraldehyde-3-phosphate <==> D-Erythrose-4-phosphate + D-Fructose-6-phosphate
+r_1050,D-Fructose-6-phosphate + D-Glyceraldehyde-3-phosphate <==> D-Erythrose-4-phosphate + D-Xylulose-5-phosphate
+r_0466,"D-Glucose-6-phosphate <==> D-Glucono-1,5-lactone-6-phosphate"
+r_0467,D-Glucose-6-phosphate <==> D-Fructose-6-phosphate
+r_0886,"D-Fructose-6-phosphate <==> D-Fructose-1,6-bisphosphate"
+r_0959,Pyruvate <==> Acetaldehyde
+r_2115,Acetaldehyde <==> Ethanol
+r_2116,Acetaldehyde <==> Acetate
+r_0112,Acetate <==> Acetyl-CoA
+r_0958,Pyruvate + CO2 <==> Oxaloacetate
+r_0366,2-Phospho-D-glycerate <==> Phosphoenolpyruvate
+r_0832,2-Oxoglutarate + CoA <==> Succinyl-CoA + CO2-mit
+r_0091,"D-Glucono-1,5-lactone-6-phosphate <==> 6-Phospho-D-gluconate"
+r_0718,(S)-Malate-mit <==> Pyruvate + CO2
+r_1239,Oxaloacetate <==> Oxaloacetate-mit
+r_4041,Biomass
