@@ -82,6 +82,32 @@ isinstance(case3['d3_reactions'], pd.core.series.Series)
 isinstance(case3['d3_gal_pfba'], pd.core.frame.DataFrame)
 
 
+# Save file with the list of reactions
+all_reactions = ['r_0534', 'r_0962', 'r_0961', 'r_2131', 'r_0713', 'r_0300', 'r_1022', 'r_0454', 'r_1054',
+                 'r_0486', 'r_0450', 'r_0452', 'r_0302', 'r_0892', 'r_0893', 'r_0889', 'r_1049', 'r_1048',
+                 'r_1050', 'r_0466', 'r_0467', 'r_0886', 'r_0959', 'r_2116', 'r_0112', 'r_0366', 'r_0832',
+                 'r_0091', 'r_0718', 'r_0958', 'r_2034', 'r_1239', 'r_4041', 'r_2115', 'r_0458', 'r_0723',
+                 'r_1254', 'r_0163', 'r_0716', 'r_0714', 'r_0662', 'r_0884', 'r_0984', 'r_0982', 'r_0164']
+
+from case_8 import Case8
+test = Case8()
+test.model = test.loadObjectFromFile('model_yeast_76.sav')
+test.checkReaction('r_1239')
+test.getReactionInfo('r_0884')
+
+reactions = {}
+for r in all_reactions:
+    reactions[r] = test.checkReaction(r)
+
+import csv
+
+with open('Results/reactions_list.csv', 'w') as f:
+    w = csv.writer(f)
+    w.writerows(reactions.items())
+
+
+
+
 # GGPLOT TESTS
 # p = ggplot(aes(x = 'ADH3_sim_flux', y = 'ADH3_real_flux'), data = case7['d7_adh3_pfba']) \
 #     + geom_point(color = 'steelblue') \

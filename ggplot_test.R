@@ -98,7 +98,7 @@ removeOutliers <- function(dataset_list, threshold) {
 library(ggplot2)
 
 # Create a ggplot from a list of datasets
-createGGPlotFromListOfDatasets <- function(dataset_list, title = '', nrow_legend = 25, xy_line_size = 0.5) {
+createGGPlotFromListOfDatasets <- function(dataset_list, title = '', nrow_legend = 25, xy_line_size = 0.5, y_lim = c(), x_lim = c()) {
   dataset_name = deparse(substitute(dataset_list))
   p <- ggplot() + 
     ggtitle(title) +
@@ -107,6 +107,13 @@ createGGPlotFromListOfDatasets <- function(dataset_list, title = '', nrow_legend
     geom_abline(intercept = 0, color = 'tomato3', size = xy_line_size, linetype = 'dashed') +
     labs(x = '', colour = 'Experiment') +
     guides(col = guide_legend(nrow = nrow_legend))
+  
+  if (!length(y_lim) == 0) {
+    p = p + ylim(y_lim)
+  }
+  if (!length(x_lim) == 0) {
+    p = p + xlim(x_lim)
+  }
 
   for (name in names(dataset_list)) {
     print(name)
@@ -201,12 +208,124 @@ for (exp in rownames(df)) {
 
 # Save results
 write.csv(df, 'metrics_table.csv')
+metrics_table = df
+
+
+# Get list of all reactions
+reactions = c()
+for (name in names(pfba_datasets_proc)) {
+  reactions = c(reactions, as.character(pfba_datasets_proc[[name]]$X))
+}
+
+length(unique(reactions)) #45
+
+python_cmd = paste(unique(reactions), collapse = "', '")
+
+r_list = read.csv('Results/reactions_list.csv', header = F)
+
+reactions_list = list()
+for (i in 1:length(r_list$V1)) {
+  if (as.character(r_list$V1[i]) != 'r_4041') {
+    print(paste(as.character(r_list$V1[i]), as.character(r_list$V2[i]), sep = ': ')) 
+  }
+  reactions_list[[as.character(r_list$V1[i])]] = as.character(r_list$V2[i])
+}
+
+length(reactions_list) #45
+
+
+# ==================================
+# Best method is PFBA
+# Prepare data to plot by pathway
+# ==================================
+
+# Reactions ids by pathway
+# Glycolysis
+gly_reactions = c('r_0486', 'r_0886', 'r_0962', 'r_0534', 'r_1054', 'r_0893', 'r_0450', 'r_0366', 'r_0892')
+
+# TCA
+tca_reactions = c('r_1239', 'r_0300', 'r_0713', 'r_0718', 'r_0467', 'r_0454', 'r_0714', 'r_0832', 'r_0452', 'r_0961', 
+                  'r_2034', 'r_1022', 'r_0302', 'r_0958', 'r_2131')
+
+# PPP
+ppp_reactions = c('r_1050', 'r_0982', 'r_1048', 'r_1049', 'r_0466', 'r_0889', 'r_0091', 'r_0984')
+
+# Other (transport, cs degradation, ethanol degradation, glyoxylate cycle(2), ...)
+other_reactions = c('r_0112', 'r_0153', 'r_2116', 'r_2115', 'r_2034', 'r_1254', 'r_0959', 'r_0884', 'r_0716', 'r_0662', 
+                    'r_0458', 'r_0723', 'r_0164')
+
+length(gly_reactions) + length(tca_reactions) + length(ppp_reactions) + length(other_reactions) #45
+
+
+# Subset datasets by reactions
+subsetByReactions <- function(datasets_list, reactions_list) {
+  res = list()
+  for (name in names(datasets_list)) {
+    res[[name]] = subset(datasets_list[[name]], datasets_list[[name]][['X']] %in% reactions_list)
+  }
+  res
+}
+
+# Glycolysis
+gly_pfba_datasets_proc = subsetByReactions(pfba_datasets_proc, gly_reactions)
+createGGPlotFromListOfDatasets(gly_pfba_datasets_proc, title = '', nrow_legend = 25, xy_line_size = 1)
+
+# TCA
+tca_pfba_datasets_proc = subsetByReactions(pfba_datasets_proc, tca_reactions)
+createGGPlotFromListOfDatasets(tca_pfba_datasets_proc, title = '', nrow_legend = 25, xy_line_size = 1, x_lim = c(NA, 27))
+
+# PPP
+ppp_pfba_datasets_proc = subsetByReactions(pfba_datasets_proc, ppp_reactions)
+createGGPlotFromListOfDatasets(ppp_pfba_datasets_proc, title = '', nrow_legend = 25, xy_line_size = 1)
+
+# Other (NOT WORKING)
+other_pfba_datasets_proc = subsetByReactions(pfba_datasets_proc, other_reactions)
+createGGPlotFromListOfDatasets(other_pfba_datasets_proc, title = '', nrow_legend = 25, xy_line_size = 1)
+
+
+# Create a data frame with R2 and RMSE for each pathway
+createMetricsDF <- function(gly_dataset_list, tca_dataset_list, ppp_dataset_list) {
+  pathway_metrics = data.frame(matrix(ncol = 6, nrow = length(names(gly_dataset_list))))
+  rownames(pathway_metrics) = names(gly_dataset_list)
+  colnames(pathway_metrics) = c('R2_gly', 'RMSE_gly', 'R2_tca', 'RMSE_tca', 'R2_ppp', 'RMSE_ppp')
+  
+  for (exp in rownames(pathway_metrics)) {
+    gly_dframe = gly_dataset_list[[exp]]
+    tca_dframe = tca_dataset_list[[exp]]
+    ppp_dframe = ppp_dataset_list[[exp]]
+    exp_col = grep('exp|real|Exp|Real', colnames(gly_dframe))
+    sim_col = grep('sim|Sim|fluxes', colnames(gly_dframe))
+    pathway_metrics[exp, 'R2_gly'] = rsquared(gly_dframe[, exp_col], gly_dframe[, sim_col])
+    pathway_metrics[exp, 'RMSE_gly'] = rmse(gly_dframe[, exp_col], gly_dframe[, sim_col])
+    pathway_metrics[exp, 'R2_tca'] = rsquared(tca_dframe[, exp_col], tca_dframe[, sim_col])
+    pathway_metrics[exp, 'RMSE_tca'] = rmse(tca_dframe[, exp_col], tca_dframe[, sim_col])
+    pathway_metrics[exp, 'R2_ppp'] = rsquared(ppp_dframe[, exp_col], ppp_dframe[, sim_col])
+    pathway_metrics[exp, 'RMSE_ppp'] = rmse(ppp_dframe[, exp_col], ppp_dframe[, sim_col])
+  }
+  pathway_metrics
+}
+
+pathway_metrics = createMetricsDF(gly_pfba_datasets_proc, tca_pfba_datasets_proc, ppp_pfba_datasets_proc)
+# Save results
+write.csv(pathway_metrics, 'pathway_metrics_table.csv')
+
+
+# ==================================
+# Prepare data to plot by type
+# ==================================
 
 
 
-names(pfba_datasets_proc)
-pfba_datasets_proc[['d13_ferm_pfba']]$X
 
-reactions
+
+
+
+
+
+
+
+
+
+
 
 
