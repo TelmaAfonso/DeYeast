@@ -1,0 +1,8 @@
+Results_backup
+__pycache__
+.git
+.idea
+.ipynb_checkpoints
+.RData
+.Rhistory
+env.RData
